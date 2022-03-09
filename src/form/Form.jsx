@@ -17,240 +17,314 @@ export function Form(){
       </div>
       <hr />
       <form className="form row">
-        <label
-          for="mail" class="col col-form-label">
-            <bold>Correo Electrónico <span>*</span></bold>
-        </label>
-        <input
-          className='form-control-plaintext' id="mail"
-          name="mail" /* value='{username}' */placeholder="Correo Electrónico"
-        />
 
-        <label
-          for="names" class="col col-form-label">
-            <bold>Nombre(s) <span>*</span></bold>
-        </label>
-        <input
-          className='form-control-plaintext' id="names"
-          name="names" /* value='{username}'*/ placeholder="Solo nombre(s)"
-        />
+        <div className="d-flex mb-1">
+          <label htmlFor="mail" className="col-3 col-form-label">
+              Correo Electrónico <span>*</span>
+          </label>
+          <input className='form-control' id="mail"
+            name="mail" /* value='{username}' */placeholder="Correo Electrónico"
+          />
+        </div>
 
-        <label
-          for="firstName" class="col col-form-label">
-            <bold>Primer apellido <span>*</span></bold>
-        </label>
-        <input
-          className='form-control-plaintext' id="firstName"
-          name="firtName" /* value='{username}'*/ placeholder="Primer Apellido"
-        />
+        <div className="d-flex mb-1">
+          <label htmlFor="names" className="col-3 col-form-label">
+              Nombre(s) <span>*</span>
+          </label>
+          <input className='form-control' id="names"
+            name="names" /* value='{username}'*/ placeholder="Solo nombre(s)"
+          />
+        </div>
 
-        <label
-          for="lastName" class="col col-form-label">
-            <bold>Segundo Apellido<span>*</span></bold>
-        </label>
-        <input
-          className='form-control-plaintext' id="lastName"
-          name="lastName"/* value='{username}'*/ placeholder="Segundo Apellido"
-        />
+        <div className="d-flex mb-1">
+          <label htmlFor="firstName" className="col-3 col-form-label">
+              Primer apellido <span>*</span>
+          </label>
+          <input className='form-control' id="firstName"
+            name="firtName" /* value='{username}'*/ placeholder="Primer Apellido"
+          />
+        </div>
 
-        <label
-          for="dateOfBirth" class="col col-form-label">
-            <bold>Fecha de nacimiento<span>*</span></bold>
-        </label>
-        <input
-          className='form-control-plaintext' id="dateOfBirth"
-          name="dateOfBirth" type='date'/* value='{username}'*/
-        />
+        <div className="d-flex mb-1">
+          <label htmlFor="lastName" className="col-3 col-form-label">
+              Segundo Apellido<span>*</span>
+          </label>
+          <input className='form-control' id="lastName"
+            name="lastName"/* value='{username}'*/ placeholder="Segundo Apellido"
+          />
+        </div>
+
+        <div className="d-flex mb-1">
+          <label htmlFor="dateOfBirth" className="col-3 col-form-label">
+              Fecha de nacimiento<span>*</span>
+          </label>
+          <input
+            className='form-control' id="dateOfBirth"
+            name="dateOfBirth" type='date'/* value='{username}'*/
+          />
+        </div>
         
-        <label
-          for="birthCertificate" class="col col-form-label">
-            <bold>Acta de nacimiento (Formato PDF)<span>*</span></bold>
-        </label>
-        <input
-          className='form-control-plaintext' id="lastName"
-          name="lastName" type='file' accept="image/*, .pdf" /*value='{username}'*/
-        />
+        <div className="d-flex mb-1">
+          <label htmlFor="birthCertificate" className="col-3 col-form-label">
+              Acta de nacimiento (Formato PDF)<span>*</span>
+          </label>
+          <input className='form-control' id="lastName"
+            name="lastName" type='file' accept="image/*, .pdf" /*value='{username}'*/
+          />
+        </div>
 
-        <label
-          for="curp" class="col col-form-label">
-            <bold>Segundo Apellido<span>*</span></bold>
-        </label>
-        <input
-          className='form-control-plaintext' id="curp"
-          name="curp" /* value='{username}'*/ placeholder="C.U.R.P."
-        />
+        <div className="d-flex mb-1">
+          <label htmlFor="curp" className="col-3 col-form-label">
+              Segundo Apellido<span>*</span>
+          </label>
+          <input className='form-control' id="curp"
+            name="curp" /* value='{username}'*/ placeholder="C.U.R.P."
+          />
+        </div>
 
-        <label
-          for="curpPdf" class="col col-form-label">
-            <bold>CURP en formato PDF<span>*</span></bold>
-        </label>
-        <input
-          className='form-control-plaintext' id="curpPdf"
-          name="curpPdf" type='file' accept="image/+, .pdf" /*value='{username}'*/
-        />
+        <div className="d-flex mb-1">
+          <label htmlFor="curpPdf" className="col-3 col-form-label">
+              CURP en formato PDF<span>*</span>
+          </label>
+          <input className='form-control' id="curpPdf"
+            name="curpPdf" type='file' accept="image/+, .pdf" /*value='{username}'*/
+          />
+        </div>
 
-        <label
-          for="actualAddress" class="col col-form-label">
-            <bold>Segundo Apellido<span>*</span></bold>
-        </label>
-        <input
-          className='form-control-plaintext' id="actualAddress"
-          name="actualAddress"/*value='{username}'*/ placeholder="Donde vives actualmente"
-        />
+        <div className="d-flex mb-1">
+          <label htmlFor="actualAddress" className="col-3 col-form-label">
+              Segundo Apellido<span>*</span>
+          </label>
+          <input className='form-control' id="actualAddress"
+            name="actualAddress"/*value='{username}'*/ placeholder="Donde vives actualmente"
+          />
+        </div>
 
-        <label
-          for="actualAddress" class="col col-form-label">
-            <bold>Dirección actual<span>*</span></bold>
-        </label>
-        <input
-          className='form-control-plaintext' id="actualAddress"
-          name="actualAddress" /* value='{username}'*/ placeholder="Durección actual donde vives"
-        />
+        <div className="d-flex mb-1">
+          <label htmlFor="actualAddress" className="col-3 col-form-label">
+              Dirección actual<span>*</span>
+          </label>
+          <input className='form-control' id="actualAddress"
+            name="actualAddress" /* value='{username}'*/ placeholder="Durección actual donde vives"
+          />
+        </div>
+
+        <div className="d-flex mb-1">
+            <label htmlFor="lastSchool" className="col-3 col-form-label">
+                Escuela de procedencia<span>*</span>
+            </label>
+            <input className='form-control' id="lastSchool" name="lastSchool"
+              /*value='{username}'*/ placeholder="¿De qué escuela vienes"
+            />
+          </div>
+
+        <div className="d-flex mb-1">
+          <label htmlFor="averageLastSchool"className="col-3 col-form-label">
+              Promedio de certificado de bachillerato (sí aún no terminas tu bachillerato poner el promedio de 1ro a 5to semestre)<span>*</span>
+          </label>
+          <input className='form-control' id="averageLastSchool"
+            name="averageLastSchool" /* value='{username}'*/ type='number'
+            min='0' max='10' placeholder="0"
+          />
+        </div>
         
-        <label
-          for="lastSchool" class="col col-form-label">
-            <bold>Nombre de la escuela de procedencia<span>*</span></bold>
-        </label>
-        <input
-          className='form-control-plaintext' id="lastSchool" name="lastSchool"
-          /*value='{username}'*/ placeholder="¿De qué escuela vienes"
-        />
+        <div className="d-flex mb-1">
+          <label htmlFor="certificateLastSchool" className="col-3 col-form-label">
+              Certificado de bachillerato o constancia con las calificaciones de 1ro a 5to semenstre<span>*</span>
+          </label>
+          <input className='form-control' id="certificaetLastSchool"
+            name="certificateLastSchool" /* value='{username}'*/ type='file' accept="image/*, .pdf"
+          />
+        </div>
 
-        <label
-          for="averageLastSchool"class="col col-form-label">
-            <bold>Promedio de certificado de bachillerato (sí apun no terminas tu bachillerato poner el promedio de 1ro a 5to semestre)<span>*</span></bold>
-        </label>
-        <input
-          className='form-control-plaintext' id="averageLastSchool"
-          name="averageLastSchool" /* value='{username}'*/ type='number'
-          min='0' max='10' placeholder="0"
-        />
+        <div className="d-flex mb-1">
+          <label htmlFor="secondarySchool" className="col-3 col-form-label">
+              Certificado de secundaria en formato PDF<span>*</span>
+          </label>
+          <input className='form-control' id="seconcadrySchool" name="secondarySchool"
+            /*value='{username}'*/ type='file' accept="image/*, .pdf"
+          />
+        </div>
 
-        <label
-          for="certificateLastSchool" class="col col-form-label">
-            <bold>Certificado de bachillerato o constancia con las calificaciones de 1ro a 5to semenstre<span>*</span></bold>
-        </label>
-        <input
-          className='form-control-plaintext' id="certificaetLastSchool"
-          name="certificateLastSchool" /* value='{username}'*/ type='file' accept="image/*, .pdf"
-        />
-
-        <label
-          for="secondarySchool" class="col col-form-label">
-            <bold>Certificado de secundaria en formato PDF<span>*</span></bold>
-        </label>
-        <input
-          className='form-control-plaintext' id="seconcadrySchool" name="secondarySchool"
-          /*value='{username}'*/ type='file' accept="image/*, .pdf"
-        />
-
-        <label
-          for="miniPicture" class="col col-form-label">
-            <bold>Subir fotografía tamaño infantil (formato JPEG, JPG o PNG)<span>*</span></bold>
-        </label>
-        <input
-          className='form-control-plaintext' id="miniPicture" name="miniPicture"
-          type='file' accept="image/*, .png, ,jpeg, .jpg"
-        />
-
-        <label
-          for="maritalStatus" class="col col-form-label">
-            <bold>Estado civil<span>*</span></bold>
-        </label>
-        <input
-          className='form-control-plaintext' id="single"
-          name="maritalStatus" /*value='{username}'*/ type='radio'
-        />Soltero
-        <input
-          className="form-control-plaintext" id="married" 
-          type="radio" name="maritalStatus" /*value={username}*/
-        />Casado
+        <div className="d-flex mb-1">
+          <label htmlFor="miniPicture" className="col-3 col-form-label">
+              Subir fotografía tamaño infantil<span>*</span>
+          </label>
+          <input className='form-control' id="miniPicture" name="miniPicture"
+            type='file' accept="image/*, .png, ,jpeg, .jpg"
+          />
+        </div>
         
-        <label
-          for="actualWork" class="col col-form-label">
-            <bold>¿Trabajas?<span>*</span></bold>
-        </label>
-        <input
-          className='form-control-plaintext' id="IWork"
-          name="work" /*value='{username}'*/ type='radio'
-        />Si
-        <input
-          className="form-control-plaintext" id="IdontWork" 
-          type="radio" name="work" /*value={username}*/
-        />No
+        <div className="d-flex mb-1">
+          <label htmlFor="maritalStatus" className="col-3 col-form-label">
+              Estado civil<span>*</span>
+          </label>
+          <div className="btn-group" role="group">
+            <label className="btn btn-outline-secondary" htmlFor="btnradio1">Soltero(a)</label>
+            <input className='form-check-input' id="single" autoComplete="off"
+              name="maritalStatus" /*value='{username}'*/ type='radio'
+            />
+          </div>
+          <div className="btn-group" role="group">
+            <input className="form-check-input" id="married"  autoComplete="off"
+              type="radio" name="maritalStatus" /*value={username}*/
+            />
+              <label className="btn btn-outline-secondary" htmlFor="btnradio1">Casado</label>
+          </div>
+        </div>
+        
+        <div className="d-flex mb-1">
+          <label htmlFor="actualWork" className="col-3 col-form-label">
+              ¿Trabajas?<span>*</span>
+          </label>
+          <div className="btn-group" role="group">
+            <label className="btn btn-outline-secondary" htmlFor="btnradio1">Si trabajo</label>
+            <input className='form-check-input' id="IWork"
+              name="work" /*value='{username}'*/ type='radio'
+            />
+          </div>
+          <div className="btn-group" role="group">
+            <input className="form-check-input" id="IdontWork" 
+              type="radio" name="work" /*value={username}*/
+            />
+            <label className="btn btn-outline-secondary" htmlFor="btnradio1">No trabajo</label>
+          </div>
+        </div>
 
-        <label
-          for="typeSchool" class="col col-form-label">
-            <bold>Tipo escuela de procedencia<span>*</span></bold>
-        </label>
-        <input
-          className='form-control-plaintext' id="private"
-          name="typeSchool" /*value='{username}'*/ type='radio'
-        />Privada
-        <input
-          className="form-control-plaintext" id="public" 
-          type="radio" name="typeSchool" /*value={username}*/
-        />Pública
+        <div className="d-flex mb-1">
+          <label htmlFor="typeSchool" className="col-3 col-form-label">
+              Estudie en escuela<span>*</span>
+          </label>
+          <div className="btn-group" role="group">
+            <label className="btn btn-outline-secondary" htmlFor="btnradio1">Privada</label>
+            <input className='form-control' id="private"
+              name="typeSchool" /*value='{username}'*/ type='radio'
+            />
+          </div>
+          <div className="btn-group" role="group">
+            <input className="form-control" id="public" 
+              type="radio" name="typeSchool" /*value={username}*/
+            />
+          <label className="btn btn-outline-secondary" htmlFor="btnradio1">Pública</label>
+          </div>
+        </div>
 
-        <label for="telepohone"><bold>Teléfono<span>*</span></bold></label>
-        <input type="tel" name="telephone" id="telephone" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" />
+        <div className="d-flex mb-1">
+          <label htmlFor="telepohone" className="col-3 col-form-label">Teléfono<span>*</span></label>
+          <input type="tel" name="telephone" id="telephone" size='20'  max='13' pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" />
+        </div>
 
-        <label for="telepohone"><bold>Estado de procedencia<span>*</span></bold></label>
-        <select name="estado">
-          <option value="no">Seleccione uno...</option>
-          <option value="Aguascalientes">Aguascalientes</option>
-          <option value="Baja California">Baja California</option>
-          <option value="Baja California Sur">Baja California Sur</option>
-          <option value="Campeche">Campeche</option>
-          <option value="Chiapas">Chiapas</option>
-          <option value="Chihuahua">Chihuahua</option>
-          <option value="CDMX">Ciudad de México</option>
-          <option value="Coahuila">Coahuila</option>
-          <option value="Colima">Colima</option>
-          <option value="Durango">Durango</option>
-          <option value="Estado de México">Estado de México</option>
-          <option value="Guanajuato">Guanajuato</option>
-          <option value="Guerrero">Guerrero</option>
-          <option value="Hidalgo">Hidalgo</option>
-          <option value="Jalisco">Jalisco</option>
-          <option value="Michoacán">Michoacán</option>
-          <option value="Morelos">Morelos</option>
-          <option value="Nayarit">Nayarit</option>
-          <option value="Nuevo León">Nuevo León</option>
-          <option value="Oaxaca">Oaxaca</option>
-          <option value="Puebla">Puebla</option>
-          <option value="Querétaro">Querétaro</option>
-          <option value="Quintana Roo">Quintana Roo</option>
-          <option value="San Luis Potosí">San Luis Potosí</option>
-          <option value="Sinaloa">Sinaloa</option>
-          <option value="Sonora">Sonora</option>
-          <option value="Tabasco">Tabasco</option>
-          <option value="Tamaulipas">Tamaulipas</option>
-          <option value="Tlaxcala">Tlaxcala</option>
-          <option value="Veracruz">Veracruz</option>
-          <option value="Yucatán">Yucatán</option>
-          <option value="Zacatecas">Zacatecas</option>
-        </select>
+        <div className="d-flex mb-1">
+          <label htmlFor="telepohone" className="col-3 col-form-label">Estado de procedencia<span>*</span></label>
+          <select name="estado" className="form-select">
+            <option value="no">Seleccione uno...</option>
+            <option value="Aguascalientes">Aguascalientes</option>
+            <option value="Baja California">Baja California</option>
+            <option value="Baja California Sur">Baja California Sur</option>
+            <option value="Campeche">Campeche</option>
+            <option value="Chiapas">Chiapas</option>
+            <option value="Chihuahua">Chihuahua</option>
+            <option value="CDMX">Ciudad de México</option>
+            <option value="Coahuila">Coahuila</option>
+            <option value="Colima">Colima</option>
+            <option value="Durango">Durango</option>
+            <option value="Estado de México">Estado de México</option>
+            <option value="Guanajuato">Guanajuato</option>
+            <option value="Guerrero">Guerrero</option>
+            <option value="Hidalgo">Hidalgo</option>
+            <option value="Jalisco">Jalisco</option>
+            <option value="Michoacán">Michoacán</option>
+            <option value="Morelos">Morelos</option>
+            <option value="Nayarit">Nayarit</option>
+            <option value="Nuevo León">Nuevo León</option>
+            <option value="Oaxaca">Oaxaca</option>
+            <option value="Puebla">Puebla</option>
+            <option value="Querétaro">Querétaro</option>
+            <option value="Quintana Roo">Quintana Roo</option>
+            <option value="San Luis Potosí">San Luis Potosí</option>
+            <option value="Sinaloa">Sinaloa</option>
+            <option value="Sonora">Sonora</option>
+            <option value="Tabasco">Tabasco</option>
+            <option value="Tamaulipas">Tamaulipas</option>
+            <option value="Tlaxcala">Tlaxcala</option>
+            <option value="Veracruz">Veracruz</option>
+            <option value="Yucatán">Yucatán</option>
+            <option value="Zacatecas">Zacatecas</option>
+          </select>
+        </div>
 
-        <label for="town"><bold>Municipio<span>*</span></bold></label>
-        <input type="text" name="town" id="town" placeholder="Municipio"/>
+        <div className="d-flex mb-1">
+          <label htmlFor="town" className="col-3 col-form-label">Municipio<span>*</span></label>
+          <input type="text" name="town" id="town" placeholder="Municipio"/>
+        </div>
 
-        <label for="dialect" class="col col-form-label">
-            <bold>¿Hablas alguna lengia indigena?<span>*</span></bold>
-        </label>
-        <input
-          className='form-control-plaintext' id="IWork"
-          name="dialect" /*value='{username}'*/ type='radio'
-        />Si
-        <input
-          className="form-control-plaintext" id="IdontWork" 
-          type="radio" name="dialect" /*value={username}*/
-        />No
+        <div className="d-flex mb-1">
+          <label htmlFor="dialect" className="col-3 col-form-label">
+              ¿Hablas alguna lengia indigena?<span>*</span>
+          </label>
+          <div className="btn-group" role="group">
+          <label className="btn btn-outline-secondary" htmlFor="dialectic">Si</label>
+            <input className='form-control' id="IWork"
+              name="dialect" /*value='{username}'*/ type='radio'
+            />
+          </div>
+          <div className="btn-group" role="group">
+            <input className="form-control" id="IdontWork" 
+              type="radio" name="dialect" /*value={username}*/
+            />
+            <label className="btn btn-outline-secondary" htmlFor="dialectic">No</label>
+          </div>
+        </div>
 
-        <label for="disability"><bold>Discapacidad:<span>*</span></bold></label>
-        <input type="checkbox" name="disability" id="disability" />
+        <div className="d-flex mb-1">
+          <label htmlFor="disability">Discapacidad:<span>*</span></label>
+          
+          <div className="form-check">
+            <label htmlFor="noOne">Ninguna</label>
+            <input type="checkbox" className="form-check-input" name="noOne" id="noOne" value="" />
+          </div>
 
-        <input type="submit" />
+        {/* para serborrado es muestra nada mas */}
+        <div class="form-check">
+  <input class="form-check-input" type="checkbox" id="check1" name="option1" value="something" checked/>
+  <label class="form-check-label">Option 1</label>
+</div> 
+        {/* para serborrado es muestra nada mas */}
+
+
+          <label htmlFor="disabilityToSee">Discapacidad para ver
+            <input type="checkbox" className="form-check-input" name="disabilityToSee" id="disabilityToSee" />
+          </label>
+
+          <label htmlFor="hearingImpairment">Discapacidad oir
+            <input type="checkbox" className="form-check-input" name="hearingImpairment" id="hearingImpairment" />
+          </label>
+
+          <label htmlFor="speechImpairment">Discapacidad para hablar (mudez), tartamudez
+            <input type="checkbox" className="form-check-input" name="speechImpairment" id="speechImpairment" />
+          </label>
+
+          <label htmlFor="upperDisability">Discapacidad de las extremidades superiores
+            <input type="checkbox" className="form-check-input" name="upperDisability" id="upperDisability" />
+          </label>
+
+          <label htmlFor="lowerDisability">Discapacidad de las extremidades ifneriores, tronco, cuello o cabeza
+            <input type="checkbox" className="form-check-input" name="lowerDisability" id="lowerDisability" />
+          </label>
+
+          <label htmlFor="languageDisabilities">Discapacidad de la comunicación y comprensión del lenguaje
+            <input type="checkbox" className="form-check-input" name="languageDisabilities" id="languageDisabilities" />
+          </label>
+
+          <label htmlFor="OtherDisabilities">Otra(s) Discapacidad(es)
+            <input type="checkbox" className="form-check-input" name="OtherDisabilities" id="OtherDisabilities" />
+            <input type="text" name="OtherDisabilitiesTxt" id="OtherDisabilitiesTxt" />
+          </label>
+        </div>
+
+        <div className="d-flex justify-content-center">
+          <input type="submit" value='Enviar Información' className="secondary"/>
+        </div>
       </form>
     </Fragment>
   );
