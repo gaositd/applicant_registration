@@ -10,7 +10,6 @@ export function Form(){
         <p className="lead">
           Registro de aspirantes a la Licenciatura en Matemáticas, FCE-UJED Semestre B - 2022
           ¡Bienvenidas y bienvenidos! Al formulario de registro para el proceso de selección e ingreso a la Licenciatura en Matemáticas que ofrece la Facultad de Ciencias Exactas de la Universidad Juárez del Estado de Durango.
-          Al enviar el formulario acepta el siguiente Acuerdo de Privacidad (<Link to="https://face.ujed.mx/?page_id=4931">https://face.ujed.mx/?page_id=4931</Link>).
         </p>
         <hr />
         Se registrarán tus datos personales cuando subas archivos y envíes este formulario. El correo electrónico que ingresas forma parte de las respuesta.
@@ -75,7 +74,7 @@ export function Form(){
 
         <div className="d-flex mb-1">
           <label htmlFor="curp" className="col-3 col-form-label">
-              Segundo Apellido<span>*</span>
+              C.U.R.P.<span>*</span>
           </label>
           <input className='form-control' id="curp"
             name="curp" /* value='{username}'*/ placeholder="C.U.R.P."
