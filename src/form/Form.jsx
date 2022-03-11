@@ -16,7 +16,7 @@ export function Form() {
         <hr />
         Se registrarán tus datos personales cuando subas archivos y envíes este
         formulario. El correo electrónico que ingresas forma parte de las
-        respuesta. <span className="mandatory"> Obligatorio *</span>
+        respuesta. <span className="mandatory">Todos los campos con este símbolo "*" son obligatorios</span>
       </div>
       <hr />
       <form className="form row">
@@ -215,101 +215,54 @@ export function Form() {
           <label htmlFor="maritalStatus" className="col-3 col-form-label">
             Estado civil
           </label>
-          <div className="btn-group" role="group">
-            <label className="btn btn-outline-secondary" htmlFor="btnradio1">
-              Soltero(a)
-            </label>
-            <input
-              className="form-check-input"
-              id="single"
-              autoComplete="off"
-              name="maritalStatus"
-              /*value='{username}'*/ type="radio"
-            />
-          </div>
-          <div className="btn-group" role="group">
-            <input
-              className="form-check-input"
-              id="married"
-              autoComplete="off"
-              type="radio"
-              name="maritalStatus" /*value={username}*/
-            />
-            <label className="btn btn-outline-secondary" htmlFor="btnradio1">
-              Casado
-            </label>
-          </div>
+          <select id="maritalStatus" name="maritalStatus" className="form-select" required>
+            <option> Selecciocionar tu estatus civil actual</option>
+            <option id="single">Soltero</option>
+            <option id="married">Casado</option>
+            <option id="divorcee">Divorciado</option>
+            <option id="widower">Viudo</option>
+          </select>
         </div>
 
         <div className="d-flex mb-1">
-          <label htmlFor="actualWork" className="col-3 col-form-label">
+          <label htmlFor="gender" className="col-3 col-form-label">
             Sexo<span className="mandatory">*</span>
           </label>
-          <div className="btn-group" role="group">
-            <label className="btn btn-outline-secondary" htmlFor="btnradio1">
-              Femenino
-            </label>
-            <input
-              className="form-check-input"
-              id="IWork"
-              name="work"
-              /*value='{username}'*/ type="radio"
-              required
-            />
-          </div>
-          <div className="btn-group" role="group">
-            <input
-              className="form-check-input"
-              id="IdontWork"
-              type="radio"
-              name="work"
-              /*value={username}*/ required
-            />
-            <label className="btn btn-outline-secondary" htmlFor="btnradio1">
-              Masculino
-            </label>
-          </div>
-          <div className="btn-group" role="group">
-            <input
-              className="form-check-input"
-              id="IdontWork"
-              type="radio"
-              name="work"
-              /*value={username}*/ required
-            />
-            <label className="btn btn-outline-secondary" htmlFor="btnradio1">
-              Prefiero no decirlo
-            </label>
-          </div>
+          <select id="gender" name="gender" className="form-select" required>
+            <option>Selecciona tu género</option>
+            <option id="female">Femenino</option>
+            <option id="male">Masculino</option>
+            <option id="IDontSay">Prefiero no decirlo</option>
+          </select>
         </div>
 
         <div className="d-flex mb-1">
           <label htmlFor="actualWork" className="col-3 col-form-label">
             ¿Trabajas?<span className="mandatory">*</span>
           </label>
-          <div className="btn-group" role="group">
-            <label className="btn btn-outline-secondary" htmlFor="btnradio1">
+          <div className="containerRadio" role="group">
+            <label className="radioButtons">
               Si trabajo
             </label>
             <input
-              className="form-check-input"
               id="IWork"
               name="work"
               /*value='{username}'*/ type="radio"
               required
             />
+            <span className="check"></span>
           </div>
-          <div className="btn-group" role="group">
-            <input
-              className="form-check-input"
-              id="IdontWork"
-              type="radio"
-              name="work"
-              /*value={username}*/ required
-            />
-            <label className="btn btn-outline-secondary" htmlFor="btnradio1">
+          <div className="containerRadio" role="group">
+            <label className="radioButtons">
               No trabajo
             </label>
+            <input
+              id="IDontWork"
+              name="work"
+              /*value='{username}'*/ type="radio"
+              required
+            />
+            <span className="check"></span>
           </div>
         </div>
 
@@ -317,29 +270,29 @@ export function Form() {
           <label htmlFor="typeSchool" className="col-3 col-form-label">
             Estudie en escuela<span className="mandatory">*</span>
           </label>
-          <div className="btn-group" role="group">
-            <label className="btn btn-outline-secondary" htmlFor="btnradio1">
+          <div className="containerRadio" role="group">
+            <label className="radioButtons" htmlFor="typeSchool">
               Privada
             </label>
             <input
-              className="form-control"
               id="private"
               name="typeSchool"
               /*value='{username}'*/ type="radio"
               required
             />
+            <span className="check"></span>
           </div>
-          <div className="btn-group" role="group">
-            <input
-              className="form-control"
-              id="public"
-              type="radio"
-              name="typeSchool"
-              /*value={username}*/ required
-            />
-            <label className="btn btn-outline-secondary" htmlFor="btnradio1">
+          <div className="containerRadio" role="group">
+            <label className="radioButtons" htmlFor="typeSchool">
               Pública
             </label>
+            <input
+              id="public"
+              name="typeSchool"
+              /*value='{username}'*/ type="radio"
+              required
+            />
+            <span className="check"></span>
           </div>
         </div>
 
@@ -375,7 +328,7 @@ export function Form() {
           <label htmlFor="state" className="col-3 col-form-label">
             Estado de procedencia<span className="mandatory">*</span>
           </label>
-          <select name="state" className="form-select" required>
+          <select name="state" id="state" className="form-select" required>
             <option value="no">Seleccione uno...</option>
             <option value="Aguascalientes">Aguascalientes</option>
             <option value="Baja California">Baja California</option>
@@ -421,147 +374,53 @@ export function Form() {
 
         <div className="d-flex mb-1">
           <label htmlFor="dialect" className="col-3 col-form-label">
-            ¿Hablas alguna lengia indigena?<span className="mandatory">*</span>
+            ¿Hablas algún dialecto?<span className="mandatory">*</span>
           </label>
-          <div className="btn-group" role="group">
-            <label className="btn btn-outline-secondary" htmlFor="dialectic">
+          <div className="containerRadio" role="group">
+            <label className="radioButtons">
               Si
             </label>
             <input
-              className="form-control"
-              id="IWork"
+              id="speak"
               name="dialect"
               /*value='{username}'*/ type="radio"
               required
             />
+            <span className="check"></span>
           </div>
-          <div className="btn-group" role="group">
-            <input
-              className="form-control"
-              id="IdontWork"
-              type="radio"
-              name="dialect"
-              /*value={username}*/ required
-            />
-            <label className="btn btn-outline-secondary" htmlFor="dialectic">
+          <div className="containerRadio" role="group">
+            <label className="radioButtons">
               No
             </label>
+            <input
+              id="IDontSpeak"
+              name="dialect"
+              /*value='{username}'*/ type="radio"
+              required
+            />
+            <span className="check"></span>
           </div>
         </div>
 
-        <div className="d-flex mb-3">
-          <label htmlFor="disability">
+        <div className="d-flex mb-1">
+          <label htmlFor="disability" className="col-3 col-form-label">
             Discapacidad:<span className="mandatory">*</span>
           </label>
-          
-          <div className="disabilityFiveElements">
-          
-            <div className="form-check d-flex justify-content-between">
-              <label htmlFor="noOne">Ninguna</label>
-              <input
-                type="checkbox"
-                className="checkboxes"
-                name="noOne"
-                id="noOne"
-                value=""
-              />
-            </div>
 
-            <div className="form-check labelCheck">
-              <label htmlFor="disabilityToSee">
-                Discapacidad para ver
-                <input
-                  type="checkbox"
-                  className="checkboxes"
-                  name="disabilityToSee"
-                  id="disabilityToSee"
-                />
-              </label>
-            </div>
-            
-            <div className="form-check">
-              <label htmlFor="hearingImpairment">
-                Discapacidad oir
-                <input
-                  type="checkbox"
-                  className="checkboxes"
-                  name="hearingImpairment"
-                  id="hearingImpairment"
-                />
-              </label>
-            </div>
-
-            <div className="form-check labelCheck">
-              <label htmlFor="speechImpairment">
-                Discapacidad para hablar (mudez), tartamudez
-                <input
-                  type="checkbox"
-                  className="checkboxes"
-                  name="speechImpairment"
-                  id="speechImpairment"
-                />
-              </label>
-            </div>
-
-            <div className="form-check d-flex justify-content-between">
-              <label htmlFor="upperDisability">
-                Discapacidad de las extremidades superiores
-                <input
-                  type="checkbox"
-                  className="checkboxes"
-                  name="upperDisability"
-                  id="upperDisability"
-                />
-              </label>
-            </div>
-
-          </div>
-          
-          <div className="disabilityFiveElements">
-            <div className="form-check d-flex justify-content-between">
-              <label htmlFor="lowerDisability">
-                Discapacidad de las extremidades iferiores, tronco, cuello o cabeza
-                <input
-                  type="checkbox"
-                  className="checkboxes"
-                  name="lowerDisability"
-                  id="lowerDisability"
-                />
-              </label>
-            </div>
-
-            <div className="form-check d-flex justify-content-between">
-              <label htmlFor="languageDisabilities">
-                Discapacidad de la comunicación y comprensión del lenguaje
-                <input
-                  type="checkbox"
-                  className="checkboxes"
-                  name="languageDisabilities"
-                  id="languageDisabilities"
-                />
-              </label>
-            </div>
-            
-            <div className="form-check d-flex justify-content-between">
-              <label htmlFor="OtherDisabilities">
-                Otra(s) Discapacidad(es)
-                <input
-                  type="checkbox"
-                  className="checkboxes"
-                  name="OtherDisabilities"
-                  id="OtherDisabilities"
-                />
-                <input
-                  type="text"
-                  name="OtherDisabilitiesTxt"
-                  id="OtherDisabilitiesTxt"
-                />
-              </label>
-            </div>
-          </div>
+          <select id="disability" name="disability" className="form-select" required>
+            <option>Selecciona alguna opción</option>
+            <option value="noOne" id="noOne">Ninguna</option>
+            <option value="disabilityToSee" id="disabilityToSee">Discapacidad para ver</option>
+            <option value="hearingImpairment" id="hearingImpairment">Discapacidad para escuchar</option>
+            <option value="speechImpairment" id="speechImpairment">Discapacidad para hablar (mudez, tartamudez)</option>
+            <option value="upperDisability" id="upperDisability">Discapacidad de las extremidades superiores</option>
+            <option value="lowerDisability" id="lowerDisability">Discapacidad de las extremidades inferiores, tronco, cuello o cabeza</option>
+            <option value="languageDisabilities" id="languageDisabilities">Discapacidad de la comunicación y comprensión del lenguaje</option>
+            <option value="OtherDisabilities" id="OtherDisabilities">Otra(s) Discapacidad(es)</option>
+          </select>
         </div>
 
-        <div className="d-flex justify-content-center">
+        <div className="d-flex justify-content-center mt-2">
           <input
             type="submit"
             value="Enviar Información"
