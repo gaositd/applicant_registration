@@ -21,7 +21,7 @@ export function Form() {
       <hr />
       <form className="form row">
         <div className="d-flex mb-1">
-          <label htmlFor="mail" className="col-3 col-form-label">
+          <label htmlFor="mail" className="col-4 col-form-label">
             Correo Electrónico <span className="mandatory">*</span>
           </label>
           <input
@@ -34,7 +34,7 @@ export function Form() {
         </div>
 
         <div className="d-flex mb-1">
-          <label htmlFor="names" className="col-3 col-form-label">
+          <label htmlFor="names" className="col-4 col-form-label">
             Nombre(s) <span className="mandatory">*</span>
           </label>
           <input
@@ -47,7 +47,7 @@ export function Form() {
         </div>
 
         <div className="d-flex mb-1">
-          <label htmlFor="firstName" className="col-3 col-form-label">
+          <label htmlFor="firstName" className="col-4 col-form-label">
             Primer apellido <span className="mandatory">*</span>
           </label>
           <input
@@ -60,7 +60,7 @@ export function Form() {
         </div>
 
         <div className="d-flex mb-1">
-          <label htmlFor="lastName" className="col-3 col-form-label">
+          <label htmlFor="lastName" className="col-4 col-form-label">
             Segundo Apellido<span className="mandatory">*</span>
           </label>
           <input
@@ -73,7 +73,7 @@ export function Form() {
         </div>
 
         <div className="d-flex mb-1">
-          <label htmlFor="dateOfBirth" className="col-3 col-form-label">
+          <label htmlFor="dateOfBirth" className="col-4 col-form-label">
             Fecha de nacimiento<span className="mandatory">*</span>
           </label>
           <input
@@ -86,7 +86,7 @@ export function Form() {
         </div>
 
         <div className="d-flex mb-1">
-          <label htmlFor="birthCertificate" className="col-3 col-form-label">
+          <label htmlFor="birthCertificate" className="col-4 col-form-label">
             Acta de nacimiento (Formato PDF)
           </label>
           <input
@@ -99,7 +99,7 @@ export function Form() {
         </div>
 
         <div className="d-flex mb-1">
-          <label htmlFor="curp" className="col-3 col-form-label">
+          <label htmlFor="curp" className="col-4 col-form-label">
             C.U.R.P.<span className="mandatory">*</span>
           </label>
           <input
@@ -112,7 +112,7 @@ export function Form() {
         </div>
 
         <div className="d-flex mb-1">
-          <label htmlFor="curpPdf" className="col-3 col-form-label">
+          <label htmlFor="curpPdf" className="col-4 col-form-label">
             CURP en formato PDF
           </label>
           <input
@@ -125,7 +125,7 @@ export function Form() {
         </div>
 
         <div className="d-flex mb-1">
-          <label htmlFor="actualAddress" className="col-3 col-form-label">
+          <label htmlFor="actualAddress" className="col-4 col-form-label">
             Dirección actual<span className="mandatory">*</span>
           </label>
           <input
@@ -138,7 +138,7 @@ export function Form() {
         </div>
 
         <div className="d-flex mb-1">
-          <label htmlFor="lastSchool" className="col-3 col-form-label">
+          <label htmlFor="lastSchool" className="col-4 col-form-label">
             Escuela de procedencia<span className="mandatory">*</span>
           </label>
           <input
@@ -151,9 +151,8 @@ export function Form() {
         </div>
 
         <div className="d-flex mb-1">
-          <label htmlFor="averageLastSchool" className="col-3 col-form-label">
-            Promedio de certificado de bachillerato (sí aún no terminas tu
-            bachillerato poner el promedio de 1ro a 5to semestre)
+          <label htmlFor="averageLastSchool" className="col-4 col-form-label">
+            Promedio de certificado de bachillerato (sí aún no terminas poner el promedio de 1ro a 5to semestre)
             <span className="mandatory">*</span>
           </label>
           <input
@@ -171,10 +170,10 @@ export function Form() {
         <div className="d-flex mb-1">
           <label
             htmlFor="certificateLastSchool"
-            className="col-3 col-form-label"
+            className="col-4 col-form-label"
           >
-            Certificado de bachillerato o constancia con las calificaciones de
-            1ro a 5to semenstre
+            Certificado o constancia con calificaciones de
+            1ro a 5to semestre
           </label>
           <input
             className="form-control"
@@ -186,7 +185,7 @@ export function Form() {
         </div>
 
         <div className="d-flex mb-1">
-          <label htmlFor="secondarySchool" className="col-3 col-form-label">
+          <label htmlFor="secondarySchool" className="col-4 col-form-label">
             Certificado de secundaria en formato PDF
           </label>
           <input
@@ -199,7 +198,7 @@ export function Form() {
         </div>
 
         <div className="d-flex mb-1">
-          <label htmlFor="miniPicture" className="col-3 col-form-label">
+          <label htmlFor="miniPicture" className="col-4 col-form-label">
             Subir fotografía tamaño infantil
           </label>
           <input
@@ -212,7 +211,7 @@ export function Form() {
         </div>
 
         <div className="d-flex mb-1">
-          <label htmlFor="maritalStatus" className="col-3 col-form-label">
+          <label htmlFor="maritalStatus" className="col-4 col-form-label">
             Estado civil
           </label>
           <select id="maritalStatus" name="maritalStatus" className="form-select" required>
@@ -225,7 +224,7 @@ export function Form() {
         </div>
 
         <div className="d-flex mb-1">
-          <label htmlFor="gender" className="col-3 col-form-label">
+          <label htmlFor="gender" className="col-4 col-form-label">
             Sexo<span className="mandatory">*</span>
           </label>
           <select id="gender" name="gender" className="form-select" required>
@@ -237,7 +236,7 @@ export function Form() {
         </div>
 
         <div className="d-flex mb-1">
-          <label htmlFor="actualWork" className="col-3 col-form-label">
+          <label htmlFor="actualWork" className="col-4 col-form-label">
             ¿Trabajas?<span className="mandatory">*</span>
           </label>
           <div className="containerRadio" role="group">
@@ -250,7 +249,6 @@ export function Form() {
               /*value='{username}'*/ type="radio"
               required
             />
-            <span className="check"></span>
           </div>
           <div className="containerRadio" role="group">
             <label className="radioButtons">
@@ -262,12 +260,11 @@ export function Form() {
               /*value='{username}'*/ type="radio"
               required
             />
-            <span className="check"></span>
           </div>
         </div>
 
         <div className="d-flex mb-1">
-          <label htmlFor="typeSchool" className="col-3 col-form-label">
+          <label htmlFor="typeSchool" className="col-4 col-form-label">
             Estudie en escuela<span className="mandatory">*</span>
           </label>
           <div className="containerRadio" role="group">
@@ -280,7 +277,6 @@ export function Form() {
               /*value='{username}'*/ type="radio"
               required
             />
-            <span className="check"></span>
           </div>
           <div className="containerRadio" role="group">
             <label className="radioButtons" htmlFor="typeSchool">
@@ -292,12 +288,11 @@ export function Form() {
               /*value='{username}'*/ type="radio"
               required
             />
-            <span className="check"></span>
           </div>
         </div>
 
         <div className="d-flex mb-1">
-          <label htmlFor="telephone" className="col-3 col-form-label">
+          <label htmlFor="telephone" className="col-4 col-form-label">
             Teléfono
           </label>
           <input
@@ -311,7 +306,7 @@ export function Form() {
         </div>
 
         <div className="d-flex mb-1">
-          <label htmlFor="celphone" className="col-3 col-form-label">
+          <label htmlFor="celphone" className="col-4 col-form-label">
             Teléfono celular
           </label>
           <input
@@ -325,7 +320,7 @@ export function Form() {
         </div>
 
         <div className="d-flex mb-1">
-          <label htmlFor="state" className="col-3 col-form-label">
+          <label htmlFor="state" className="col-4 col-form-label">
             Estado de procedencia<span className="mandatory">*</span>
           </label>
           <select name="state" id="state" className="form-select" required>
@@ -366,14 +361,14 @@ export function Form() {
         </div>
 
         <div className="d-flex mb-1">
-          <label htmlFor="town" className="col-3 col-form-label">
+          <label htmlFor="town" className="col-4 col-form-label">
             Municipio<span className="mandatory">*</span>
           </label>
           <input type="text" name="town" id="town" placeholder="Municipio" />
         </div>
 
         <div className="d-flex mb-1">
-          <label htmlFor="dialect" className="col-3 col-form-label">
+          <label htmlFor="dialect" className="col-4 col-form-label">
             ¿Hablas algún dialecto?<span className="mandatory">*</span>
           </label>
           <div className="containerRadio" role="group">
@@ -386,7 +381,6 @@ export function Form() {
               /*value='{username}'*/ type="radio"
               required
             />
-            <span className="check"></span>
           </div>
           <div className="containerRadio" role="group">
             <label className="radioButtons">
@@ -398,12 +392,11 @@ export function Form() {
               /*value='{username}'*/ type="radio"
               required
             />
-            <span className="check"></span>
           </div>
         </div>
 
         <div className="d-flex mb-1">
-          <label htmlFor="disability" className="col-3 col-form-label">
+          <label htmlFor="disability" className="col-4 col-form-label">
             Discapacidad:<span className="mandatory">*</span>
           </label>
 

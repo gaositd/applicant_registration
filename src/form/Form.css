@@ -50,7 +50,7 @@
 
 /* create custom radio */
 .radioButtons .check {
-  /* position: absolute; */
+  position: absolute;
   top: 0;
   left: 0;
   height: 25px;
@@ -91,4 +91,9 @@
   height: 8px;
   border-radius: 50%;
   background: white;
+}
+
+/*Espacio entre cajas*/
+div .containerRadio{
+  margin-right: 2rem;
 }
