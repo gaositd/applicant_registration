@@ -1,9 +1,9 @@
 import React, { Fragment } from "react";
-import { getDates } from '../utils/Utils';
 import "./Form.css";
 
 export function Form() {
-
+  const current = new Date();
+  const date = `${current.getDate()}/${current.getMonth()+1}/${current.getFullYear()}`;
   return (
     <div className="container-fluid">
       <div>
@@ -22,7 +22,7 @@ export function Form() {
       <hr />
       <form className="form">
         {/* fecha de captura del formulario, este campo es coulto al usuario inicio */}
-        <input type="date" name="captureDate" id="captureDate" />Aashgdfahsdfah
+        <input type="hidden" name="captureDate" id="captureDate" value={date} />
         {/* fecha de captura del formulario, este campo es coulto al usuario fin */}
         <div className="d-flex mb-1 flex-column">
           <label htmlFor="mail" className="col col-form-label">
