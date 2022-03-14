@@ -1,17 +1,18 @@
 import React, { Fragment } from "react";
-import { Link } from "react-router-dom";
+import { getDates } from '../utils/Utils';
 import "./Form.css";
 
 export function Form() {
+
   return (
     <div className="container-fluid">
       <div>
         <p className="lead">
           Registro de aspirantes a la Licenciatura en Matemáticas, FCE-UJED
-          Semestre B - 2022 ¡Bienvenidas y bienvenidos! Al formulario de
+          Semestre B - 2022 ¡Bienvenidas y bienvenidos al formulario de
           registro para el proceso de selección e ingreso a la Licenciatura en
           Matemáticas que ofrece la Facultad de Ciencias Exactas de la
-          Universidad Juárez del Estado de Durango.
+          Universidad Juárez del Estado de Durango!
         </p>
         <hr />
         Se registrarán tus datos personales cuando subas archivos y envíes este
@@ -20,6 +21,9 @@ export function Form() {
       </div>
       <hr />
       <form className="form">
+        {/* fecha de captura del formulario, este campo es coulto al usuario inicio */}
+        <input type="date" name="captureDate" id="captureDate" />Aashgdfahsdfah
+        {/* fecha de captura del formulario, este campo es coulto al usuario fin */}
         <div className="d-flex mb-1 flex-column">
           <label htmlFor="mail" className="col col-form-label">
             Correo Electrónico <span className="mandatory">*</span>
@@ -415,10 +419,11 @@ export function Form() {
 
         <div className="d-flex justify-content-center mt-2">
           <input
-            type="submit"
+            // type="submit"
+            type="button"
             value="Enviar Información"
-            className="secondary"
-            disabled
+            className="btn btn-outline-secondary"//dark
+            // disabled
           />
         </div>
       </form>

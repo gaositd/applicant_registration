@@ -6,7 +6,7 @@ import './Footer.css';
 export function Footer(){
   return(
     <Fragment>
-      <footer id="footer">
+      <footer id="footer" className="footerBackground">
         <div className="d-flex justify-content-center">
           <h6>Al enviar el formulario aceptas el siguiente Acuerdo de Privacidad <a href="https://face.ujed.mx/?page_id=4931" target="_blank" rel="noopener noreferrer"><img src={privacy} className="privacy" alt="ACuerdo de confidencialidad"/></a></h6>
         </div>
@@ -14,7 +14,7 @@ export function Footer(){
         <div className="footer-top">
           <div className="container">
             <div className="row">
-              <div className="col-lg-3 col-md-6 footer-contact">
+              <div className="col-lg-4 col-md-6 footer-contact">
                 <h3>Facultad de Ciencias Exactas</h3>
                 <p>
                   Calle Lic. Héctor García Calderón 210 <br />
@@ -25,7 +25,7 @@ export function Footer(){
                 </p>
               </div>
               
-              <div className="col-lg-2 col-md-6 footer-links">
+              <div className="col-lg-4 col-md-6 footer-links">
                 <h4>Sitios de interés</h4>
                 <ul>
                   <li><i className="bx bx-chevron-right"></i> <a href="https://face.ujed.mx" target="_blank">Sitio oficial FCE-UJED</a></li>
@@ -36,7 +36,7 @@ export function Footer(){
                 </ul>
               </div>
 
-              <div className="col-lg-3 col-md-6 footer-links">
+              <div className="col-lg-4 col-md-6 footer-links">
                 <h4>Nuestros Servicios</h4>
                 <ul>
                   <li><i className="bx bx-chevron-right"></i> <a href="https://face.ujed.mx/?page_id=1454" target="_blank">Maestría en Matemática Educativa</a></li>
@@ -47,14 +47,14 @@ export function Footer(){
                 </ul>
               </div>
 
-              <div className="col-lg-4 col-md-6 footer-newsletter">
+              {/* <div className="col-lg-4 col-md-6 footer-newsletter">
                 <h4>Más información</h4>
                 <p>Si deseas recibir información extra de la oferta educativa que ofrece la Facultad de Ciencias Exactas de la UJED escribe tu correo electrónico</p>
                 <form action="" method="post">
                   <input type="email" name="email" disabled={true}  /><input type="submit" value="Suscribirse" disabled={true} />
                   <p className="disabledTextInput">Temporalmente fuera de servicio</p>
                 </form>
-              </div>
+              </div> */}
 
             </div>
           </div>
