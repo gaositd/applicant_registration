@@ -5,6 +5,7 @@ export function Form() {
   const current = new Date();
   const date = `${current.getDate()}/${current.getMonth()+1}/${current.getFullYear()}`;
   return (
+    <Fragment>
     <div className="container-fluid">
       <div>
         <p className="lead">
@@ -22,7 +23,7 @@ export function Form() {
       <hr />
       <form className="form">
         {/* fecha de captura del formulario, este campo es coulto al usuario inicio */}
-        <input type="hidden" name="captureDate" id="captureDate" value={date} />
+        <input type="text" name="captureDate" id="captureDate" value={date} />
         {/* fecha de captura del formulario, este campo es coulto al usuario fin */}
         <div className="d-flex mb-1 flex-column">
           <label htmlFor="mail" className="col col-form-label">
@@ -428,5 +429,6 @@ export function Form() {
         </div>
       </form>
     </div>
+    </Fragment>
   );
 }
