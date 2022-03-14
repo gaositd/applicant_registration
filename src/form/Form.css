@@ -24,7 +24,7 @@
 
 /* container radio buttons*/
 .containerRadio{
-  width: 10vw;
+  width: 35vw;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -37,6 +37,7 @@
   -ms-user-select: none;
   user-select: none;
   margin: 0.5rem 0 0 0.5rem;
+  width: 50vw;
 }
 
 /* hide the browser's default radio button */
