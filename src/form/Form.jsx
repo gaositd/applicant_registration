@@ -376,7 +376,7 @@ export function Form() {
         </div>
 
         <div className="d-flex mb-1 flex-column">
-          <label htmlFor="state" className="col col-form-label">
+          <label htmlFor="states" className="col col-form-label">
             Estado de procedencia<span className="mandatory">*</span>
           </label>
           <select name="state" id="state" className="form-select" required>
