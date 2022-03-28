@@ -1,5 +1,6 @@
 import React, { Fragment } from "react";
 import "./Form.css";
+import { OptionReact } from './Option'
 
 export function Form() {
   const current = new Date();
@@ -455,8 +456,9 @@ export function Form() {
           <label htmlFor="disability" className="col col-form-label">
             Discapacidad:<span className="mandatory">*</span>
           </label>
-
-          <select id="disability" name="disability" className="form-select" required>
+          <OptionReact type="disability"/>
+          {/*<select id="disability" name="disability" className="form-select" required>
+            <OptionReact type="disability" />
             <option>Selecciona alguna opción</option>
             <option value="noOne" id="noOne">Ninguna</option>
             <option value="disabilityToSee" id="disabilityToSee">Discapacidad para ver</option>
@@ -466,7 +468,7 @@ export function Form() {
             <option value="lowerDisability" id="lowerDisability">Discapacidad de las extremidades inferiores, tronco, cuello o cabeza</option>
             <option value="languageDisabilities" id="languageDisabilities">Discapacidad de la comunicación y comprensión del lenguaje</option>
             <option value="OtherDisabilities" id="OtherDisabilities">Otra(s) Discapacidad(es)</option>
-          </select>
+          </select> */}
         </div>
 
         <div className="d-flex justify-content-center mt-2">
