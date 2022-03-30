@@ -456,7 +456,7 @@ export function Form() {
           <label htmlFor="disability" className="col col-form-label">
             Discapacidad:<span className="mandatory">*</span>
           </label>
-          <OptionReact type="disability"/>
+          <OptionReact type="disabilities"/>
           {/*<select id="disability" name="disability" className="form-select" required>
             <OptionReact type="disability" />
             <option>Selecciona alguna opción</option>

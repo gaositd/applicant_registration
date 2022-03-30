@@ -10,8 +10,7 @@ import {
 export function OptionReact(typeSelect){
 
   function getOptionType(option){
-
-    switch(option){
+    switch(option.type){
       case DISABILITY:
         return DISABILITY;
       case MEXICAN_STATE:
@@ -24,23 +23,30 @@ export function OptionReact(typeSelect){
   }
 
   function getDisabilities(typeSelect){
-
     const typeOption = getOptionType(typeSelect);
-    // console.log(typeOption);
-    const disabilities = fetch(`${SERVER_DIR}${typeOption}/`)
+    
+    const options = fetch(`${SERVER_DIR}${typeOption}/`)
       .then(res => res.json())
-      .then(data =>{console.log(data)})
+      .then(data =>{
+        return data
+      })
       .catch(function(error){
         return {msg: error.message};
       });
-
-      return disabilities;
+      
+      return options;
   }
 
   const displayOption = getDisabilities(typeSelect);
+
   return(
     <div>
-      { console.log(displayOption) }
+      {
+        // displayOption.forEach(opt => {
+        //   <option value={opt.id} id={opt.id}>{opt.description}</option>
+        // })
+        console.log(displayOption)
+      }
     </div>
   );
 }
