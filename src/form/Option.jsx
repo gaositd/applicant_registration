@@ -24,16 +24,21 @@ export function OptionReact(typeSelect){
 
   function getDisabilities(typeSelect){
     const typeOption = getOptionType(typeSelect);
-    
-    const options = fetch(`${SERVER_DIR}${typeOption}/`)
+    let options = [{}];
+
+    fetch(`${SERVER_DIR}${typeOption}/`)
       .then(res => res.json())
       .then(data =>{
+        options.push(data);
         return data
       })
       .catch(function(error){
+        options.push({msg: error.message})
         return {msg: error.message};
       });
-      
+      console.log("option");
+      console.log(options);
+
       return options;
   }
 
@@ -45,7 +50,7 @@ export function OptionReact(typeSelect){
         // displayOption.forEach(opt => {
         //   <option value={opt.id} id={opt.id}>{opt.description}</option>
         // })
-        console.log(displayOption)
+       
       }
     </div>
   );
