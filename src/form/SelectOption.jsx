@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment,useState } from "react";
 // import axios from "axios";
 
 import { 
@@ -10,6 +10,8 @@ import {
 } from '../constants/constants.js';
 
 export function OptionReact(typeSelect){
+
+  const [disabilities, setDisabilities] = useState([]);
 
   function getOptionType(option){
     switch(option.type){
@@ -24,7 +26,7 @@ export function OptionReact(typeSelect){
     }
   }
 
-  const getDisabilities = function(typeSelect){
+  function getDisabilities(typeSelect){
     const typeOption = getOptionType(typeSelect);
     let options = [];
 
@@ -33,9 +35,10 @@ export function OptionReact(typeSelect){
       .then(data =>{
         // options = data.map(opt => options.push(opt));
         // options = data.map(opt => options.push(<option key={opt.id} id={opt.id} value={opt.id}>{opt.description}</option>));
-        for(let i = 0; i < data.length; i++){
-          options.push(data[i]);
-        }
+        // for(let i = 0; i < data.length; i++){
+        //   options.push(data[i]);
+        // }
+        setDisabilities(data);
       })
       .catch(function(error){
         options.push({msg: error.message});
@@ -43,18 +46,23 @@ export function OptionReact(typeSelect){
       return options;
   }
  
-  const displayOption = getDisabilities(typeSelect);
+  // const displayOption = getDisabilities(typeSelect);
+  getDisabilities(typeSelect)();
   return(
     <Fragment>
-      <p>displayOption[0] </p>
+      <p>{disabilities} {
+        
+      }</p>
       <select key={typeSelect.type} id={typeSelect.type} name={typeSelect.type} className="form-select" required>
         {
           // displayOption.forEach(dos => {
-          //   return <option key={dos.id} id={dos.id} value={dos.id}>{dos.description}</option>
+          //    console.log(dos)
           // })
-          // displayOption.forEach(dos => { console.log(dos) })
-          displayOption.map(dos => <option key={dos.id} id={dos.id} value={dos.id}>{dos.description}</option> )
+          // displayOption.map(dos => <option key={dos.id} id={dos.id} value={dos.id}>{dos.description}</option> )
           // https://scriptverse.academy/tutorials/reactjs-select.html
+          disabilities.map(dos =>
+            <option key={dos.id} id={dos.id} value={dos.id}>{dos.description}</option>
+          )
         }
       </select>
     </Fragment>
