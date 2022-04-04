@@ -268,16 +268,10 @@ export function Form() {
         </div>
 
         <div className="d-flex mb-1 flex-column">
-          <label htmlFor="maritalStatus" className="col col-form-label">
+          <label htmlFor="marital_statuses" className="col col-form-label">
             Estado civil
           </label>
-          <select id="maritalStatus" name="maritalStatus" className="form-select" required>
-            <option> Selecciocionar tu estatus civil actual</option>
-            <option id="single">Soltero</option>
-            <option id="married">Casado</option>
-            <option id="divorcee">Divorciado</option>
-            <option id="widower">Viudo</option>
-          </select>
+          <OptionReact type="marital_statuses"/>
         </div>
 
         <div className="d-flex mb-1 flex-column">
@@ -457,19 +451,6 @@ export function Form() {
             Discapacidad:<span className="mandatory">*</span>
           </label>
           <OptionReact type="disabilities"/>
-          {/*
-          <select id="disability" name="disability" className="form-select" required>
-            <OptionReact type="disability" />
-            <option>Selecciona alguna opción</option>
-            <option value="noOne" id="noOne">Ninguna</option>
-            <option value="disabilityToSee" id="disabilityToSee">Discapacidad para ver</option>
-            <option value="hearingImpairment" id="hearingImpairment">Discapacidad para escuchar</option>
-            <option value="speechImpairment" id="speechImpairment">Discapacidad para hablar (mudez, tartamudez)</option>
-            <option value="upperDisability" id="upperDisability">Discapacidad de las extremidades superiores</option>
-            <option value="lowerDisability" id="lowerDisability">Discapacidad de las extremidades inferiores, tronco, cuello o cabeza</option>
-            <option value="languageDisabilities" id="languageDisabilities">Discapacidad de la comunicación y comprensión del lenguaje</option>
-            <option value="OtherDisabilities" id="OtherDisabilities">Otra(s) Discapacidad(es)</option>
-          </select> */}
         </div>
 
         <div className="d-flex justify-content-center mt-2">
