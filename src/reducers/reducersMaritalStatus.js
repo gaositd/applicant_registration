@@ -3,13 +3,14 @@ const initialState = {
 };
 const{ GET_MARITALSTATUS } = require('../constants/constants.js');
 
-export default (state = initialState, action) => {
+export default (state = initialState, {type, payload}) => {
   
-  switch (action.type) {
+  debugger;
+  switch (type) {
     case GET_MARITALSTATUS:
       return {
         ...state,
-        allMaritalStatus: action.payload,
+        allMaritalStatus: payload,
       }
     default:
       return {...state}

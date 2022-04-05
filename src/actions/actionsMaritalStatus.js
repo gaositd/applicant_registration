@@ -6,9 +6,10 @@ import {
 
 export function getMaritalStatus(){
   return function(dispatch){
-    const disability = axios.get(`${SERVER_DIR}${MARITAL_STATUS}/`)
+    const maritalStatus = axios.get(`${SERVER_DIR}${MARITAL_STATUS}/`)
                 .then(res => 
-                  dispatch({type:GET_MARITALSTATUS, payload:res.data}))
+                  dispatch({type:GET_MARITALSTATUS, payload:res.data})
+                  )
                 .catch((error)=>({type:GET_MARITALSTATUS, payload:`${ERROR_SERVER} ${error}`}));
   }
 }
