@@ -5,7 +5,6 @@ const{ GET_MARITALSTATUS } = require('../constants/constants.js');
 
 export default (state = initialState, {type, payload}) => {
   
-  debugger;
   switch (type) {
     case GET_MARITALSTATUS:
       return {

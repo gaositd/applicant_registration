@@ -6,7 +6,7 @@ import {
 
 export function getMaritalStatus(){
   return function(dispatch){
-    const maritalStatus = axios.get(`${SERVER_DIR}${MARITAL_STATUS}/`)
+    const maritalStatus = axios.get(`${SERVER_DIR}${MARITAL_STATUS}`)
                 .then(res => 
                   dispatch({type:GET_MARITALSTATUS, payload:res.data})
                   )

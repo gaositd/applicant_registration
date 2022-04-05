@@ -1,16 +1,16 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getMaritalStatus } from "../../actions/actionsMaritalStatus.js";
 import { getDisabilities } from "../../actions/actionsDisabilities.js";
 import {
   // ERROR_SERVER,
-  // DISABILITY,
-  // MARITAL_STATUS,
+  DISABILITY,
+  MARITAL_STATUS,
   // MEXICAN_STATE,
   // MUNICIPAL,
 } from '../../constants/constants.js';
 
-let options;
+let options =[];
 export function OptionReact(typeSelect){
   let options;
 
@@ -19,14 +19,20 @@ export function OptionReact(typeSelect){
   useEffect(()=>{ 
     dispatch(getMaritalStatus());
   },[]);
-  options = maritalStatus;
-
+  
   dispatch = useDispatch(getDisabilities());
   const disabilities = useSelector(state => state.allDisabilities);
   useEffect(()=>{ 
     dispatch(getDisabilities());
   },[]);
-  options = disabilities;
+  
+  if(typeSelect.type === MARITAL_STATUS){
+    options = maritalStatus;
+  }
+
+  if(typeSelect.type === DISABILITY){
+    options = disabilities
+  }
 
   return(
       <select key={typeSelect.type} id={typeSelect.type} name={typeSelect.type} className="form-select" required>
@@ -37,3 +43,4 @@ export function OptionReact(typeSelect){
     </select>
 );
 }
+//https://ewebik.com/react-js/useeffect#Que-aprenderas-de-useEffect
