@@ -14,22 +14,22 @@ let options =[];
 export function OptionReact(typeSelect){
   let options;
 
-  let dispatch = useDispatch(getMaritalStatus());
+  let dispatch = useDispatch();
   const maritalStatus = useSelector(state => state.allMaritalStatus);
   useEffect(()=>{ 
     dispatch(getMaritalStatus());
   },[]);
-  
-  dispatch = useDispatch(getDisabilities());
+  console.log(maritalStatus);
+  if(typeSelect.type === MARITAL_STATUS){
+    options = maritalStatus;
+  }
+
+  // const dispatch = useDispatch(getDisabilities());
   const disabilities = useSelector(state => state.allDisabilities);
   useEffect(()=>{ 
     dispatch(getDisabilities());
   },[]);
   
-  if(typeSelect.type === MARITAL_STATUS){
-    options = maritalStatus;
-  }
-
   if(typeSelect.type === DISABILITY){
     options = disabilities
   }
@@ -43,4 +43,3 @@ export function OptionReact(typeSelect){
     </select>
 );
 }
-//https://ewebik.com/react-js/useeffect#Que-aprenderas-de-useEffect
