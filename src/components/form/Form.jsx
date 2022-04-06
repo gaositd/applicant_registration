@@ -341,7 +341,8 @@ export function Form() {
           <label htmlFor="town" className="col col-form-label">
             Municipio<span className="mandatory">*</span>
           </label>
-          <input type="text" name="town" id="town" placeholder="Municipio" />
+          {/* <input type="text" name="town" id="town" placeholder="Municipio" /> */}
+          <OptionReact type="birthMunicipal" stateId="10" />
         </div>
 
         <div className="d-flex mb-1 flex-column">
