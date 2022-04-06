@@ -1,8 +1,13 @@
 const initialState = {
   allDisabilities:[],
   allMaritalStatus:[],
+  allStates:[],
+  allGenders: [],
 };
-const{ GET_DISABILITY,GET_MARITALSTATUS } = require('../constants/constants.js');
+const{
+  GET_DISABILITY, GET_MARITALSTATUS,
+  GET_STATES, GET_GENDERS
+} = require('../constants/constants.js');
 
 export default (state = initialState, action) => {
   
@@ -17,6 +22,21 @@ export default (state = initialState, action) => {
           ...state,
           allMaritalStatus: action.payload,
         }
+        case GET_STATES:
+          return {
+            ...state,
+            allStates: action.payload,
+          }
+        case GET_GENDERS:
+          return {
+            ...state,
+            allGenders: action.payload,
+          }
+        // case GET_STATES:
+        //   return {
+        //     ...state,
+        //     allStates: action.payload,
+        // }
     default:
       return {...state}
   }

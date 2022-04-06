@@ -2,42 +2,51 @@ import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getMaritalStatus } from "../../actions/actionsMaritalStatus.js";
 import { getDisabilities } from "../../actions/actionsDisabilities.js";
+import { getStates } from "../../actions/actionsStates.js";
+import { getGenders } from "../../actions/actionsGenders";
 import {
-  // ERROR_SERVER,
-  DISABILITY,
-  MARITAL_STATUS,
-  // MEXICAN_STATE,
-  // MUNICIPAL,
+  DISABILITY, MARITAL_STATUS, BIRTHSTATE, SCHOOLSTATE, GENDERS,
 } from '../../constants/constants.js';
 
 let options =[];
 export function OptionReact(typeSelect){
   let options;
 
-  let dispatch = useDispatch();
+  let dispatch = useDispatch();//dispatch for all
+
   const maritalStatus = useSelector(state => state.allMaritalStatus);
   useEffect(()=>{ 
     dispatch(getMaritalStatus());
   },[]);
-  console.log(maritalStatus);
-  if(typeSelect.type === MARITAL_STATUS){
-    options = maritalStatus;
-  }
+ 
+  const gender = useSelector(state => state.allGenders);
+  useEffect(()=>{
+    dispatch(getGenders());
+  },[])
 
-  // const dispatch = useDispatch(getDisabilities());
+  const birthState = useSelector(state => state.allStates);
+  useEffect(()=>{
+    dispatch(getStates());
+  },[]);
+
   const disabilities = useSelector(state => state.allDisabilities);
   useEffect(()=>{ 
     dispatch(getDisabilities());
   },[]);
-  
-  if(typeSelect.type === DISABILITY){
+
+  if(typeSelect.type === MARITAL_STATUS){
+    options = maritalStatus;
+  }else if(typeSelect.type === GENDERS){
+    options = gender;
+  }else if(typeSelect.type === BIRTHSTATE || typeSelect.type === SCHOOLSTATE){
+    options = birthState;
+  }else if(typeSelect.type === DISABILITY){
     options = disabilities
   }
 
   return(
       <select key={typeSelect.type} id={typeSelect.type} name={typeSelect.type} className="form-select" required>
       {
-        // disabilities && disabilities.map(dos => <option key={dos.id} id={dos.id} value={dos.id}>{dos.description}</option>)
         options && options.map(dos => <option key={dos.id} id={dos.id} value={dos.id}>{dos.description}</option>)
       }
     </select>

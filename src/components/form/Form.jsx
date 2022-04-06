@@ -173,47 +173,11 @@ export function Form() {
           />
         </div>
 
-
-
         <div className="d-flex mb-1 flex-column">
           <label htmlFor="stateOfSchool" className="col col-form-label">
             Estado de procedencia de la escuela<span className="mandatory">*</span>
           </label>
-          <select name="stateOfSchool" id="stateOfSchool" className="form-select" required>
-            <option value="no">Seleccione uno...</option>
-            <option value="Aguascalientes">Aguascalientes</option>
-            <option value="Baja California">Baja California</option>
-            <option value="Baja California Sur">Baja California Sur</option>
-            <option value="Campeche">Campeche</option>
-            <option value="Chiapas">Chiapas</option>
-            <option value="Chihuahua">Chihuahua</option>
-            <option value="CDMX">Ciudad de México</option>
-            <option value="Coahuila">Coahuila</option>
-            <option value="Colima">Colima</option>
-            <option value="Durango">Durango</option>
-            <option value="Estado de México">Estado de México</option>
-            <option value="Guanajuato">Guanajuato</option>
-            <option value="Guerrero">Guerrero</option>
-            <option value="Hidalgo">Hidalgo</option>
-            <option value="Jalisco">Jalisco</option>
-            <option value="Michoacán">Michoacán</option>
-            <option value="Morelos">Morelos</option>
-            <option value="Nayarit">Nayarit</option>
-            <option value="Nuevo León">Nuevo León</option>
-            <option value="Oaxaca">Oaxaca</option>
-            <option value="Puebla">Puebla</option>
-            <option value="Querétaro">Querétaro</option>
-            <option value="Quintana Roo">Quintana Roo</option>
-            <option value="San Luis Potosí">San Luis Potosí</option>
-            <option value="Sinaloa">Sinaloa</option>
-            <option value="Sonora">Sonora</option>
-            <option value="Tabasco">Tabasco</option>
-            <option value="Tamaulipas">Tamaulipas</option>
-            <option value="Tlaxcala">Tlaxcala</option>
-            <option value="Veracruz">Veracruz</option>
-            <option value="Yucatán">Yucatán</option>
-            <option value="Zacatecas">Zacatecas</option>
-          </select>
+          <OptionReact type="schoolstate" />
         </div>
 
         <div className="d-flex mb-1 flex-column">
@@ -278,12 +242,13 @@ export function Form() {
           <label htmlFor="gender" className="col col-form-label">
             Sexo<span className="mandatory">*</span>
           </label>
-          <select id="gender" name="gender" className="form-select" required>
+          <OptionReact type="genders"/>
+          {/* <select id="gender" name="gender" className="form-select" required>
             <option>Selecciona tu género</option>
             <option id="female">Femenino</option>
             <option id="male">Masculino</option>
             <option id="IDontSay">Prefiero no decirlo</option>
-          </select>
+          </select> */}
         </div>
 
         <div className="d-flex mb-1 flex-column">
@@ -374,41 +339,7 @@ export function Form() {
           <label htmlFor="states" className="col col-form-label">
             Estado de procedencia<span className="mandatory">*</span>
           </label>
-          <select name="state" id="state" className="form-select" required>
-            <option value="no">Seleccione uno...</option>
-            <option value="Aguascalientes">Aguascalientes</option>
-            <option value="Baja California">Baja California</option>
-            <option value="Baja California Sur">Baja California Sur</option>
-            <option value="Campeche">Campeche</option>
-            <option value="Chiapas">Chiapas</option>
-            <option value="Chihuahua">Chihuahua</option>
-            <option value="CDMX">Ciudad de México</option>
-            <option value="Coahuila">Coahuila</option>
-            <option value="Colima">Colima</option>
-            <option value="Durango">Durango</option>
-            <option value="Estado de México">Estado de México</option>
-            <option value="Guanajuato">Guanajuato</option>
-            <option value="Guerrero">Guerrero</option>
-            <option value="Hidalgo">Hidalgo</option>
-            <option value="Jalisco">Jalisco</option>
-            <option value="Michoacán">Michoacán</option>
-            <option value="Morelos">Morelos</option>
-            <option value="Nayarit">Nayarit</option>
-            <option value="Nuevo León">Nuevo León</option>
-            <option value="Oaxaca">Oaxaca</option>
-            <option value="Puebla">Puebla</option>
-            <option value="Querétaro">Querétaro</option>
-            <option value="Quintana Roo">Quintana Roo</option>
-            <option value="San Luis Potosí">San Luis Potosí</option>
-            <option value="Sinaloa">Sinaloa</option>
-            <option value="Sonora">Sonora</option>
-            <option value="Tabasco">Tabasco</option>
-            <option value="Tamaulipas">Tamaulipas</option>
-            <option value="Tlaxcala">Tlaxcala</option>
-            <option value="Veracruz">Veracruz</option>
-            <option value="Yucatán">Yucatán</option>
-            <option value="Zacatecas">Zacatecas</option>
-          </select>
+          <OptionReact type="birthState" />
         </div>
 
         <div className="d-flex mb-1 flex-column">
