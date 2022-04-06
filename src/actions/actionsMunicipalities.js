@@ -11,7 +11,7 @@ export function getMunicipalities(id_state){
         payload:res.data,
       }))
       .catch(error =>({
-        type:GET_DISABILITY,
+        type:GET_MUNICIPALITIES,
         payload:`${ERROR_SERVER} ${error}`
       }));
   }
