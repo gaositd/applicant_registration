@@ -184,7 +184,8 @@ export function Form() {
           <label htmlFor="townOfSchool" className="col col-form-label">
             Municipio de la escuela<span className="mandatory">*</span>
           </label>
-          <input type="text" name="townOfSchool" id="townOfSchool" placeholder="Municipio" />
+          {/* <input type="text" name="townOfSchool" id="townOfSchool" placeholder="Municipio" /> */}
+          <OptionReact type="schoolMunicipal" stateId="10" />
         </div>
 
 
@@ -243,12 +244,6 @@ export function Form() {
             Sexo<span className="mandatory">*</span>
           </label>
           <OptionReact type="genders"/>
-          {/* <select id="gender" name="gender" className="form-select" required>
-            <option>Selecciona tu género</option>
-            <option id="female">Femenino</option>
-            <option id="male">Masculino</option>
-            <option id="IDontSay">Prefiero no decirlo</option>
-          </select> */}
         </div>
 
         <div className="d-flex mb-1 flex-column">

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getMaritalStatus } from "../../actions/actionsMaritalStatus.js";
 import { getDisabilities } from "../../actions/actionsDisabilities.js";
@@ -8,7 +8,6 @@ import {
   DISABILITY, MARITAL_STATUS, BIRTHSTATE, SCHOOLSTATE, GENDERS,
 } from '../../constants/constants.js';
 
-let options =[];
 export function OptionReact(typeSelect){
   let options;
 

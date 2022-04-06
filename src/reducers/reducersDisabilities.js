@@ -32,11 +32,6 @@ export default (state = initialState, action) => {
             ...state,
             allGenders: action.payload,
           }
-        // case GET_STATES:
-        //   return {
-        //     ...state,
-        //     allStates: action.payload,
-        // }
     default:
       return {...state}
   }
