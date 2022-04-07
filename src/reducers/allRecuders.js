@@ -18,27 +18,27 @@ export default (state = initialState, action) => {
         ...state,
         allDisabilities: action.payload,
       }
-      case GET_MARITALSTATUS:
-        return {
-          ...state,
-          allMaritalStatus: action.payload,
+    case GET_MARITALSTATUS:
+      return {
+        ...state,
+        allMaritalStatus: action.payload,
+      }
+    case GET_STATES:
+      return {
+        ...state,
+        allStates: action.payload,
+      }
+    case GET_GENDERS:
+      return {
+        ...state,
+        allGenders: action.payload,
+      }
+    case GET_MUNICIPALITIES:
+      return {
+        ...state,
+          allMunicipalities: action.payload,
         }
-        case GET_STATES:
-          return {
-            ...state,
-            allStates: action.payload,
-          }
-        case GET_GENDERS:
-          return {
-            ...state,
-            allGenders: action.payload,
-          }
-        case GET_MUNICIPALITIES:
-          return{
-            ...state,
-            allMunicipalities:action.payload,
-          }
     default:
-      return {...state}
+      return state
   }
 }

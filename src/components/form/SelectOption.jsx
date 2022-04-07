@@ -1,42 +1,39 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getMaritalStatus } from "../../actions/actionsMaritalStatus.js";
 import { getDisabilities } from "../../actions/actionsDisabilities.js";
 import { getStates } from "../../actions/actionsStates.js";
 import { getGenders } from "../../actions/actionsGenders";
-import { getMunicipalities } from "../../actions/actionsMunicipalities";
-import {
-  DISABILITY,MARITAL_STATUS,BIRTHSTATE,SCHOOLSTATE,GENDERS,SCHOOLMUNICIPAL,BIRTHMINICIPAL
-} from '../../constants/constants.js';
+import { getMunicipalities } from "../../actions/actionsMunicipalities.js";
+import {  DISABILITY, MARITAL_STATUS, BIRTHSTATE, SCHOOLSTATE, GENDERS,
+  SCHOOLMUNICIPAL, BIRTHMINICIPAL } from '../../constants/constants.js';
+
+let idState;
+function handleIdState(event){
+  idState = event.target.options[event.target.options.selectedIndex];
+}
 
 export function OptionReact(typeSelect){
-  let options;
+  const [select, setSelect] = useState('');
 
+  let options;
   let dispatch = useDispatch();//dispatch for all
 
   const maritalStatus = useSelector(state => state.allMaritalStatus);
-  useEffect(()=>{ 
-    dispatch(getMaritalStatus());
-  },[]);
+  useEffect(()=> dispatch(getMaritalStatus()),[]);
  
   const gender = useSelector(state => state.allGenders);
-  useEffect(()=>{
-    dispatch(getGenders());
-  },[])
+  useEffect(()=> dispatch(getGenders()),[])
 
   const birthState = useSelector(state => state.allStates);
-  useEffect(()=>{
-    dispatch(getStates());
-  },[]);
+  useEffect(()=> dispatch(getStates()),[]);
 
   const disabilities = useSelector(state => state.allDisabilities);
-  useEffect(()=>{ 
-    dispatch(getDisabilities());
-  },[]);
-
+  useEffect(()=> dispatch(getDisabilities()),[]);
+  
   const municipalities = useSelector(state => state.allMunicipalities);
   useEffect(()=>{
-    dispatch(getMunicipalities(typeSelect.stateId));
+    if(typeSelect.stateId) dispatch(getMunicipalities(idState));
   },[]);
 
   if(typeSelect.type === MARITAL_STATUS){
@@ -47,17 +44,14 @@ export function OptionReact(typeSelect){
     options = birthState;
   }else if(typeSelect.type === DISABILITY){
     options = disabilities
-    /*start minucipalities by state id, I use bithState*/
-  }else if(typeSelect.type === SCHOOLMUNICIPAL || typeSelect.type === BIRTHMINICIPAL){
+  }else if(typeSelect.type === SCHOOLMUNICIPAL){
+    options = municipalities;
+  }else if(typeSelect.type === BIRTHMINICIPAL){
     options = municipalities;
   }
-  /*end minucipalities by state id*/
-
   return(
-      <select key={typeSelect.type} id={typeSelect.type} name={typeSelect.type} className="form-select" required>
-      {
-        options && options.map(optn => <option key={optn.id} id={optn.id} value={optn.id}>{optn.description}</option>)
-      }
+    <select key={typeSelect.type} id={typeSelect.type} name={typeSelect.type} className="form-select" onChange={handleIdState} required>
+      { options && options.map(optn => <option key={optn.id} id={optn.id} value={optn.description}>{optn.description}</option>) }
     </select>
-);
+  );
 }
