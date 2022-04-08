@@ -10,6 +10,7 @@ import {  DISABILITY, MARITAL_STATUS, BIRTHSTATE, SCHOOLSTATE, GENDERS,
 
 let idState;
 function handleIdState(event){
+  console.log(idState = event.target.options[event.target.options.selectedIndex]);
   idState = event.target.options[event.target.options.selectedIndex];
 }
 
@@ -50,7 +51,7 @@ export function OptionReact(typeSelect){
     options = municipalities;
   }
   return(
-    <select key={typeSelect.type} id={typeSelect.type} name={typeSelect.type} className="form-select" onChange={handleIdState} required>
+    <select key={typeSelect.type} id={typeSelect.type} name={typeSelect.type} className="form-select" onChange={handleIdState} >
       { options && options.map(optn => <option key={optn.id} id={optn.id} value={optn.description}>{optn.description}</option>) }
     </select>
   );

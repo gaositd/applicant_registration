@@ -2,7 +2,35 @@ import React, { Fragment } from "react";
 import "./Form.css";
 import { OptionReact } from './SelectOption'
 
+const handleSubmit = (e)=>{
+  console.log(e.target);
+  e.preventDefault();
+};
+
 export function Form() {
+const [input, setIput] = React.useState({
+  mail:"",
+  name:"",
+  firstName:"",
+  lastName:"",
+  dateOfBirth:"0000-00-00",
+  birthCertificate:"",
+  curp:"",
+  curpPdf:"",
+  actualAddress:"",
+  lastSchool:"",
+  averageLastSchool:0.0,
+  certificateLastSchool:"",
+  secondarySchoolPdf:"",
+  miniPicture:"",
+  actualWork:false,
+  typeSchool:false,
+  telephone:"000-0000-000",
+  celphone:"000-0000-000",
+  dialect:false,
+
+});
+
   const current = new Date();
   const date = `${current.getDate()}/${current.getMonth()+1}/${current.getFullYear()}`;
   return (
@@ -22,7 +50,7 @@ export function Form() {
         respuesta. <span className="mandatory">Todos los campos con este símbolo "*" son obligatorios</span>
       </div>
       <hr />
-      <form className="form">
+      <form className="form" action="POST" onSubmit={handleSubmit} id="applicant" name="applicant">
         {/* fecha de captura del formulario, este campo es coulto al usuario inicio */}
         <input type="hidden" name="captureDate" id="captureDate" value={date} />
         {/* fecha de captura del formulario, este campo es coulto al usuario fin */}
@@ -32,10 +60,12 @@ export function Form() {
           </label>
           <input
             className="form-control"
+            type="email"
             id="mail"
             name="mail"
-            /* value='{username}' */ placeholder="Correo Electrónico"
-            required
+            placeholder="Correo Electrónico"
+            value={mail}
+            onChange={(e)=> setIput.mail(e.target.value)}
           />
         </div>
 
@@ -44,11 +74,11 @@ export function Form() {
             Nombre(s) <span className="mandatory">*</span>
           </label>
           <input
+            type="text"
             className="form-control"
             id="names"
             name="names"
-            /* value='{username}'*/ placeholder="Solo nombre(s)"
-            required
+            placeholder="Solo nombre(s)"
           />
         </div>
 
@@ -57,11 +87,11 @@ export function Form() {
             Primer apellido <span className="mandatory">*</span>
           </label>
           <input
+            type="text"
             className="form-control"
             id="firstName"
             name="firtName"
-            /* value='{username}'*/ placeholder="Primer Apellido"
-            required
+            placeholder="Primer Apellido"
           />
         </div>
 
@@ -71,10 +101,10 @@ export function Form() {
           </label>
           <input
             className="form-control"
+            type="text"
             id="lastName"
             name="lastName"
-            /* value='{username}'*/ placeholder="Segundo Apellido"
-            required
+            placeholder="Segundo Apellido"
           />
         </div>
 
@@ -86,8 +116,7 @@ export function Form() {
             className="form-control"
             id="dateOfBirth"
             name="dateOfBirth"
-            type="date"
-            /* value='{username}'*/ required
+            type="date" 
           />
         </div>
 
@@ -97,10 +126,10 @@ export function Form() {
           </label>
           <input
             className="form-control"
-            id="lastName"
-            name="lastName"
+            id="birthCertificate"
+            name="birthCertificate"
             type="file"
-            accept="image/*, .pdf" /*value='{username}'*/
+            accept="image/*, .pdf"
           />
         </div>
 
@@ -110,10 +139,10 @@ export function Form() {
           </label>
           <input
             className="form-control"
+            type="text"
             id="curp"
             name="curp"
-            /* value='{username}'*/ placeholder="C.U.R.P."
-            required
+             placeholder="C.U.R.P."
           />
         </div>
 
@@ -126,7 +155,7 @@ export function Form() {
             id="curpPdf"
             name="curpPdf"
             type="file"
-            accept="image/+, .pdf" /*value='{username}'*/
+            accept="image/+, .pdf"
           />
         </div>
 
@@ -136,10 +165,10 @@ export function Form() {
           </label>
           <input
             className="form-control"
+            type="text"
             id="actualAddress"
             name="actualAddress"
-            /*value='{username}'*/ placeholder="Donde vives actualmente"
-            required
+            placeholder="Donde vives actualmente"
           />
         </div>
 
@@ -149,10 +178,10 @@ export function Form() {
           </label>
           <input
             className="form-control"
+            type="text"
             id="lastSchool"
             name="lastSchool"
-            /*value='{username}'*/ placeholder="¿De qué escuela egresaste?"
-            required
+            placeholder="¿De qué escuela egresaste?"
           />
         </div>
 
@@ -165,11 +194,11 @@ export function Form() {
             className="form-control"
             id="averageLastSchool"
             name="averageLastSchool"
-            /* value='{username}'*/ type="number"
+            type="number"
             min="0"
             max="100"
             placeholder="0"
-            required
+            
           />
         </div>
 
@@ -188,7 +217,6 @@ export function Form() {
           <OptionReact type="schoolMunicipal" stateId="10" />
         </div>
 
-
         <div className="d-flex mb-1 flex-column">
           <label
             htmlFor="certificateLastSchool"
@@ -199,22 +227,22 @@ export function Form() {
           </label>
           <input
             className="form-control"
-            id="certificaetLastSchool"
+            id="certificateLastSchool"
             name="certificateLastSchool"
-            /* value='{username}'*/ type="file"
+            type="file"
             accept="image/*, .pdf"
           />
         </div>
 
         <div className="d-flex mb-1 flex-column">
-          <label htmlFor="secondarySchool" className="col col-form-label">
+          <label htmlFor="secondarySchoolPdf" className="col col-form-label">
             Certificado de secundaria en formato PDF
           </label>
           <input
             className="form-control"
-            id="seconcadrySchool"
-            name="secondarySchool"
-            /*value='{username}'*/ type="file"
+            id="secondarySchoolPdf"
+            name="secondarySchoolPdf"
+            type="file"
             accept="image/*, .pdf"
           />
         </div>
@@ -255,13 +283,13 @@ export function Form() {
               Si trabajo
             </label>
             <input
-              id="IWork"
-              name="work"
-              /*value='{username}'*/ type="radio"
-              required
+              id="actualWork"
+              name="actualWork"
+              type="radio"
+              
             />
           </div>
-          <div className="containerRadio" role="group">
+            <div className="containerRadio" role="group">
             <label className="radioButtons">
               No trabajo
             </label>
@@ -269,7 +297,7 @@ export function Form() {
               id="IDontWork"
               name="work"
               /*value='{username}'*/ type="radio"
-              required
+              
             />
           </div>
         </div>
@@ -285,8 +313,8 @@ export function Form() {
             <input
               id="private"
               name="typeSchool"
-              /*value='{username}'*/ type="radio"
-              required
+              type="radio"
+              
             />
           </div>
           <div className="containerRadio" role="group">
@@ -297,7 +325,7 @@ export function Form() {
               id="public"
               name="typeSchool"
               /*value='{username}'*/ type="radio"
-              required
+              
             />
           </div>
         </div>
@@ -322,8 +350,8 @@ export function Form() {
           </label>
           <input
             type="tel"
-            name="telephone"
-            id="telephone"
+            name="celphone"
+            id="celphone"
             size="20"
             max="13"
             pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
@@ -356,8 +384,8 @@ export function Form() {
             <input
               id="speak"
               name="dialect"
-              /*value='{username}'*/ type="radio"
-              required
+              type="radio"
+              
             />
           </div>
           <div className="containerRadio" role="group">
@@ -367,8 +395,8 @@ export function Form() {
             <input
               id="IDontSpeak"
               name="dialect"
-              /*value='{username}'*/ type="radio"
-              required
+              type="radio"
+              
             />
           </div>
         </div>
@@ -383,9 +411,10 @@ export function Form() {
         <div className="d-flex justify-content-center mt-2">
           <input
             // type="submit"
-            type="button"
+            type="submit"
             value="Enviar Información"
-            className="btn btn-outline-secondary"//dark
+            className="btn btn-secondary"//dark
+            // className="btn btn-outline-secondary"//dark
             // disabled
           />
         </div>
@@ -394,3 +423,4 @@ export function Form() {
     </Fragment>
   );
 }
+//https://www.youtube.com/watch?v=n6i_3H3sA-Q https://es.acervolima.com/componente-de-formulario-reactjs-ui-ant-design/
