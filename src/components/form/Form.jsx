@@ -2,37 +2,99 @@ import React, { Fragment } from "react";
 import "./Form.css";
 import { OptionReact } from './SelectOption'
 
-const handleSubmit = (e)=>{
-  console.log(e.target);
-  e.preventDefault();
-};
+export function validate(input){
+  let errors = {};
+
+  //validate e mail
+  if(!input.mail){ errors.mail("Falta E mail"); }
+  else if(input.mail.length <= 5 || /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(input.mail.value) ){ errors.mail("Ingresa in E mail válido"); }
+
+  //validate name
+  if(!input.name){ errors.name = ("Falta nombre(s)"); }
+  else if(!input.name.length <= 3){ errors.name("Ingresa tu nomnbre(s)"); }
+
+  //validate firts lastName
+  if(!input.lastName){ errors.lastName = ("Falta nombre(s)"); }
+  else if(!input.lastName.length <= 3){ errors.lastName("Ingresa tu primer apellido"); }
+
+  //validate firts lastName
+  if(!input.lastName){ errors.lastName = ("Falta nombre(s)"); }
+  else if(!input.lastName.length <= 3){ errors.lastName("Ingresa tu se apellido"); }
+
+  //validate date of birth
+  if(!input.dateOfBirth){ errors.lastName = ("ingresa tu fecha de nacimiento"); }
+
+  //validate certifacete
+  let certificatePFD = input.birthCertificate.toLowerCase();
+  if(!certificatePFD){ errors.birthCertificate("Falta acta de nacimiento (archivo PDF)")}
+  else if(certificatePFD.subString(-3) !== "pdf"){errors.birthCertificate("El acta de nacimiento deber ser en formato PDF")}
+
+  //validate curp //https://codepen.io/EduTel/pen/zWybLy
+  const Curp = RegExp(/^[A-Z][A,E,I,O,U,X][A-Z]{2}[0-9]{2}[0-1][0-9][0-3][0-9][M,H][A-Z]{2}[B,C,D,F,G,H,J,K,L,M,N,Ñ,P,Q,R,S,T,V,W,X,Y,Z]{3}[0-9,A-Z][0-9]$/);
+  const upperCurp = input.curp.toUpperCase();
+  if(!upperCurp){errors.curp("Ingresa tu C.U.R.P. en mayúsculas o ingresa la C.U.R.P. válida")}
+
+  //validate curp certifacete
+  let curpPFD = input.curpPFD.toLowerCase();
+  if(!curpPFD){ errors.curpPFD("Falta C.U.R.P. (archivo PDF)")}
+  else if(curpPFD.subString(-3) !== "pdf"){errors.curpPFD("La C.U.R.P deber ser en formato PDF")}
+
+  //validate actual address
+  if(!input.actualAddress || input.actualAddress.length <= 1){ errors.actualAddress("Ingresa tu dirección actual o ingresa una dirección válida")}
+
+  //validate state of school
+  if(!input.stateOfSchool || input.stateOfSchool.value === "noOne"){ errors.stateOfSchool("Seleccionar el estado de la escuela")}
+
+  //validate town of school
+  if(!input.townOfSchool || input.townOfSchool.value === "noOne"){ errors.townOfSchool("Seleccionar el estado de la escuela")}
+}
 
 export function Form() {
-const [input, setIput] = React.useState({
-  mail:"",
-  name:"",
-  firstName:"",
-  lastName:"",
-  dateOfBirth:"0000-00-00",
-  birthCertificate:"",
-  curp:"",
-  curpPdf:"",
-  actualAddress:"",
-  lastSchool:"",
-  averageLastSchool:0.0,
-  certificateLastSchool:"",
-  secondarySchoolPdf:"",
-  miniPicture:"",
-  actualWork:false,
-  typeSchool:false,
-  telephone:"000-0000-000",
-  celphone:"000-0000-000",
-  dialect:false,
+  const [errors, setErrors] = React.useState({});
+//validate all inputs
+  const [input, setInput] = React.useState({
+    mail:"",//ok
+    name:"",//ok
+    firstName:"",//ok
+    lastName:"",//ok
+    dateOfBirth:"",//ok
+    birthCertificate:"",//ok
+    curp:"",//ok
+    curpPdf:"",//ok
+    birthCertificate:"",//ok
+    actualAddress:"",//ok
+    stateOfSchool:"",//ok
+    townOfSchool:"",//ok
+    lastSchool:"",//ok
+    averageLastSchool:0.0,//ok
+    actualWork:false,//ok
+    typeSchool:false,//ok
+    dialect:false,//ok
+    gender:"",//ok
+    states:"",//ok
+    town:"",//ok
+    disability:""//ok
+  });
 
-});
+  const handleSubmit = (e)=>{
+    // console.log(e.target);
+    // e.preventDefault();
+  };
+
+  function handleChange(event){
+    setInput({
+      ...input,
+      [event.target.name]: event.target.value,
+    });
+    setErrors(validate({
+      ...input,
+      [event.target.name]: event.target.value,
+    }));
+  }
 
   const current = new Date();
   const date = `${current.getDate()}/${current.getMonth()+1}/${current.getFullYear()}`;
+
   return (
     <Fragment>
     <div className="container-fluid">
@@ -50,7 +112,7 @@ const [input, setIput] = React.useState({
         respuesta. <span className="mandatory">Todos los campos con este símbolo "*" son obligatorios</span>
       </div>
       <hr />
-      <form className="form" action="POST" onSubmit={handleSubmit} id="applicant" name="applicant">
+      <form className="form" onSubmit={handleSubmit} id="applicant" name="applicant">
         {/* fecha de captura del formulario, este campo es coulto al usuario inicio */}
         <input type="hidden" name="captureDate" id="captureDate" value={date} />
         {/* fecha de captura del formulario, este campo es coulto al usuario fin */}
@@ -64,8 +126,8 @@ const [input, setIput] = React.useState({
             id="mail"
             name="mail"
             placeholder="Correo Electrónico"
-            value={mail}
-            onChange={(e)=> setIput.mail(e.target.value)}
+            // value=""
+            onChange={handleChange}
           />
         </div>
 
@@ -104,7 +166,7 @@ const [input, setIput] = React.useState({
             type="text"
             id="lastName"
             name="lastName"
-            placeholder="Segundo Apellido"
+            placeholder="Segundo Apellido, en caso de no tener colocar ____ (4 giones bajos)"
           />
         </div>
 
@@ -122,7 +184,7 @@ const [input, setIput] = React.useState({
 
         <div className="d-flex mb-1 flex-column">
           <label htmlFor="birthCertificate" className="col col-form-label">
-            Acta de nacimiento (Formato PDF)
+            Acta de nacimiento (Formato PDF)<span className="mandatory">*</span>
           </label>
           <input
             className="form-control"
@@ -148,7 +210,7 @@ const [input, setIput] = React.useState({
 
         <div className="d-flex mb-1 flex-column">
           <label htmlFor="curpPdf" className="col col-form-label">
-            CURP en formato PDF
+            CURP en formato PDF<span className="mandatory">*</span>
           </label>
           <input
             className="form-control"

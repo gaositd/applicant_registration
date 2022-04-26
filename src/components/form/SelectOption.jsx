@@ -52,6 +52,7 @@ export function OptionReact(typeSelect){
   }
   return(
     <select key={typeSelect.type} id={typeSelect.type} name={typeSelect.type} className="form-select" onChange={handleIdState} >
+      <option id="noOne" value="noOne"></option>
       { options && options.map(optn => <option key={optn.id} id={optn.id} value={optn.description}>{optn.description}</option>) }
     </select>
   );
