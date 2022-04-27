@@ -35,7 +35,7 @@ export function validate(input){
   if(!upperCurp){errors.curp("Ingresa tu C.U.R.P. en mayúsculas o ingresa la C.U.R.P. válida")}
 
   //validate curp certifacete
-  let curpPFD = input.curpPFD.toLowerCase();
+  const curpPFD = input.curpPFD.toLowerCase();
   if(!curpPFD){ errors.curpPFD("Falta C.U.R.P. (archivo PDF)")}
   else if(curpPFD.subString(-3) !== "pdf"){errors.curpPFD("La C.U.R.P deber ser en formato PDF")}
 
@@ -47,6 +47,49 @@ export function validate(input){
 
   //validate town of school
   if(!input.townOfSchool || input.townOfSchool.value === "noOne"){ errors.townOfSchool("Seleccionar el estado de la escuela")}
+
+  //cretificate format qualifications and secondary certificate
+  if(input.certificateLastSchool){
+    const certificateLastSchool = certificateLastSchool.toLowerCase();
+    const certificateLastSchoolPDF = certificateLastSchool.subString(-3);
+    if(certificateLastSchoolPDF !== 'pdf'){ errors.certificateLastSchool("Formato incorrecto, deber ser PDF")}
+  }
+
+  if(input.secondarySchoolPdf){
+    const secondarySchoolPdf = secondarySchoolPdf.toLowerCase();
+    const secondarySchoolPdfPDF = secondarySchoolPdf.subString(-3);
+    if(secondarySchoolPdfPDF !== 'pdf'){ errors.secondarySchoolPdf("Formato incorrecto, deber ser PDF")}
+  }
+
+  //validate minipicture
+  if(input.miniPicture){
+    const miniPicture = miniPicture.toLowerCase();
+    const miniPictureImg = miniPicture.subString(-3);
+    if(miniPictureImg !== 'png' || miniPictureImg !== 'jpg'){ errors.miniPicture("Formato incorrecto, deber ser PNG o JPG")}
+  }
+
+  //validate gender
+  if(!input.gender) (errors.gender("Favor de Seleccionar tu género"));
+
+  //validate actualWork
+  if(!input.actualWork) errors.actualWork("Por favor dínos sí actualmente trabajas o nó");
+
+  //validate type school
+  if(!input.typeSchool) errors.typeSchool("¿Tu escuela anterior es pública o privada");
+
+  //validate phone
+  if(input.telephone || input.cellphone){
+    const phoneRegex = RegExp(/[0-9]{3}-[0-9]{3}-[0-9]{4}$/);
+    if(!phoneRegex.test(input.telephone)) errors.telephone("Número de teléno fijo incorrecto el formato es 000-000-0000");
+    if(!phoneRegex.test(input.cellphone)) errors.telephone("Número de teléno celular incorrecto el formato es 000-000-0000");
+  }
+
+  //validate dialec
+  if(!input.dialect) errors.dialect("¿Hablas algún dialecto?")
+
+  //validate disability
+  if(!input.disability) errors.disability("¿Tienes alguna Discapacidad?")
+
 }
 
 export function Form() {
@@ -284,8 +327,7 @@ export function Form() {
             htmlFor="certificateLastSchool"
             className="col col-form-label"
           >
-            Certificado o constancia con calificaciones de
-            1ro a 5to semestre
+            Certificado o constancia con calificaciones de 1ro a 5to semestre en formato PDF
           </label>
           <input
             className="form-control"
@@ -311,7 +353,7 @@ export function Form() {
 
         <div className="d-flex mb-1 flex-column">
           <label htmlFor="miniPicture" className="col col-form-label">
-            Subir fotografía tamaño infantil
+            Subir fotografía tamaño infantil, en formato PNG o JPG
           </label>
           <input
             className="form-control"
@@ -358,8 +400,8 @@ export function Form() {
             <input
               id="IDontWork"
               name="work"
-              /*value='{username}'*/ type="radio"
-              
+              /*value='{username}'*/
+              type="radio"
             />
           </div>
         </div>
@@ -376,7 +418,6 @@ export function Form() {
               id="private"
               name="typeSchool"
               type="radio"
-              
             />
           </div>
           <div className="containerRadio" role="group">
@@ -386,8 +427,8 @@ export function Form() {
             <input
               id="public"
               name="typeSchool"
-              /*value='{username}'*/ type="radio"
-              
+              /*value='{username}'*/
+              type="radio"
             />
           </div>
         </div>
@@ -402,20 +443,22 @@ export function Form() {
             id="telephone"
             size="20"
             max="13"
+            placeholder="000-000-0000"
             pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
           />
         </div>
 
         <div className="d-flex mb-1 flex-column">
-          <label htmlFor="celphone" className="col col-form-label">
+          <label htmlFor="cellphone" className="col col-form-label">
             Teléfono celular
           </label>
           <input
             type="tel"
-            name="celphone"
-            id="celphone"
+            name="cellphone"
+            id="cellphone"
             size="20"
             max="13"
+            placeholder="000-000-0000"
             pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
           />
         </div>
