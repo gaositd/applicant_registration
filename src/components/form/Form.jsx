@@ -3,92 +3,156 @@ import "./Form.css";
 import { OptionReact } from './SelectOption'
 
 export function validate(input){
-  let errors = {};
+  let errors = {
+    mail:true,
+    names:true,
+    firstName:true,
+    dateOfBirth:true,
+    birthCertificate: true,
+    curp: true,
+    curpPFD:true,
+    actualAddress:true,
+    stateOfSchool:true,
+    gender:true,
+    actualWork:true,
+    typeSchool:true,
+    states:true,
+    dialect:true,
+    disability:true,
+  };
 
   //validate e mail
-  if(!input.mail){ errors.mail("Falta E mail"); }
-  else if(input.mail.length <= 5 || /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(input.mail.value) ){ errors.mail("Ingresa in E mail válido"); }
+  const reEmail = RegExp(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/);
+  if(!input.mail){ errors.mail = true; }
+  else if(!reEmail.test(input.mail) ){ errors.mail = false; }
+  else{ errors.mail = true; }
 
-  //validate name
-  if(!input.name){ errors.name = ("Falta nombre(s)"); }
-  else if(!input.name.length <= 3){ errors.name("Ingresa tu nomnbre(s)"); }
+  //validate Name
+  if(!input.names){ errors.names = true; }
+  else if(input.names.length <= 1){ errors.names = false; }
 
-  //validate firts lastName
-  if(!input.lastName){ errors.lastName = ("Falta nombre(s)"); }
-  else if(!input.lastName.length <= 3){ errors.lastName("Ingresa tu primer apellido"); }
+  //validate firts name
+  if(!input.firstName){
+    errors.firstName = true;
+  }else if(!input.lastName){ errors.firstName = false; }
+  else if(!input.lastName.length <= 3){ errors.lastName = errors.firstName = false; }
 
-  //validate firts lastName
-  if(!input.lastName){ errors.lastName = ("Falta nombre(s)"); }
-  else if(!input.lastName.length <= 3){ errors.lastName("Ingresa tu se apellido"); }
+  //validate last name
+  if(!input.lastName){ errors.firstName = true; }
+  else if(!input.lastName){ errors.firstName = false; }
+  else if(!input.lastName.length <= 3){ errors.lastName = errors.firstName = false; }
 
   //validate date of birth
-  if(!input.dateOfBirth){ errors.lastName = ("ingresa tu fecha de nacimiento"); }
+  const reDate = /^(0[1-9]|1[0-2])\/(0[1-9]|1\d|2\d|3[01])\/(0[1-9]|1[1-9]|2[1-9])$/;
+  if(!input.dateOfBirth){ errors.dateOfBirth = true; }
+  else if(!reDate.test(input.dateOfBirth)){ errors.dateOfBirth = false;}
 
   //validate certifacete
   let certificatePFD = input.birthCertificate.toLowerCase();
   if(!certificatePFD){ errors.birthCertificate("Falta acta de nacimiento (archivo PDF)")}
-  else if(certificatePFD.subString(-3) !== "pdf"){errors.birthCertificate("El acta de nacimiento deber ser en formato PDF")}
+  else if(certificatePFD.subString(-3) !== "pdf"){
+    errors.birthCertificate = false;
+    alert("El acta de nacimiento deber ser en formato PDF");
+  }
 
   //validate curp //https://codepen.io/EduTel/pen/zWybLy
-  const Curp = RegExp(/^[A-Z][A,E,I,O,U,X][A-Z]{2}[0-9]{2}[0-1][0-9][0-3][0-9][M,H][A-Z]{2}[B,C,D,F,G,H,J,K,L,M,N,Ñ,P,Q,R,S,T,V,W,X,Y,Z]{3}[0-9,A-Z][0-9]$/);
+  const reCurp = RegExp(/^[A-Z][A,E,I,O,U,X][A-Z]{2}[0-9]{2}[0-1][0-9][0-3][0-9][M,H][A-Z]{2}[B,C,D,F,G,H,J,K,L,M,N,Ñ,P,Q,R,S,T,V,W,X,Y,Z]{3}[0-9,A-Z][0-9]$/);
   const upperCurp = input.curp.toUpperCase();
-  if(!upperCurp){errors.curp("Ingresa tu C.U.R.P. en mayúsculas o ingresa la C.U.R.P. válida")}
+  if(!reCurp.test(upperCurp)){
+    errors.curp = false;
+    alert("Ingresa tu C.U.R.P. en mayúsculas o ingresa la C.U.R.P. válida")
+  }
 
   //validate curp certifacete
   const curpPFD = input.curpPFD.toLowerCase();
   if(!curpPFD){ errors.curpPFD("Falta C.U.R.P. (archivo PDF)")}
-  else if(curpPFD.subString(-3) !== "pdf"){errors.curpPFD("La C.U.R.P deber ser en formato PDF")}
+  else if(curpPFD.subString(-3) !== "pdf"){
+    errors.curpPFD = false;
+    alert("La C.U.R.P deber ser en formato PDF")
+  }
 
   //validate actual address
-  if(!input.actualAddress || input.actualAddress.length <= 1){ errors.actualAddress("Ingresa tu dirección actual o ingresa una dirección válida")}
-
-  //validate state of school
-  if(!input.stateOfSchool || input.stateOfSchool.value === "noOne"){ errors.stateOfSchool("Seleccionar el estado de la escuela")}
-
-  //validate town of school
-  if(!input.townOfSchool || input.townOfSchool.value === "noOne"){ errors.townOfSchool("Seleccionar el estado de la escuela")}
-
-  //cretificate format qualifications and secondary certificate
-  if(input.certificateLastSchool){
-    const certificateLastSchool = certificateLastSchool.toLowerCase();
-    const certificateLastSchoolPDF = certificateLastSchool.subString(-3);
-    if(certificateLastSchoolPDF !== 'pdf'){ errors.certificateLastSchool("Formato incorrecto, deber ser PDF")}
+  if(!input.actualAddress || input.actualAddress.length <= 1){
+    errors.actualAddress = false;
+    alert("Ingresa tu dirección actual o ingresa una dirección válida")
   }
 
-  if(input.secondarySchoolPdf){
-    const secondarySchoolPdf = secondarySchoolPdf.toLowerCase();
-    const secondarySchoolPdfPDF = secondarySchoolPdf.subString(-3);
-    if(secondarySchoolPdfPDF !== 'pdf'){ errors.secondarySchoolPdf("Formato incorrecto, deber ser PDF")}
+  // //validate state of school
+  if(!input.stateOfSchool || input.stateOfSchool.value === "noOne"){
+    errors.stateOfSchool = false;
+    alert("Seleccionar el estado de la escuela");
   }
 
-  //validate minipicture
-  if(input.miniPicture){
-    const miniPicture = miniPicture.toLowerCase();
-    const miniPictureImg = miniPicture.subString(-3);
-    if(miniPictureImg !== 'png' || miniPictureImg !== 'jpg'){ errors.miniPicture("Formato incorrecto, deber ser PNG o JPG")}
+  // //validate town of school
+  // if(!input.townOfSchool || input.townOfSchool.value === "noOne"){ errors.townOfSchool("Seleccionar el estado de la escuela")}
+
+  // //cretificate format qualifications and secondary certificate
+  // if(input.certificateLastSchool){
+  //   const certificateLastSchool = certificateLastSchool.toLowerCase();
+  //   const certificateLastSchoolPDF = certificateLastSchool.subString(-3);
+  //   if(certificateLastSchoolPDF !== 'pdf'){ errors.certificateLastSchool("Formato incorrecto, deber ser PDF")}
+  // }
+
+  // if(input.secondarySchoolPdf){
+  //   const secondarySchoolPdf = secondarySchoolPdf.toLowerCase();
+  //   const secondarySchoolPdfPDF = secondarySchoolPdf.subString(-3);
+  //   if(secondarySchoolPdfPDF !== 'pdf'){ errors.secondarySchoolPdf("Formato incorrecto, deber ser PDF")}
+  // }
+
+  // //validate minipicture
+  // if(input.miniPicture){
+  //   const miniPicture = miniPicture.toLowerCase();
+  //   const miniPictureImg = miniPicture.subString(-3);
+  //   if(miniPictureImg !== 'png' || miniPictureImg !== 'jpg'){ errors.miniPicture("Formato incorrecto, deber ser PNG o JPG")}
+  // }
+
+  // //validate gender
+  if(!input.gender){
+    errors.gender = false;
+    alert("Favor de Seleccionar tu género");
   }
 
-  //validate gender
-  if(!input.gender) (errors.gender("Favor de Seleccionar tu género"));
-
-  //validate actualWork
-  if(!input.actualWork) errors.actualWork("Por favor dínos sí actualmente trabajas o nó");
-
-  //validate type school
-  if(!input.typeSchool) errors.typeSchool("¿Tu escuela anterior es pública o privada");
-
-  //validate phone
-  if(input.telephone || input.cellphone){
-    const phoneRegex = RegExp(/[0-9]{3}-[0-9]{3}-[0-9]{4}$/);
-    if(!phoneRegex.test(input.telephone)) errors.telephone("Número de teléno fijo incorrecto el formato es 000-000-0000");
-    if(!phoneRegex.test(input.cellphone)) errors.telephone("Número de teléno celular incorrecto el formato es 000-000-0000");
+  // //validate actualWork
+  if(!input.actualWork){
+    errors.actualWork = false;
+    alert("Por favor dínos sí actualmente trabajas o nó");
   }
 
-  //validate dialec
-  if(!input.dialect) errors.dialect("¿Hablas algún dialecto?")
+  // //validate type school
+  if(!input.typeSchool){
+    errors.typeSchool = false;
+    alert("¿Tu escuela anterior es pública o privada");
+  }
 
-  //validate disability
-  if(!input.disability) errors.disability("¿Tienes alguna Discapacidad?")
+  // //validate phone
+  // if(input.telephone || input.cellphone){
+  //   const phoneRegex = RegExp(/[0-9]{3}-[0-9]{3}-[0-9]{4}$/);
+  //   if(!phoneRegex.test(input.telephone)) errors.telephone("Número de teléno fijo incorrecto el formato es 000-000-0000");
+  //   if(!phoneRegex.test(input.cellphone)) errors.telephone("Número de teléno celular incorrecto el formato es 000-000-0000");
+  // }
+
+  // //validate mexican states
+  if(!input.states){
+    errors.states = false;
+    alert("No has seleccionado tu estado de nacimiento");
+  }
+
+  // //validate town mexican states
+  // if(!input.town) errors.town("No has seleccionado el municipo donde naciste")
+
+  // //validate dialec
+  if(!input.dialect){
+    errors.dialect = false;
+    alert("¿Hablas algún dialecto?");
+  }
+
+  // //validate disability
+  if(!input.disability){
+    errors.disability = false;
+    alert("¿Tienes alguna Discapacidad?");
+  }
+
+  return errors
 
 }
 
@@ -97,31 +161,37 @@ export function Form() {
 //validate all inputs
   const [input, setInput] = React.useState({
     mail:"",//ok
-    name:"",//ok
-    firstName:"",//ok
-    lastName:"",//ok
-    dateOfBirth:"",//ok
-    birthCertificate:"",//ok
-    curp:"",//ok
-    curpPdf:"",//ok
-    birthCertificate:"",//ok
-    actualAddress:"",//ok
-    stateOfSchool:"",//ok
-    townOfSchool:"",//ok
-    lastSchool:"",//ok
-    averageLastSchool:0.0,//ok
-    actualWork:false,//ok
-    typeSchool:false,//ok
-    dialect:false,//ok
-    gender:"",//ok
-    states:"",//ok
-    town:"",//ok
-    disability:""//ok
+    // name:"",//ok
+    // firstName:"",//ok
+    // lastName:"",//ok
+    // dateOfBirth:"",//ok
+    // birthCertificate:"",//ok
+    // curp:"",//ok
+    // curpPdf:"",//ok
+    // actualAddress:"",//ok
+    // stateOfSchool:"",//ok
+    // townOfSchool:"",//ok
+    // lastSchool:"",//ok
+    // averageLastSchool:0.0,//ok
+    // actualWork:false,//ok
+    // typeSchool:false,//ok
+    // dialect:false,//ok
+    // gender:"",//ok
+    // states:"",//ok
+    // town:"",//ok
+    // disability:""//ok
   });
 
-  const handleSubmit = (e)=>{
-    // console.log(e.target);
-    // e.preventDefault();
+  const handleSubmit = (event)=>{
+    if(errors || !errors.hasOwnProperty("dishName") || !errors.hasOwnProperty("summary")){
+      alert('No submited, check mandatory fields (*)');
+      event.preventDefault();
+      return;
+    }
+    
+    const sendRecipe={
+
+    };
   };
 
   function handleChange(event){
@@ -133,6 +203,21 @@ export function Form() {
       ...input,
       [event.target.name]: event.target.value,
     }));
+  }
+  
+  const checkField= (msg)=>{
+    return alert(`fatla ${input} ${msg}`);
+  }
+
+  function handleBlur(e){
+    if(e.target.id === "mail"){ if(!e.target.value) { checkField("Falta el E mail") } }
+
+    if(e.target.id === "names"){ if(!e.target.value){ checkField("Falta el o los nombres"); } }
+
+    if(e.target.id === "firstName"){ if(!e.target.validate){ checkField("Falta el primer apellido"); } }
+
+    if(e.target.id === "lastName"){ if(!e.target.validate){ checkField("Falta el segundo apellido");} }
+
   }
 
   const current = new Date();
@@ -152,10 +237,10 @@ export function Form() {
         <hr />
         Se registrarán tus datos personales cuando subas archivos y envíes este
         formulario. El correo electrónico que ingresas forma parte de las
-        respuesta. <span className="mandatory">Todos los campos con este símbolo "*" son obligatorios</span>
+        respuesta. <span className="mandatory">Todos los campos con este símbolo "*" son obligatorios, un campo mal proporcionado resaltará en ROJO</span>
       </div>
       <hr />
-      <form className="form" onSubmit={handleSubmit} id="applicant" name="applicant">
+      <form className="form" onSubmit={handleSubmit} /*method="POST"*/ id="applicant" name="applicant">
         {/* fecha de captura del formulario, este campo es coulto al usuario inicio */}
         <input type="hidden" name="captureDate" id="captureDate" value={date} />
         {/* fecha de captura del formulario, este campo es coulto al usuario fin */}
@@ -164,13 +249,14 @@ export function Form() {
             Correo Electrónico <span className="mandatory">*</span>
           </label>
           <input
-            className="form-control"
+            className={errors.mail ? "form-control": "form-control error"}
             type="email"
             id="mail"
             name="mail"
             placeholder="Correo Electrónico"
-            // value=""
+            value={input.mail}
             onChange={handleChange}
+            onBlur={handleBlur}
           />
         </div>
 
@@ -180,16 +266,18 @@ export function Form() {
           </label>
           <input
             type="text"
-            className="form-control"
+            className={errors.names ? "form-control": "form-control error"}
             id="names"
             name="names"
             placeholder="Solo nombre(s)"
+            onChange={handleChange}
+            onBlur={handleBlur}
           />
         </div>
 
         <div className="d-flex mb-1 flex-column">
           <label htmlFor="firstName" className="col col-form-label">
-            Primer apellido <span className="mandatory">*</span>
+            Primer Apellido <span className="mandatory">*</span>
           </label>
           <input
             type="text"
@@ -197,6 +285,8 @@ export function Form() {
             id="firstName"
             name="firtName"
             placeholder="Primer Apellido"
+            onChange={handleChange}
+            onBlur={handleBlur}
           />
         </div>
 
@@ -209,7 +299,7 @@ export function Form() {
             type="text"
             id="lastName"
             name="lastName"
-            placeholder="Segundo Apellido, en caso de no tener colocar ____ (4 giones bajos)"
+            placeholder="Segundo Apellido, en caso de no tener colocar ____ (4 guiones bajos)"
           />
         </div>
 

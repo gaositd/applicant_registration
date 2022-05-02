@@ -39,7 +39,6 @@
   margin: 0.5rem 0 0 0.5rem;
   width: 50vw;
 }
-
 /* hide the browser's default radio button */
 .radioButtons input {
   /* position: absolute; */
@@ -48,7 +47,6 @@
   display: flex;
   justify-content: space-between;
 }
-
 /* create custom radio */
 .radioButtons .check {
   position: absolute;
@@ -60,30 +58,25 @@
   border: 1px solid #ccc;
   border-radius: 50%;
 }
-
 /* on mouse-over, add border color */
 .radioButtons:hover input ~ .check {
   border: 2px solid #2489C5;
 }
-
 /* add background color when the radio is checked */
 .radioButtons input:checked ~ .check {
   background-color: #2489C5;
   border:none;
 }
-
 /* create the radio and hide when not checked */
 .radioButtons .check:after {
   content: "";
   position: absolute;
   display: none;
 }
-
 /* show the radio when checked */
 .radioButtons input:checked ~ .check:after {
   display: block;
 }
-
 /* radio style */
 .radioButtons .check:after {
   top: 9px;
@@ -93,8 +86,12 @@
   border-radius: 50%;
   background: white;
 }
-
 /*Espacio entre cajas*/
 div .containerRadio{
   margin-right: 2rem;
+}
+/*clase error para los campos del forularios*/
+.error{
+  outline: red;
+  box-shadow: 0 0 10px #d30505;
 }
