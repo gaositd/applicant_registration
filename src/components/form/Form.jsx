@@ -2,24 +2,25 @@ import React, { Fragment } from "react";
 import "./Form.css";
 import { OptionReact } from './SelectOption'
 
+let errors = {
+  mail:true,
+  names:true,
+  firstName:true,
+  dateOfBirth:true,
+  birthCertificate: true,
+  curp: true,
+  curpPdf:true,
+  actualAddress:true,
+  stateOfSchool:true,
+  gender:true,
+  actualWork:true,
+  typeSchool:true,
+  states:true,
+  dialect:true,
+  disability:true,
+};
+
 export function validate(input){
-  let errors = {
-    mail:true,
-    names:true,
-    firstName:true,
-    dateOfBirth:true,
-    birthCertificate: true,
-    curp: true,
-    curpPFD:true,
-    actualAddress:true,
-    stateOfSchool:true,
-    gender:true,
-    actualWork:true,
-    typeSchool:true,
-    states:true,
-    dialect:true,
-    disability:true,
-  };
 
   //validate e mail
   const reEmail = RegExp(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/);
@@ -29,7 +30,8 @@ export function validate(input){
 
   //validate Name
   if(!input.names){ errors.names = true; }
-  else if(input.names.length <= 1){ errors.names = false; }
+  else if(input.names.length === 1){ errors.names = false; }
+  else{errors.names = true;}
 
   //validate firts name
   if(!input.firstName){
@@ -49,39 +51,24 @@ export function validate(input){
 
   //validate certifacete
   let certificatePFD = input.birthCertificate.toLowerCase();
-  if(!certificatePFD){ errors.birthCertificate("Falta acta de nacimiento (archivo PDF)")}
-  else if(certificatePFD.subString(-3) !== "pdf"){
-    errors.birthCertificate = false;
-    alert("El acta de nacimiento deber ser en formato PDF");
-  }
+  if(!certificatePFD){ errors.birthCertificate = false}
+  else if(certificatePFD.subString(-3) !== "pdf"){ errors.birthCertificate = false; }
 
   //validate curp //https://codepen.io/EduTel/pen/zWybLy
   const reCurp = RegExp(/^[A-Z][A,E,I,O,U,X][A-Z]{2}[0-9]{2}[0-1][0-9][0-3][0-9][M,H][A-Z]{2}[B,C,D,F,G,H,J,K,L,M,N,Ñ,P,Q,R,S,T,V,W,X,Y,Z]{3}[0-9,A-Z][0-9]$/);
   const upperCurp = input.curp.toUpperCase();
-  if(!reCurp.test(upperCurp)){
-    errors.curp = false;
-    alert("Ingresa tu C.U.R.P. en mayúsculas o ingresa la C.U.R.P. válida")
-  }
+  if(!reCurp.test(upperCurp)){ errors.curp = false; }
 
   //validate curp certifacete
-  const curpPFD = input.curpPFD.toLowerCase();
-  if(!curpPFD){ errors.curpPFD("Falta C.U.R.P. (archivo PDF)")}
-  else if(curpPFD.subString(-3) !== "pdf"){
-    errors.curpPFD = false;
-    alert("La C.U.R.P deber ser en formato PDF")
-  }
+  const curpPDF = input.curpPdf.toLowerCase();
+  if(!curpPDF){ errors.curpPdf = false; }
+  else if(curpPDF.subString(-3) !== "pdf"){ errors.curpPdf = false; }
 
   //validate actual address
-  if(!input.actualAddress || input.actualAddress.length <= 1){
-    errors.actualAddress = false;
-    alert("Ingresa tu dirección actual o ingresa una dirección válida")
-  }
+  if(!input.actualAddress || input.actualAddress.length <= 1){ errors.actualAddress = false; }
 
   // //validate state of school
-  if(!input.stateOfSchool || input.stateOfSchool.value === "noOne"){
-    errors.stateOfSchool = false;
-    alert("Seleccionar el estado de la escuela");
-  }
+  if(!input.stateOfSchool || input.stateOfSchool.value === "noOne"){ errors.stateOfSchool = false; }
 
   // //validate town of school
   // if(!input.townOfSchool || input.townOfSchool.value === "noOne"){ errors.townOfSchool("Seleccionar el estado de la escuela")}
@@ -107,22 +94,13 @@ export function validate(input){
   // }
 
   // //validate gender
-  if(!input.gender){
-    errors.gender = false;
-    alert("Favor de Seleccionar tu género");
-  }
+  if(!input.gender){ errors.gender = false; }
 
   // //validate actualWork
-  if(!input.actualWork){
-    errors.actualWork = false;
-    alert("Por favor dínos sí actualmente trabajas o nó");
-  }
+  if(!input.actualWork){ errors.actualWork = false; }
 
   // //validate type school
-  if(!input.typeSchool){
-    errors.typeSchool = false;
-    alert("¿Tu escuela anterior es pública o privada");
-  }
+  if(!input.typeSchool){ errors.typeSchool = false; }
 
   // //validate phone
   // if(input.telephone || input.cellphone){
@@ -132,25 +110,16 @@ export function validate(input){
   // }
 
   // //validate mexican states
-  if(!input.states){
-    errors.states = false;
-    alert("No has seleccionado tu estado de nacimiento");
-  }
+  if(!input.states){ errors.states = false; }
 
   // //validate town mexican states
   // if(!input.town) errors.town("No has seleccionado el municipo donde naciste")
 
   // //validate dialec
-  if(!input.dialect){
-    errors.dialect = false;
-    alert("¿Hablas algún dialecto?");
-  }
+  if(!input.dialect){ errors.dialect = false; }
 
   // //validate disability
-  if(!input.disability){
-    errors.disability = false;
-    alert("¿Tienes alguna Discapacidad?");
-  }
+  if(!input.disability){ errors.disability = false; }
 
   return errors
 
@@ -161,25 +130,25 @@ export function Form() {
 //validate all inputs
   const [input, setInput] = React.useState({
     mail:"",//ok
-    // name:"",//ok
-    // firstName:"",//ok
-    // lastName:"",//ok
-    // dateOfBirth:"",//ok
-    // birthCertificate:"",//ok
-    // curp:"",//ok
-    // curpPdf:"",//ok
-    // actualAddress:"",//ok
-    // stateOfSchool:"",//ok
-    // townOfSchool:"",//ok
-    // lastSchool:"",//ok
-    // averageLastSchool:0.0,//ok
-    // actualWork:false,//ok
-    // typeSchool:false,//ok
-    // dialect:false,//ok
-    // gender:"",//ok
-    // states:"",//ok
-    // town:"",//ok
-    // disability:""//ok
+    names:"",//ok
+    firstName:"",//ok
+    lastName:"",//ok
+    dateOfBirth:"",//ok
+    birthCertificate:"",//ok
+    curp:"",//ok
+    curpPdf:"",//ok
+    actualAddress:"",//ok
+    stateOfSchool:"",//ok
+    townOfSchool:"",//ok
+    lastSchool:"",//ok
+    averageLastSchool:0.0,//ok
+    actualWork:false,//ok
+    typeSchool:false,//ok
+    dialect:false,//ok
+    gender:"",//ok
+    states:"",//ok
+    town:"",//ok
+    disability:""//ok
   });
 
   const handleSubmit = (event)=>{
@@ -204,20 +173,45 @@ export function Form() {
       [event.target.name]: event.target.value,
     }));
   }
-  
-  const checkField= (msg)=>{
-    return alert(`fatla ${input} ${msg}`);
-  }
 
   function handleBlur(e){
-    if(e.target.id === "mail"){ if(!e.target.value) { checkField("Falta el E mail") } }
+    if(e.target.id === "mail"){ if(!e.target.value) { alert("Falta el E mail") } }
 
-    if(e.target.id === "names"){ if(!e.target.value){ checkField("Falta el o los nombres"); } }
+    if(e.target.id === "names"){ if(!e.target.value){ alert("Falta el o los nombres"); } }
 
-    if(e.target.id === "firstName"){ if(!e.target.validate){ checkField("Falta el primer apellido"); } }
+    if(e.target.id === "firstName"){ if(!e.target.value){ alert("Falta el primer apellido"); } }
 
-    if(e.target.id === "lastName"){ if(!e.target.validate){ checkField("Falta el segundo apellido");} }
+    if(e.target.id === "lastName"){ if(!e.target.value){ alert("Falta el segundo apellido");} }
 
+    if(e.target.id === 'dateOfBirth') {if(!e.target.value) alert("Falta fecha de nacimiento")}
+
+    if(e.target.id === 'birthCertificate') {if(!e.target.value) alert("Falta el archivo del acta de nacimineto en formato PDF")}
+
+    if(e.target.id === 'curp') {if(!e.target.value) alert("Falta la C. U. R. P.")}
+
+    if(e.target.id === 'birthCertificate') {if(!e.target.value) alert("Falta el archivo en formato PDF")}
+
+    if(e.target.id === 'curpPdf') {if(!e.target.value) alert("Falta el archivo de la  C. U. R. P. en formato PDF")}
+
+    if(e.target.id === 'actualAddress') {if(!e.target.value) alert("Falta la dirección donde vives actualmente")}
+
+    if(e.target.id === 'lastSchool') {if(!e.target.value) alert("Falta ingresar de que escuela provienes")}
+
+    if(e.target.id === 'schoolstate') {if(!e.target.value) alert("Falta ingresar el estado de la escuela que provienes")}
+
+    // if(e.target.id === 'schoolMunicipal') {if(!e.target.value) alert("Falta ingresar el municipio de la escuela que provienes")}
+
+    if(e.target.id === 'genders') {if(!e.target.value) alert("Falta seleccionar tu género")}
+
+    if(e.target.name === 'work') {if(!e.target.value) alert("¿Trabajas actualmente?")}
+
+    if(e.target.id === 'birthState') {if(!e.target.value) alert("Falta seleccionar el estado de nacimiento")}
+    
+    // if(e.target.id === 'birthMunicipal') {if(!e.target.value) alert("Falta seleccionar el estado de nacimiento")}
+
+    if(e.target.name === 'dilect') {if(!e.target.value) alert("¿Hablas algún dialecto?")}
+
+    if(e.target.value === 'disabilities') {if(!e.target.value) alert('¿Tienes alguna discapacidad?')}
   }
 
   const current = new Date();
@@ -249,7 +243,7 @@ export function Form() {
             Correo Electrónico <span className="mandatory">*</span>
           </label>
           <input
-            className={errors.mail ? "form-control": "form-control error"}
+            className={ errors.mail ? "form-control" : "form-control error" }
             type="email"
             id="mail"
             name="mail"
@@ -266,7 +260,7 @@ export function Form() {
           </label>
           <input
             type="text"
-            className={errors.names ? "form-control": "form-control error"}
+            className={ errors.names ? "form-control" : "form-control error" }
             id="names"
             name="names"
             placeholder="Solo nombre(s)"
@@ -281,7 +275,7 @@ export function Form() {
           </label>
           <input
             type="text"
-            className="form-control"
+            className={errors.firstName ? "form-control": "form-control error"}
             id="firstName"
             name="firtName"
             placeholder="Primer Apellido"
@@ -295,11 +289,13 @@ export function Form() {
             Segundo Apellido<span className="mandatory">*</span>
           </label>
           <input
-            className="form-control"
+            className={errors.firstName ? "form-control error": "form-control"}
             type="text"
             id="lastName"
             name="lastName"
             placeholder="Segundo Apellido, en caso de no tener colocar ____ (4 guiones bajos)"
+            onChange={handleChange}
+            onBlur={handleBlur}
           />
         </div>
 
@@ -308,10 +304,12 @@ export function Form() {
             Fecha de nacimiento<span className="mandatory">*</span>
           </label>
           <input
-            className="form-control"
+            className={errors.firstName ? "form-control error": "form-control"}
             id="dateOfBirth"
             name="dateOfBirth"
-            type="date" 
+            type="date"
+            onChange={handleChange}
+            onBlur={handleBlur}
           />
         </div>
 
@@ -320,11 +318,13 @@ export function Form() {
             Acta de nacimiento (Formato PDF)<span className="mandatory">*</span>
           </label>
           <input
-            className="form-control"
+            className={errors.firstName ? "form-control": "form-control error"}
             id="birthCertificate"
             name="birthCertificate"
             type="file"
             accept="image/*, .pdf"
+            onChange={handleChange}
+            onBlur={handleBlur}
           />
         </div>
 
@@ -333,11 +333,13 @@ export function Form() {
             C.U.R.P.<span className="mandatory">*</span>
           </label>
           <input
-            className="form-control"
+            className={errors.curp ? "form-control": "form-control error"}
             type="text"
             id="curp"
             name="curp"
-             placeholder="C.U.R.P."
+            placeholder="C.U.R.P."
+            onChange={handleChange}
+            onBlur={handleBlur}
           />
         </div>
 
@@ -346,11 +348,13 @@ export function Form() {
             CURP en formato PDF<span className="mandatory">*</span>
           </label>
           <input
-            className="form-control"
+            className={errors.curpPdf ? "form-control": "form-control error"}
             id="curpPdf"
             name="curpPdf"
             type="file"
             accept="image/+, .pdf"
+            onChange={handleChange}
+            onBlur={handleBlur}
           />
         </div>
 
@@ -359,11 +363,13 @@ export function Form() {
             Dirección actual<span className="mandatory">*</span>
           </label>
           <input
-            className="form-control"
+            className={errors.actualAddress ? "form-control": "form-control error"}
             type="text"
             id="actualAddress"
             name="actualAddress"
             placeholder="Donde vives actualmente"
+            onChange={handleChange}
+            onBlur={handleBlur}
           />
         </div>
 
@@ -372,7 +378,7 @@ export function Form() {
             Escuela de procedencia<span className="mandatory">*</span>
           </label>
           <input
-            className="form-control"
+            className={errors.lastSchool ? "form-control": "form-control error"}
             type="text"
             id="lastSchool"
             name="lastSchool"
@@ -386,14 +392,15 @@ export function Form() {
             <span className="mandatory">*</span>
           </label>
           <input
-            className="form-control"
+            className={errors.averageLastSchool ? "form-control": "form-control error"}
             id="averageLastSchool"
             name="averageLastSchool"
             type="number"
             min="0"
             max="100"
             placeholder="0"
-            
+            onChange={handleChange}
+            onBlur={handleBlur}
           />
         </div>
 
@@ -478,7 +485,7 @@ export function Form() {
             </label>
             <input
               id="actualWork"
-              name="actualWork"
+              name="work"
               type="radio"
               
             />
@@ -580,7 +587,6 @@ export function Form() {
               id="speak"
               name="dialect"
               type="radio"
-              
             />
           </div>
           <div className="containerRadio" role="group">
@@ -591,7 +597,6 @@ export function Form() {
               id="IDontSpeak"
               name="dialect"
               type="radio"
-              
             />
           </div>
         </div>
