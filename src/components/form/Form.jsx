@@ -34,25 +34,24 @@ export function validate(input){
   else{errors.names = true;}
 
   //validate firts name
-  if(!input.firstName){
-    errors.firstName = true;
-  }else if(!input.lastName){ errors.firstName = false; }
-  else if(!input.lastName.length <= 3){ errors.lastName = errors.firstName = false; }
+  if(!input.firstName){ errors.firstName = true; }
+  if(input.firstName.length  <= 2){ errors.firstName = false; }
+  else{errors.firstName = true;}
 
   //validate last name
-  if(!input.lastName){ errors.firstName = true; }
-  else if(!input.lastName){ errors.firstName = false; }
-  else if(!input.lastName.length <= 3){ errors.lastName = errors.firstName = false; }
+  if(!input.lastName){ errors.lastName = true; }
+  if(!input.lastName){ errors.lastName = false; }
+  else if(!input.lastName.length <= 3){ errors.lastName = false; }
 
   //validate date of birth
   const reDate = /^(0[1-9]|1[0-2])\/(0[1-9]|1\d|2\d|3[01])\/(0[1-9]|1[1-9]|2[1-9])$/;
   if(!input.dateOfBirth){ errors.dateOfBirth = true; }
-  else if(!reDate.test(input.dateOfBirth)){ errors.dateOfBirth = false;}
+  if(!reDate.test(input.dateOfBirth)){ errors.dateOfBirth = false;}
 
   //validate certifacete
   let certificatePFD = input.birthCertificate.toLowerCase();
   if(!certificatePFD){ errors.birthCertificate = false}
-  else if(certificatePFD.subString(-3) !== "pdf"){ errors.birthCertificate = false; }
+  if(certificatePFD.subString(-3) !== "pdf"){ errors.birthCertificate = false; }
 
   //validate curp //https://codepen.io/EduTel/pen/zWybLy
   const reCurp = RegExp(/^[A-Z][A,E,I,O,U,X][A-Z]{2}[0-9]{2}[0-1][0-9][0-3][0-9][M,H][A-Z]{2}[B,C,D,F,G,H,J,K,L,M,N,Ñ,P,Q,R,S,T,V,W,X,Y,Z]{3}[0-9,A-Z][0-9]$/);
@@ -62,7 +61,7 @@ export function validate(input){
   //validate curp certifacete
   const curpPDF = input.curpPdf.toLowerCase();
   if(!curpPDF){ errors.curpPdf = false; }
-  else if(curpPDF.subString(-3) !== "pdf"){ errors.curpPdf = false; }
+  if(curpPDF.subString(-3) !== "pdf"){ errors.curpPdf = false; }
 
   //validate actual address
   if(!input.actualAddress || input.actualAddress.length <= 1){ errors.actualAddress = false; }
@@ -250,7 +249,7 @@ export function Form() {
             placeholder="Correo Electrónico"
             value={input.mail}
             onChange={handleChange}
-            onBlur={handleBlur}
+            // //onBlur={handleBlur}
           />
         </div>
 
@@ -265,7 +264,7 @@ export function Form() {
             name="names"
             placeholder="Solo nombre(s)"
             onChange={handleChange}
-            onBlur={handleBlur}
+            // //onBlur={handleBlur}
           />
         </div>
 
@@ -275,12 +274,12 @@ export function Form() {
           </label>
           <input
             type="text"
-            className={errors.firstName ? "form-control": "form-control error"}
+            className={errors.firstName ? "form-control" : "form-control error"  }
             id="firstName"
-            name="firtName"
+            name="firstName"
             placeholder="Primer Apellido"
             onChange={handleChange}
-            onBlur={handleBlur}
+            // //onBlur={handleBlur}
           />
         </div>
 
@@ -289,13 +288,13 @@ export function Form() {
             Segundo Apellido<span className="mandatory">*</span>
           </label>
           <input
-            className={errors.firstName ? "form-control error": "form-control"}
+            className={errors.lastName ? "form-control" : "form-control error" }
             type="text"
             id="lastName"
             name="lastName"
             placeholder="Segundo Apellido, en caso de no tener colocar ____ (4 guiones bajos)"
             onChange={handleChange}
-            onBlur={handleBlur}
+            //onBlur={handleBlur}
           />
         </div>
 
@@ -304,12 +303,12 @@ export function Form() {
             Fecha de nacimiento<span className="mandatory">*</span>
           </label>
           <input
-            className={errors.firstName ? "form-control error": "form-control"}
+            className={errors.dateOfBirth ? "form-control" : "form-control error" }
             id="dateOfBirth"
             name="dateOfBirth"
             type="date"
             onChange={handleChange}
-            onBlur={handleBlur}
+            //onBlur={handleBlur}
           />
         </div>
 
@@ -318,13 +317,13 @@ export function Form() {
             Acta de nacimiento (Formato PDF)<span className="mandatory">*</span>
           </label>
           <input
-            className={errors.firstName ? "form-control": "form-control error"}
+            className={errors.birthCertificate ? "form-control" : "form-control error" }
             id="birthCertificate"
             name="birthCertificate"
             type="file"
             accept="image/*, .pdf"
             onChange={handleChange}
-            onBlur={handleBlur}
+            //onBlur={handleBlur}
           />
         </div>
 
@@ -333,13 +332,13 @@ export function Form() {
             C.U.R.P.<span className="mandatory">*</span>
           </label>
           <input
-            className={errors.curp ? "form-control": "form-control error"}
+            className={errors.curp ? "form-control" : "form-control error" }
             type="text"
             id="curp"
             name="curp"
             placeholder="C.U.R.P."
             onChange={handleChange}
-            onBlur={handleBlur}
+            //onBlur={handleBlur}
           />
         </div>
 
@@ -348,13 +347,13 @@ export function Form() {
             CURP en formato PDF<span className="mandatory">*</span>
           </label>
           <input
-            className={errors.curpPdf ? "form-control": "form-control error"}
+            className={errors.curpPdf ? "form-control" : "form-control error"}
             id="curpPdf"
             name="curpPdf"
             type="file"
             accept="image/+, .pdf"
             onChange={handleChange}
-            onBlur={handleBlur}
+            //onBlur={handleBlur}
           />
         </div>
 
@@ -363,13 +362,13 @@ export function Form() {
             Dirección actual<span className="mandatory">*</span>
           </label>
           <input
-            className={errors.actualAddress ? "form-control": "form-control error"}
+            className={errors.actualAddress ? "form-control" : "form-control error" }
             type="text"
             id="actualAddress"
             name="actualAddress"
             placeholder="Donde vives actualmente"
             onChange={handleChange}
-            onBlur={handleBlur}
+            //onBlur={handleBlur}
           />
         </div>
 
@@ -378,7 +377,7 @@ export function Form() {
             Escuela de procedencia<span className="mandatory">*</span>
           </label>
           <input
-            className={errors.lastSchool ? "form-control": "form-control error"}
+            className={errors.lastSchool ? "form-control" : "form-control error" }
             type="text"
             id="lastSchool"
             name="lastSchool"
@@ -614,8 +613,6 @@ export function Form() {
             type="submit"
             value="Enviar Información"
             className="btn btn-secondary"//dark
-            // className="btn btn-outline-secondary"//dark
-            // disabled
           />
         </div>
       </form>
