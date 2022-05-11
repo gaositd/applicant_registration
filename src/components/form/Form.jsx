@@ -51,7 +51,9 @@ export function validate(input){
   //validate certifacete
   let certificatePFD = input.birthCertificate.toLowerCase();
   if(!certificatePFD){ errors.birthCertificate = false}
-  if(certificatePFD.subString(-3) !== "pdf"){ errors.birthCertificate = false; }
+  if(certificatePFD){
+    if(certificatePFD.subString(-3) !== "pdf"){ errors.birthCertificate = false; }
+  }
 
   //validate curp //https://codepen.io/EduTel/pen/zWybLy
   const reCurp = RegExp(/^[A-Z][A,E,I,O,U,X][A-Z]{2}[0-9]{2}[0-1][0-9][0-3][0-9][M,H][A-Z]{2}[B,C,D,F,G,H,J,K,L,M,N,Ñ,P,Q,R,S,T,V,W,X,Y,Z]{3}[0-9,A-Z][0-9]$/);
@@ -102,11 +104,11 @@ export function validate(input){
   if(!input.typeSchool){ errors.typeSchool = false; }
 
   // //validate phone
-  // if(input.telephone || input.cellphone){
-  //   const phoneRegex = RegExp(/[0-9]{3}-[0-9]{3}-[0-9]{4}$/);
-  //   if(!phoneRegex.test(input.telephone)) errors.telephone("Número de teléno fijo incorrecto el formato es 000-000-0000");
-  //   if(!phoneRegex.test(input.cellphone)) errors.telephone("Número de teléno celular incorrecto el formato es 000-000-0000");
-  // }
+  if(input.telephone || input.cellphone){
+    const phoneRegex = RegExp(/[0-9]{3}-[0-9]{3}-[0-9]{4}$/);
+    if(!phoneRegex.test(input.telephone)) errors.telephone = false;
+    if(!phoneRegex.test(input.cellphone)) errors.cellphone = false;
+  }
 
   // //validate mexican states
   if(!input.states){ errors.states = false; }
@@ -147,7 +149,9 @@ export function Form() {
     gender:"",//ok
     states:"",//ok
     town:"",//ok
-    disability:""//ok
+    disability:"",//ok
+    telephone:"",
+    cellphone:"",
   });
 
   const handleSubmit = (event)=>{
@@ -174,43 +178,24 @@ export function Form() {
   }
 
   function handleBlur(e){
-    if(e.target.id === "mail"){ if(!e.target.value) { alert("Falta el E mail") } }
 
-    if(e.target.id === "names"){ if(!e.target.value){ alert("Falta el o los nombres"); } }
+    if(e.target.id === 'birthCertificate' || e.target.id === 'curpPdf' || e.target.id === 'certificateLastSchool' || e.target.id === 'secondarySchoolPdf'){
+      if(e.target.value.subString(-3).toLowerCase() !== "pdf") alert("El formato debe ser PDF")
+    }
 
-    if(e.target.id === "firstName"){ if(!e.target.value){ alert("Falta el primer apellido"); } }
+    if(e.target.id === 'averageLastSchool'){
+      if(!isNaN(e.target.value)){
+        alert("Porporcionar un número en el promedio");
+        return;
+      }
+    }
 
-    if(e.target.id === "lastName"){ if(!e.target.value){ alert("Falta el segundo apellido");} }
+    if(e.target.id === 'miniPicture'){ 
+      if(e.target.value.subString(-3).toLowerCase() !== "png" || e.target.value.subString(-3).toLowerCase() !== "jpg"){
+        alert("El formato debe ser PNG o JPG");
+      }  
+    }
 
-    if(e.target.id === 'dateOfBirth') {if(!e.target.value) alert("Falta fecha de nacimiento")}
-
-    if(e.target.id === 'birthCertificate') {if(!e.target.value) alert("Falta el archivo del acta de nacimineto en formato PDF")}
-
-    if(e.target.id === 'curp') {if(!e.target.value) alert("Falta la C. U. R. P.")}
-
-    if(e.target.id === 'birthCertificate') {if(!e.target.value) alert("Falta el archivo en formato PDF")}
-
-    if(e.target.id === 'curpPdf') {if(!e.target.value) alert("Falta el archivo de la  C. U. R. P. en formato PDF")}
-
-    if(e.target.id === 'actualAddress') {if(!e.target.value) alert("Falta la dirección donde vives actualmente")}
-
-    if(e.target.id === 'lastSchool') {if(!e.target.value) alert("Falta ingresar de que escuela provienes")}
-
-    if(e.target.id === 'schoolstate') {if(!e.target.value) alert("Falta ingresar el estado de la escuela que provienes")}
-
-    // if(e.target.id === 'schoolMunicipal') {if(!e.target.value) alert("Falta ingresar el municipio de la escuela que provienes")}
-
-    if(e.target.id === 'genders') {if(!e.target.value) alert("Falta seleccionar tu género")}
-
-    if(e.target.name === 'work') {if(!e.target.value) alert("¿Trabajas actualmente?")}
-
-    if(e.target.id === 'birthState') {if(!e.target.value) alert("Falta seleccionar el estado de nacimiento")}
-    
-    // if(e.target.id === 'birthMunicipal') {if(!e.target.value) alert("Falta seleccionar el estado de nacimiento")}
-
-    if(e.target.name === 'dilect') {if(!e.target.value) alert("¿Hablas algún dialecto?")}
-
-    if(e.target.value === 'disabilities') {if(!e.target.value) alert('¿Tienes alguna discapacidad?')}
   }
 
   const current = new Date();
@@ -249,7 +234,6 @@ export function Form() {
             placeholder="Correo Electrónico"
             value={input.mail}
             onChange={handleChange}
-            // //onBlur={handleBlur}
           />
         </div>
 
@@ -264,7 +248,6 @@ export function Form() {
             name="names"
             placeholder="Solo nombre(s)"
             onChange={handleChange}
-            // //onBlur={handleBlur}
           />
         </div>
 
@@ -279,7 +262,6 @@ export function Form() {
             name="firstName"
             placeholder="Primer Apellido"
             onChange={handleChange}
-            // //onBlur={handleBlur}
           />
         </div>
 
@@ -407,7 +389,7 @@ export function Form() {
           <label htmlFor="stateOfSchool" className="col col-form-label">
             Estado de procedencia de la escuela<span className="mandatory">*</span>
           </label>
-          <OptionReact type="schoolstate" />
+          <OptionReact type="schoolOfState" />
         </div>
 
         <div className="d-flex mb-1 flex-column">
