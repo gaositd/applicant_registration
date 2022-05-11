@@ -413,6 +413,8 @@ export function Form() {
             name="certificateLastSchool"
             type="file"
             accept="image/*, .pdf"
+            onChange={handleChange}
+            onBlur={handleBlur}
           />
         </div>
 
@@ -426,6 +428,8 @@ export function Form() {
             name="secondarySchoolPdf"
             type="file"
             accept="image/*, .pdf"
+            onChange={handleChange}
+            onBlur={handleBlur}
           />
         </div>
 
@@ -439,6 +443,8 @@ export function Form() {
             name="miniPicture"
             type="file"
             accept="image/*, .png, ,jpeg, .jpg"
+            onChange={handleChange}
+            onBlur={handleBlur}
           />
         </div>
 
@@ -468,7 +474,8 @@ export function Form() {
               id="actualWork"
               name="work"
               type="radio"
-              
+              onChange={handleChange}
+              onBlur={handleBlur}
             />
           </div>
             <div className="containerRadio" role="group">
@@ -478,8 +485,9 @@ export function Form() {
             <input
               id="IDontWork"
               name="work"
-              /*value='{username}'*/
               type="radio"
+              onChange={handleChange}
+              onBlur={handleBlur}
             />
           </div>
         </div>
@@ -496,6 +504,8 @@ export function Form() {
               id="private"
               name="typeSchool"
               type="radio"
+              onChange={handleChange}
+              onBlur={handleBlur}
             />
           </div>
           <div className="containerRadio" role="group">
@@ -505,8 +515,9 @@ export function Form() {
             <input
               id="public"
               name="typeSchool"
-              /*value='{username}'*/
               type="radio"
+              onChange={handleChange}
+              onBlur={handleBlur}
             />
           </div>
         </div>
@@ -523,6 +534,8 @@ export function Form() {
             max="13"
             placeholder="000-000-0000"
             pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+            onChange={handleChange}
+            onBlur={handleBlur}
           />
         </div>
 
@@ -538,6 +551,8 @@ export function Form() {
             max="13"
             placeholder="000-000-0000"
             pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+            onChange={handleChange}
+            onBlur={handleBlur}
           />
         </div>
 
@@ -552,7 +567,8 @@ export function Form() {
           <label htmlFor="town" className="col col-form-label">
             Municipio<span className="mandatory">*</span>
           </label>
-          {/* <input type="text" name="town" id="town" placeholder="Municipio" /> */}
+          {/* <input type="text" name="town" id="town" placeholder="Municipio" onChange={handleChange}
+            onBlur={handleBlur}/> */}
           <OptionReact type="birthMunicipal" stateId="10" />
         </div>
 
@@ -568,6 +584,8 @@ export function Form() {
               id="speak"
               name="dialect"
               type="radio"
+              onChange={handleChange}
+              onBlur={handleBlur}
             />
           </div>
           <div className="containerRadio" role="group">
@@ -578,6 +596,8 @@ export function Form() {
               id="IDontSpeak"
               name="dialect"
               type="radio"
+              onChange={handleChange}
+              onBlur={handleBlur}
             />
           </div>
         </div>
@@ -591,7 +611,6 @@ export function Form() {
 
         <div className="d-flex justify-content-center mt-2">
           <input
-            // type="submit"
             type="submit"
             value="Enviar Información"
             className="btn btn-secondary"//dark
