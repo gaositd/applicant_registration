@@ -6,7 +6,7 @@ export const MEXICAN_STATE = "mexican_states";
 export const MARITAL_STATUS ="marital_statuses";
 export const MUNICIPAL = "municipalities";
 export const BIRTHSTATE = "birthState";
-export const SCHOOLSTATE = "schoolstate";
+export const SCHOOLSTATE = "schoolOfState";
 export const SCHOOLMUNICIPAL = "schoolMunicipal";
 export const BIRTHMINICIPAL = "birthMunicipal"
 

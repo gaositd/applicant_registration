@@ -1,6 +1,8 @@
+// @ts-nocheck
 import React, { Fragment } from "react";
 import "./Form.css";
 import { OptionReact } from './SelectOption'
+// import {  useSelector,  } from "react-redux";
 
 let errors = {
   mail:true,
@@ -23,7 +25,8 @@ let errors = {
 export function validate(input){
 
   //validate e mail
-  const reEmail = RegExp(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/);
+  // const reEmail = RegExp(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/);
+  const reEmail = RegExp(/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(.\w{2,3})+$/);
   if(!input.mail){ errors.mail = true; }
   else if(!reEmail.test(input.mail) ){ errors.mail = false; }
   else{ errors.mail = true; }
@@ -154,6 +157,8 @@ export function Form() {
     cellphone:"",
   });
 
+  // const municipalities = useSelector(state => state.allMunicipalities);
+
   const handleSubmit = (event)=>{
     if(errors || !errors.hasOwnProperty("dishName") || !errors.hasOwnProperty("summary")){
       alert('No submited, check mandatory fields (*)');
@@ -161,12 +166,13 @@ export function Form() {
       return;
     }
     
-    const sendRecipe={
+    // const sendFormData={
 
-    };
+    // };
   };
 
   function handleChange(event){
+    debugger;
     setInput({
       ...input,
       [event.target.name]: event.target.value,
@@ -175,10 +181,11 @@ export function Form() {
       ...input,
       [event.target.name]: event.target.value,
     }));
+    console.log(event.target.value+" "+event.target.id);
   }
 
   function handleBlur(e){
-
+    debugger;
     if(e.target.id === 'birthCertificate' || e.target.id === 'curpPdf' || e.target.id === 'certificateLastSchool' || e.target.id === 'secondarySchoolPdf'){
       if(e.target.value.subString(-3).toLowerCase() !== "pdf") alert("El formato debe ser PDF")
     }
@@ -195,6 +202,8 @@ export function Form() {
         alert("El formato debe ser PNG o JPG");
       }  
     }
+
+    console.log(e.target.value+" "+e.target.id);
 
   }
 
@@ -389,7 +398,11 @@ export function Form() {
           <label htmlFor="stateOfSchool" className="col col-form-label">
             Estado de procedencia de la escuela<span className="mandatory">*</span>
           </label>
-          <OptionReact type="schoolOfState" />
+          <OptionReact
+            type="schoolOfState"
+            onChange={handleChange}
+            onBlur={handleBlur}
+          />
         </div>
 
         <div className="d-flex mb-1 flex-column">
@@ -397,7 +410,12 @@ export function Form() {
             Municipio de la escuela<span className="mandatory">*</span>
           </label>
           {/* <input type="text" name="townOfSchool" id="townOfSchool" placeholder="Municipio" /> */}
-          <OptionReact type="schoolMunicipal" stateId="10" />
+          <OptionReact
+            type="schoolMunicipal"
+            stateId="10"
+            onChange={handleChange}
+            onBlur={handleBlur}
+          />
         </div>
 
         <div className="d-flex mb-1 flex-column">
@@ -452,14 +470,22 @@ export function Form() {
           <label htmlFor="marital_statuses" className="col col-form-label">
             Estado civil
           </label>
-          <OptionReact type="marital_statuses"/>
+          <OptionReact
+            type="marital_statuses"
+            onChange={handleChange}
+            onBlur={handleBlur}
+          />
         </div>
 
         <div className="d-flex mb-1 flex-column">
           <label htmlFor="gender" className="col col-form-label">
             Sexo<span className="mandatory">*</span>
           </label>
-          <OptionReact type="genders"/>
+          <OptionReact
+            type="genders"
+            onChange={handleChange}
+            onBlur={handleBlur}
+          />
         </div>
 
         <div className="d-flex mb-1 flex-column">
@@ -530,7 +556,7 @@ export function Form() {
             type="tel"
             name="telephone"
             id="telephone"
-            size="20"
+            size={20}
             max="13"
             placeholder="000-000-0000"
             pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
@@ -547,7 +573,7 @@ export function Form() {
             type="tel"
             name="cellphone"
             id="cellphone"
-            size="20"
+            size={20}
             max="13"
             placeholder="000-000-0000"
             pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
@@ -560,7 +586,11 @@ export function Form() {
           <label htmlFor="states" className="col col-form-label">
             Estado de procedencia<span className="mandatory">*</span>
           </label>
-          <OptionReact type="birthState" />
+          <OptionReact
+          type="birthState"
+          onChange = {handleChange}
+          onBlur={handleBlur}
+        />
         </div>
 
         <div className="d-flex mb-1 flex-column">
@@ -569,7 +599,12 @@ export function Form() {
           </label>
           {/* <input type="text" name="town" id="town" placeholder="Municipio" onChange={handleChange}
             onBlur={handleBlur}/> */}
-          <OptionReact type="birthMunicipal" stateId="10" />
+          <OptionReact
+            type="birthMunicipal"
+            stateId="10"
+            onChange={handleChange}
+            onBlur={handleBlur}
+          />
         </div>
 
         <div className="d-flex mb-1 flex-column">
@@ -606,7 +641,11 @@ export function Form() {
           <label htmlFor="disability" className="col col-form-label">
             Discapacidad:<span className="mandatory">*</span>
           </label>
-          <OptionReact type="disabilities"/>
+          <OptionReact
+            type="disabilities"
+            onChange={handleChange}
+            onBlur={handleBlur}
+          />
         </div>
 
         <div className="d-flex justify-content-center mt-2">

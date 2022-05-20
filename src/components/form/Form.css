@@ -52,8 +52,8 @@
   position: absolute;
   top: 0;
   left: 0;
-  height: 25px;
-  width: 25px;
+  height: 25vw;
+  width: 25vw;
   background-color: #eee;
   border: 1px solid #ccc;
   border-radius: 50%;
@@ -79,10 +79,10 @@
 }
 /* radio style */
 .radioButtons .check:after {
-  top: 9px;
-  left: 9px;
-  width: 8px;
-  height: 8px;
+  top: 9vw;
+  left: 9vw;
+  width: 8vw;
+  height: 8vw;
   border-radius: 50%;
   background: white;
 }
