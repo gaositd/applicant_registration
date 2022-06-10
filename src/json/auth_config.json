@@ -1,0 +1,10 @@
+{
+  "web":{
+    "client_id":"298448156365-jqm72l097948uqc5qif6i3vm6cb27dcp.apps.googleusercontent.com",
+    "project_id":"matematicas-applicant",
+    "auth_uri":"https://accounts.google.com/o/oauth2/auth",
+    "token_uri":"https://oauth2.googleapis.com/token",
+    "auth_provider_x509_cert_url":"https://www.googleapis.com/oauth2/v1/certs",
+    "client_secret":"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"
+  }
+}

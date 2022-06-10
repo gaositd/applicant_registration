@@ -20,7 +20,6 @@ function handleChange(id) {
           return municipalitie;
     }
   });
-  debugger;
   return municipal;
 }
 export function OptionReact(typeSelect){
@@ -68,7 +67,6 @@ export function OptionReact(typeSelect){
       id={typeSelect.type}
       name={typeSelect.type}
       className="form-select"
-      // onChange={handleIdState}
       onChange={e => handleChange(e.target.value)}
     >
       <option

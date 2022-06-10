@@ -7,12 +7,22 @@ import reportWebVitals from './reportWebVitals';
 import { Provider } from "react-redux";
 import { BrowserRouter as BR, } from 'react-router-dom';
 import store from '../src/store.js';
+import { Auth0Provider } from '@auth0/auth0-react';
+
+
+const { REACT_APP_DOMAIN, REACT_APP_CLIENTID } = process.env;
 
 ReactDOM.render(
   <Provider store={store}>
     <React.StrictMode>
       <BR>
-        <App />
+        <Auth0Provider
+          domain="dev-xkf26a2c.us.auth0.com"
+          clientId="aWRUKeQhPDu4D9pBkPtYeHkJlBt86LbY"
+          redirectUri={'/profile'}
+        >
+          <App />
+        </Auth0Provider>
       </BR>
     </React.StrictMode>
   </Provider>,

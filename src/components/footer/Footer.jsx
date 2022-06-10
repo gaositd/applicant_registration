@@ -1,13 +1,17 @@
 import React, { Fragment } from "react";
 import privacy from '../images/privacy-policy-information-computer-icons-freepng.es.png'
 import './Footer.css';
+import { Login } from '../admin/login/login';
+import { LogOut } from "../admin/login/logout";
+import { Link } from "react-router-dom";
 
 export function Footer(){
   return(
     <Fragment>
       <footer id="footer" className="footerBackground">
-        <div className="d-flex justify-content-center">
+        <div className="d-flex justify-content-around">
           <h6>Al enviar el formulario aceptas el siguiente Acuerdo de Privacidad <a href="https://face.ujed.mx/?page_id=4931" target="_blank" rel="noopener noreferrer"><img src={privacy} className="privacy" alt="ACuerdo de confidencialidad"/></a></h6>
+          <Link to="/login"><span className="text-uppercase font-weight">Administración</span></Link>
         </div>
 
         <div className="footer-top">

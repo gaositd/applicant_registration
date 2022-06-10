@@ -22,7 +22,7 @@ let errors = {
   disability:true,
 };
 
-export function validate(input){
+export function validate(input, e){
 
   //validate e mail
   // const reEmail = RegExp(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/);
@@ -45,85 +45,107 @@ export function validate(input){
   if(!input.lastName){ errors.lastName = true; }
   if(!input.lastName){ errors.lastName = false; }
   else if(!input.lastName.length <= 3){ errors.lastName = false; }
+  { errors.lastName = true; }
 
   //validate date of birth
-  const reDate = /^(0[1-9]|1[0-2])\/(0[1-9]|1\d|2\d|3[01])\/(0[1-9]|1[1-9]|2[1-9])$/;
+  const reDate = /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/;
   if(!input.dateOfBirth){ errors.dateOfBirth = true; }
   if(!reDate.test(input.dateOfBirth)){ errors.dateOfBirth = false;}
+  else{ errors.dateOfBirth = true; }
 
-  //validate certifacete
+  //validate certifacate
   let certificatePFD = input.birthCertificate.toLowerCase();
   if(!certificatePFD){ errors.birthCertificate = false}
   if(certificatePFD){
-    if(certificatePFD.subString(-3) !== "pdf"){ errors.birthCertificate = false; }
+    if(certificatePFD.substr(-3) !== "pdf"){ errors.birthCertificate = false; }
+    else{ errors.birthCertificate = true; }
   }
 
   //validate curp //https://codepen.io/EduTel/pen/zWybLy
   const reCurp = RegExp(/^[A-Z][A,E,I,O,U,X][A-Z]{2}[0-9]{2}[0-1][0-9][0-3][0-9][M,H][A-Z]{2}[B,C,D,F,G,H,J,K,L,M,N,Ñ,P,Q,R,S,T,V,W,X,Y,Z]{3}[0-9,A-Z][0-9]$/);
   const upperCurp = input.curp.toUpperCase();
   if(!reCurp.test(upperCurp)){ errors.curp = false; }
+  else{ errors.curp = true; }
 
   //validate curp certifacete
   const curpPDF = input.curpPdf.toLowerCase();
   if(!curpPDF){ errors.curpPdf = false; }
-  if(curpPDF.subString(-3) !== "pdf"){ errors.curpPdf = false; }
+  if(curpPDF.substr(-3) !== "pdf"){ errors.curpPdf = false; }
+  else{ errors.curpPdf = true; }
 
   //validate actual address
   if(!input.actualAddress || input.actualAddress.length <= 1){ errors.actualAddress = false; }
+  else{ errors.actualAddress = true; }
 
   // //validate state of school
   if(!input.stateOfSchool || input.stateOfSchool.value === "noOne"){ errors.stateOfSchool = false; }
+  else { errors.stateOfSchool = true; }
 
-  // //validate town of school
-  // if(!input.townOfSchool || input.townOfSchool.value === "noOne"){ errors.townOfSchool("Seleccionar el estado de la escuela")}
+  //validate town of school
+  // if(!input.townOfSchool || input.townOfSchool.value === "noOne"){ errors.townOfSchool = true;}
 
   // //cretificate format qualifications and secondary certificate
   // if(input.certificateLastSchool){
   //   const certificateLastSchool = certificateLastSchool.toLowerCase();
-  //   const certificateLastSchoolPDF = certificateLastSchool.subString(-3);
+  //   const certificateLastSchoolPDF = certificateLastSchool.substr(-3);
   //   if(certificateLastSchoolPDF !== 'pdf'){ errors.certificateLastSchool("Formato incorrecto, deber ser PDF")}
   // }
 
   // if(input.secondarySchoolPdf){
   //   const secondarySchoolPdf = secondarySchoolPdf.toLowerCase();
-  //   const secondarySchoolPdfPDF = secondarySchoolPdf.subString(-3);
+  //   const secondarySchoolPdfPDF = secondarySchoolPdf.substr(-3);
   //   if(secondarySchoolPdfPDF !== 'pdf'){ errors.secondarySchoolPdf("Formato incorrecto, deber ser PDF")}
   // }
 
   // //validate minipicture
   // if(input.miniPicture){
   //   const miniPicture = miniPicture.toLowerCase();
-  //   const miniPictureImg = miniPicture.subString(-3);
+  //   const miniPictureImg = miniPicture.substr(-3);
   //   if(miniPictureImg !== 'png' || miniPictureImg !== 'jpg'){ errors.miniPicture("Formato incorrecto, deber ser PNG o JPG")}
   // }
 
   // //validate gender
   if(!input.gender){ errors.gender = false; }
+  else { errors.gender = true; }
 
   // //validate actualWork
-  if(!input.actualWork){ errors.actualWork = false; }
+  if(e.target.id === "actualWork" ||
+     e.target.id === 'IDontWork'){
+    errors.actualWork = true;
+  }
 
   // //validate type school
-  if(!input.typeSchool){ errors.typeSchool = false; }
+  if(e.target.id === "private" ||
+     e.target.id === 'public'){
+    errors.typeSchool = true;
+  }
 
   // //validate phone
   if(input.telephone || input.cellphone){
     const phoneRegex = RegExp(/[0-9]{3}-[0-9]{3}-[0-9]{4}$/);
     if(!phoneRegex.test(input.telephone)) errors.telephone = false;
+    else errors.telephone = true;
+    
     if(!phoneRegex.test(input.cellphone)) errors.cellphone = false;
+    else errors.cellphone = true;
   }
 
   // //validate mexican states
   if(!input.states){ errors.states = false; }
+  else errors.states = true;
 
   // //validate town mexican states
   // if(!input.town) errors.town("No has seleccionado el municipo donde naciste")
 
   // //validate dialec
-  if(!input.dialect){ errors.dialect = false; }
+  if(e.target.id === "speak" ||
+     e.target.id === 'IDontWork'){
+    errors.dialect = true;
+  }
 
   // //validate disability
   if(!input.disability){ errors.disability = false; }
+  else errors.disability = true;
 
   return errors
 
@@ -160,15 +182,15 @@ export function Form() {
   // const municipalities = useSelector(state => state.allMunicipalities);
 
   const handleSubmit = (event)=>{
-    if(errors || !errors.hasOwnProperty("dishName") || !errors.hasOwnProperty("summary")){
+    if(errors){
       alert('No submited, check mandatory fields (*)');
       event.preventDefault();
       return;
     }
-    
-    // const sendFormData={
-
-    // };
+    debugger;
+    const sendFormData={
+      mail:"123123",
+    };
   };
 
   function handleChange(event){
@@ -180,27 +202,36 @@ export function Form() {
     setErrors(validate({
       ...input,
       [event.target.name]: event.target.value,
-    }));
+    }, event));
     console.log(event.target.value+" "+event.target.id);
   }
 
   function handleBlur(e){
-    debugger;
+
     if(e.target.id === 'birthCertificate' || e.target.id === 'curpPdf' || e.target.id === 'certificateLastSchool' || e.target.id === 'secondarySchoolPdf'){
-      if(e.target.value.subString(-3).toLowerCase() !== "pdf") alert("El formato debe ser PDF")
+      if(e.target.value !== "")
+        if(e.target.value.substr(-3).toLowerCase() !== "pdf") alert("El formato debe ser PDF "+e.target.value)
     }
 
     if(e.target.id === 'averageLastSchool'){
-      if(!isNaN(e.target.value)){
-        alert("Porporcionar un número en el promedio");
+      const average = parseFloat(e.target.value);
+      if(isNaN(average)){
+        if(Number.isInteger(average))
+        alert("Porporcionar un número entero en el promedio");
+        return;
+      }
+      if(!Number.isInteger(average)){
+        alert("Porporcionar un número entero en el promedio");
         return;
       }
     }
 
-    if(e.target.id === 'miniPicture'){ 
-      if(e.target.value.subString(-3).toLowerCase() !== "png" || e.target.value.subString(-3).toLowerCase() !== "jpg"){
-        alert("El formato debe ser PNG o JPG");
-      }  
+    if(e.target.id === 'miniPicture'){
+      if(e.target.value !== ""){
+        if(e.target.value.substr(-3).toLowerCase() !== "png" &&
+           e.target.value.substr(-3).toLowerCase() !== "jpg")
+          alert("El formato debe ser PNG o JPG");
+      }
     }
 
     console.log(e.target.value+" "+e.target.id);
@@ -236,7 +267,7 @@ export function Form() {
             Correo Electrónico <span className="mandatory">*</span>
           </label>
           <input
-            className={ errors.mail ? "form-control" : "form-control error" }
+            className="form-control"
             type="email"
             id="mail"
             name="mail"
@@ -252,7 +283,7 @@ export function Form() {
           </label>
           <input
             type="text"
-            className={ errors.names ? "form-control" : "form-control error" }
+            className="form-control"
             id="names"
             name="names"
             placeholder="Solo nombre(s)"
@@ -266,7 +297,7 @@ export function Form() {
           </label>
           <input
             type="text"
-            className={errors.firstName ? "form-control" : "form-control error"  }
+            className="form-control"
             id="firstName"
             name="firstName"
             placeholder="Primer Apellido"
@@ -279,7 +310,7 @@ export function Form() {
             Segundo Apellido<span className="mandatory">*</span>
           </label>
           <input
-            className={errors.lastName ? "form-control" : "form-control error" }
+            className="form-control"
             type="text"
             id="lastName"
             name="lastName"
@@ -294,7 +325,7 @@ export function Form() {
             Fecha de nacimiento<span className="mandatory">*</span>
           </label>
           <input
-            className={errors.dateOfBirth ? "form-control" : "form-control error" }
+            className="form-control"
             id="dateOfBirth"
             name="dateOfBirth"
             type="date"
@@ -308,7 +339,7 @@ export function Form() {
             Acta de nacimiento (Formato PDF)<span className="mandatory">*</span>
           </label>
           <input
-            className={errors.birthCertificate ? "form-control" : "form-control error" }
+            className="form-control"
             id="birthCertificate"
             name="birthCertificate"
             type="file"
@@ -323,7 +354,7 @@ export function Form() {
             C.U.R.P.<span className="mandatory">*</span>
           </label>
           <input
-            className={errors.curp ? "form-control" : "form-control error" }
+            className="form-control"
             type="text"
             id="curp"
             name="curp"
@@ -338,7 +369,7 @@ export function Form() {
             CURP en formato PDF<span className="mandatory">*</span>
           </label>
           <input
-            className={errors.curpPdf ? "form-control" : "form-control error"}
+            className="form-control"
             id="curpPdf"
             name="curpPdf"
             type="file"
@@ -353,7 +384,7 @@ export function Form() {
             Dirección actual<span className="mandatory">*</span>
           </label>
           <input
-            className={errors.actualAddress ? "form-control" : "form-control error" }
+            className="form-control"
             type="text"
             id="actualAddress"
             name="actualAddress"
@@ -368,7 +399,7 @@ export function Form() {
             Escuela de procedencia<span className="mandatory">*</span>
           </label>
           <input
-            className={errors.lastSchool ? "form-control" : "form-control error" }
+            className="form-control"
             type="text"
             id="lastSchool"
             name="lastSchool"
@@ -382,7 +413,8 @@ export function Form() {
             <span className="mandatory">*</span>
           </label>
           <input
-            className={errors.averageLastSchool ? "form-control": "form-control error"}
+            // className={errors.averageLastSchool ? "form-control": "form-control error"}
+            className="form-control"
             id="averageLastSchool"
             name="averageLastSchool"
             type="number"
