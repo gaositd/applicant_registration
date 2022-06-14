@@ -13,18 +13,24 @@ export const Login = () => {
   // );
 
   // return <button onClick={() => loginWithRedirect()}>Log In</button>;
+  const google = () =>{
+    window.open("http://localhost:3001/auth/google","_self");
+  }
   return (
     <div className="container m-2">
       <div className="row">
-        <aside className="col-sm-3">
-        </aside>
+        <aside className="col-sm-3"></aside>
         <aside className="col-sm-5">
           <p>Administración Registro de aplicantes</p>
 
           <div className="card">
             <article className="card-body">
               <p>
-                <button className="btn btn-block btn-outline-primary m-2"  onClick={() => loginWithRedirect()}>
+                <button
+                  className="btn btn-block btn-outline-primary m-2"
+                  //onClick={() => loginWithRedirect()}
+                  onClick={google}
+                >
                   <i className="fab fa-google"></i> Login via Google
                 </button>
                 <a href="" className="btn btn-block btn-outline-primary">
@@ -47,7 +53,7 @@ export const Login = () => {
                     placeholder="************************ "
                     type="password"
                   />
-                </div>                                      
+                </div>
                 <div className="row">
                   <div className="col-md-6">
                     <div className="form-group">
@@ -72,5 +78,4 @@ export const Login = () => {
       </div>
     </div>
   );
-
 };

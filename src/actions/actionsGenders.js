@@ -1,7 +1,7 @@
 import axios from "axios";
 
 import{ GENDERS, SERVER_DIR,
-         ERROR_SERVER, GET_GENDERS
+        ERROR_SERVER, GET_GENDERS
 } from "../constants/constants.js";
 
 export function getGenders(){

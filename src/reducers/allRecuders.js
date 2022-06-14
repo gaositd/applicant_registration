@@ -4,10 +4,12 @@ const initialState = {
   allStates:[],
   allGenders: [],
   allMunicipalities:[],
+  userInfo:[],
 };
 const{
-  GET_DISABILITY, GET_MARITALSTATUS,
-  GET_STATES, GET_GENDERS, GET_MUNICIPALITIES
+  GET_DISABILITY, GET_MARITALSTATUS, GET_STATES,
+  GET_GENDERS, GET_MUNICIPALITIES, GET_USER_INFO,
+
 } = require('../constants/constants.js');
 
 export default (state = initialState, action) => {
@@ -38,6 +40,11 @@ export default (state = initialState, action) => {
         ...state,
           allMunicipalities: action.payload,
         }
+    case GET_USER_INFO:
+      return{
+        ...state,
+        userInfo:action.payload,
+      }
     default:
       return state
   }

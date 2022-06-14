@@ -16,3 +16,6 @@ export const GET_MARITALSTATUS = 'GET_MARITALSTATUS';
 export const GET_STATES = 'GET_STATES';
 export const GET_GENDERS = 'GET_GENDERS';
 export const GET_MUNICIPALITIES = "GET_MUNICIPALITIES";
+
+//User Data
+export const GET_USER_INFO = "GET_USER_INFO";
