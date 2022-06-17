@@ -1,7 +1,8 @@
+import { type } from "@testing-library/user-event/dist/type";
 import axios from "axios";
 import {
-  MEXICAN_STATE, SERVER_DIR,
-  ERROR_SERVER, GET_STATES,
+  MEXICAN_STATE, SERVER_DIR, ERROR_SERVER,
+  GET_STATES, STATE_ID,
 } from '../constants/constants';
 
 export function getStates(){
@@ -15,13 +16,13 @@ export function getStates(){
           .catch((error)=>({type:GET_STATES, payload:`${ERROR_SERVER} ${error}`}));
   }
 }
-/*
-export function getDisabilities(){
+
+//return state id
+export function returnStateId(stateId){
   return function(dispatch){
-    const disability = axios.get(`${SERVER_DIR}${DISABILITY}`)
-                .then(res => 
-                  dispatch({type:GET_DISABILITY, payload:res.data}))
-                .catch((error)=>({type:GET_DISABILITY, payload:`${ERROR_SERVER} ${error}`}));
+    dispatch({
+      type: STATE_ID,
+      payload: stateId
+    })
   }
 }
-*/

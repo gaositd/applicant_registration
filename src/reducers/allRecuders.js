@@ -5,10 +5,12 @@ const initialState = {
   allGenders: [],
   allMunicipalities:[],
   userInfo:[],
+  stateId:0,
 };
 const{
   GET_DISABILITY, GET_MARITALSTATUS, GET_STATES,
   GET_GENDERS, GET_MUNICIPALITIES, GET_USER_INFO,
+  STATE_ID,
 
 } = require('../constants/constants.js');
 
@@ -45,6 +47,11 @@ export default (state = initialState, action) => {
         ...state,
         userInfo:action.payload,
       }
+    case STATE_ID:
+      return{
+        ...state,
+        stateId: state.payload,
+    }
     default:
       return state
   }

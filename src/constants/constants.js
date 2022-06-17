@@ -9,6 +9,7 @@ export const BIRTHSTATE = "birthState";
 export const SCHOOLSTATE = "schoolOfState";
 export const SCHOOLMUNICIPAL = "schoolMunicipal";
 export const BIRTHMINICIPAL = "birthMunicipal"
+export const STATE_ID = "state_id";
 
 //actions constants
 export const GET_DISABILITY = 'GET_DISABILITY';

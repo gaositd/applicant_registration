@@ -20,6 +20,11 @@ function handleChange(id) {
           return municipalitie;
     }
   });
+  // alert(`handleChange ${id}`);
+  return municipal;
+}
+
+function getMunicipal(id){
   return municipal;
 }
 export function OptionReact(typeSelect){
@@ -44,7 +49,7 @@ export function OptionReact(typeSelect){
   //   if(typeSelect.stateId) dispatch(getMunicipalities(idState));
   // },[dispatch]);
   municipalities = useSelector(state => state.allMunicipalities);
-  useEffect(()=>{dispatch(getMunicipalities(idState));
+  useEffect(()=>{getMunicipal();
   },[municipal]);
 
   if(typeSelect.type === MARITAL_STATUS){
