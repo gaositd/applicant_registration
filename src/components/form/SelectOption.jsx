@@ -16,11 +16,12 @@ let municipalities;
 function handleChange(id) {
   idState = id;
   municipal = municipalities.filter(municipalitie => {
+    // municipal = state.allMunicipalities.filter(municipalitie => {
     if(municipalitie.id_states === parseInt(idState)){
           return municipalitie;
     }
   });
-  // alert(`handleChange ${id}`);
+  alert(`handleChange ${id}`);
   return municipal;
 }
 
@@ -44,11 +45,11 @@ export function OptionReact(typeSelect){
   const disabilities = useSelector(state => state.allDisabilities);
   useEffect(()=> dispatch(getDisabilities()),[dispatch]);
   
-  // const municipalities = useSelector(state => state.allMunicipalities);
-  // useEffect(()=>{
-  //   if(typeSelect.stateId) dispatch(getMunicipalities(idState));
-  // },[dispatch]);
   municipalities = useSelector(state => state.allMunicipalities);
+  useEffect(()=>{
+    if(typeSelect.stateId) dispatch(getMunicipalities(idState));
+  },[dispatch]);
+  // municipalities = useSelector(state => state.allMunicipalities);
   useEffect(()=>{getMunicipal();
   },[municipal]);
 

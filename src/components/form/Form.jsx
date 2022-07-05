@@ -444,7 +444,7 @@ export function Form() {
           {/* <input type="text" name="townOfSchool" id="townOfSchool" placeholder="Municipio" /> */}
           <OptionReact
             type="schoolMunicipal"
-            stateId="10"
+            // stateId="10"
             onChange={handleChange}
             onBlur={handleBlur}
           />

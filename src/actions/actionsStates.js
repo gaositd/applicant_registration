@@ -17,7 +17,6 @@ export function getStates(){
   }
 }
 
-//return state id
 export function returnStateId(stateId){
   return function(dispatch){
     dispatch({
