@@ -1,1 +1,0 @@
-# applicant_registration
