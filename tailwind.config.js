@@ -7,7 +7,14 @@ module.exports = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        Georgia: "Georgia",
+      },
+
       colors: {
+        pallete: {
+          primary: "#A32A35",
+        },
         buttons: {
           primary: {
             DEFAULT: "#A32A35",
