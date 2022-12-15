@@ -1,11 +1,41 @@
 import React from "react";
 
-interface props {}
+interface props {
+  text: string;
+  size?: sizeType;
+  type?: buttontype;
+  loading?: boolean;
+}
 
-const CustomButton: React.FC<props> = (props) => {
+type sizeType = "md" | "lg" | "xl" | "wrap";
+
+const sizes = {
+  md: "w-24",
+  lg: "w-32",
+  xl: "w-64",
+  wrap: "",
+};
+
+type buttontype = "primary" | "success" | "warning" | "danger";
+
+const buttonType = {
+  primary: "bg-buttons-primary",
+  success: "bg-buttons-success",
+  warning: "bg-buttons-warning",
+  danger: "bg-buttons-danger",
+};
+
+const CustomButton: React.FC<props> = ({
+  text,
+  size = "wrap",
+  type = "primary",
+  loading = false,
+}) => {
   return (
-    <button className="bg-buttons-primary rounded-tl-xl rounded-br-xl p-2 text-md text-white">
-      Test button
+    <button
+      className={`${buttonType[type]} rounded-tl-xl rounded-br-xl p-2 text-md text-white drop-shadow-xl font-semibold hover:${buttonType[type]}-hover ${sizes[size]}`}
+    >
+      {text}
     </button>
   );
 };
