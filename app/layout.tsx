@@ -8,7 +8,7 @@ export default function RootLayout({
   return (
     <html>
       <head />
-      <body className="bg-inherit">{children}</body>
+      <body>{children}</body>
     </html>
   );
 }
