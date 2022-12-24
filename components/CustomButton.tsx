@@ -34,9 +34,7 @@ const CustomButton: React.FC<props> = ({
 }) => {
   return (
     <button
-      className={`${
-        buttonType[colorType]
-      } rounded-tl-xl rounded-br-xl p-2 text-md ${
+      className={`${buttonType[colorType]} rounded-lg p-2 text-md ${
         isLoading ? "text-white/60" : "text-white"
       } drop-shadow-xl font-semibold hover:${buttonType[colorType]}-hover ${
         sizes[size]

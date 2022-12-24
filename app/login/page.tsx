@@ -1,20 +1,35 @@
+"use client";
+import { useRouter } from "next/navigation";
 import React from "react";
+import CustomButton from "../../components/CustomButton";
+import CustomInput from "../../components/CustomInput";
 
 interface props {}
 
-const page: React.FC<props> = (props) => {
+const page: React.FC<props> = () => {
+  const router = useRouter();
   return (
-    <div className="flex flex-col h-screen">
-      <nav className="bg-pallete-primary w-full h-1/6 dark:bg-pallete-primary flex items-center p-3">
-        <img src="/logo.png"></img>
-      </nav>
-      <main className="w-full h-5/6 flex justify-center items-center">
-        <div className="bg-pallete-primary/30 w-3/4 h-3/4 border-rounded p-5 outline-pallete-primary">
-          <div></div>
-          <div></div>
+    <main className="flex w-screen h-screen items-center justify-center">
+      <div className="bg-pallete-primary h-full w-1/2 fixed z-0 -translate-x-1/2"></div>
+      <div className="h-3/4 w-3/4  shadow-2xl z-10 flex ">
+        <div className="flex items-center justify-center w-1/2">
+          <img src="/logo.png" alt="logo" />
         </div>
-      </main>
-    </div>
+        <div className="flex w-1/2 justify-center items-center flex-col">
+          <div className="mb-6">
+            <CustomInput label="Matricula" />
+          </div>
+          <div className="mb-6">
+            <CustomInput label="Contraseña" type="password" />
+          </div>
+          <CustomButton
+            text="Iniciar sesión"
+            size="lg"
+            onClick={() => router.push("/dashboard")}
+          />
+        </div>
+      </div>
+    </main>
   );
 };
 
