@@ -1,5 +1,5 @@
 import React from "react";
-import Carousel from "../../Carousel";
+import Dropzone from "../../Dropzone";
 import Column from "../../GridSystem/Column";
 import Container from "../../GridSystem/Container";
 
@@ -14,8 +14,12 @@ const UserPage: React.FC<props> = () => {
           <div className="h-4 bg-blue-600 rounded-full dark:bg-blue-500 w-[45%]"></div>
         </div>
       </Container>
-      <Container>
-        <Carousel />
+      <Container className="flex justify-around">
+        <section>
+          <h3 className="font-bold text-xl">Documento 1</h3>
+          <h4 className="font-serif font-light">Status: Sin enviar</h4>
+        </section>
+        <Dropzone />
       </Container>
     </Column>
   );

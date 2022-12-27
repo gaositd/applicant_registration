@@ -8,13 +8,13 @@ interface props {
 
 const Container: React.FC<props> = ({ children, className, center }) => {
   return (
-    <div
+    <section
       className={`${
         center ? "mx-auto" : ""
-      } ${className} rounded-md shadow-lg outline-gray-400 p-4`}
+      } ${className} rounded-lg shadow-lg p-4 outline outline-1 outline-gray-400/30`}
     >
       {children}
-    </div>
+    </section>
   );
 };
 

@@ -7,7 +7,7 @@ interface props {
 const Column: React.FC<props> = ({ children }) => {
   return (
     <div
-      className={`grid h-full lg:grid-rows-12 md:grid-rows-4 sm:grid-rows-1 gap-2`}
+      className={`grid h-full lg:grid-rows-12 md:grid-rows-4 sm:grid-rows-1 gap-10`}
     >
       {children}
     </div>

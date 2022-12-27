@@ -7,9 +7,10 @@ interface props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   isLoading?: boolean;
 }
 
-type sizeType = "md" | "lg" | "xl" | "wrap";
+type sizeType = keyof typeof buttonSizes;
 
-const sizes = {
+const buttonSizes = {
+  sm: "w-12",
   md: "w-24",
   lg: "w-32",
   xl: "w-64",
@@ -37,7 +38,7 @@ const CustomButton: React.FC<props> = ({
       className={`${buttonType[colorType]} rounded-lg p-2 text-md ${
         isLoading ? "text-white/60" : "text-white"
       } drop-shadow-xl font-semibold hover:${buttonType[colorType]}-hover ${
-        sizes[size]
+        buttonSizes[size]
       } ${isLoading ? "flex" : ""}`}
       {...buttonProps}
     >
