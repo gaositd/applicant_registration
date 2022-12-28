@@ -2,8 +2,7 @@
 
 import { useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
-import CustomButton from "./CustomButton";
-
+import { BsCheck2, BsTrash } from "react-icons/bs";
 interface props {}
 
 const Dropzone: React.FC<props> = () => {
@@ -12,6 +11,14 @@ const Dropzone: React.FC<props> = () => {
   const onDropAccepted = useCallback((acceptedFile: File[]) => {
     setFile(acceptedFile[0]);
   }, []);
+
+  const uploadFile = () => {
+    console.log("Animo, algun dia subira!");
+  };
+
+  const deleteFile = () => {
+    setFile(null);
+  };
 
   const { getRootProps, getInputProps, isDragActive, acceptedFiles } =
     useDropzone({
@@ -28,9 +35,23 @@ const Dropzone: React.FC<props> = () => {
             className="w-full h-full object-cover"
           ></img>
         </div>
-        <div className="flex flex-col h-full w-24 gap-5 absolute z-10">
-          <CustomButton text="Enviar" size="sm" />
-          <CustomButton text="Cancelar" colorType="danger" />
+        <div className="flex flex-col h-full w-24 gap-5 z-10">
+          <button
+            type="button"
+            className="text-white font-bold bg-buttons-success/50 w-8 h-8 flex justify-center items-center ml-3 p-1.5 rounded-lg"
+            onClick={uploadFile}
+          >
+            <BsCheck2 className="h-full w-full" />
+            <span className="sr-only">Subir archivo</span>
+          </button>
+          <button
+            type="button"
+            className="text-white font-bold bg-buttons-danger/50 w-8 h-8 flex justify-center items-center ml-3 p-1.5 rounded-lg"
+            onClick={deleteFile}
+          >
+            <BsTrash className="h-full w-full" />
+            <span className="sr-only">Cancelar archivo</span>
+          </button>
         </div>
       </section>
     );
@@ -44,7 +65,7 @@ const Dropzone: React.FC<props> = () => {
       <input {...getInputProps()} className="border" />
       {isDragActive ? (
         <p>Suelta tu archivo aqui</p>
-      ) : acceptedFiles.length <= 0 ? (
+      ) : !file ? (
         <p>Arrastra tu archivo aqui</p>
       ) : null}
     </div>
