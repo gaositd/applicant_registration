@@ -1,9 +1,27 @@
 import React from "react";
-import Dropzone from "../../Dropzone";
+import DocumentContainer from "../../DocumentContainer";
 import Column from "../../GridSystem/Column";
 import Container from "../../GridSystem/Container";
 
 interface props {}
+
+const documentsArray = [
+  {
+    nombre: "Acta de nacimiento",
+    status: "PENDIENTE",
+    observaciones: null,
+  },
+  {
+    nombre: "CURP",
+    status: "REACHAZADO",
+    observaciones: ["El docuento es illegible", "Documento invalido"],
+  },
+  {
+    nombre: "Certificado de Bachillerato",
+    status: "ACEPTADO",
+    observaciones: null,
+  },
+];
 
 const UserPage: React.FC<props> = () => {
   return (
@@ -14,13 +32,14 @@ const UserPage: React.FC<props> = () => {
           <div className="h-4 bg-blue-600 rounded-full dark:bg-blue-500 w-[45%]"></div>
         </div>
       </Container>
-      <Container className="flex justify-around">
-        <section>
-          <h3 className="font-bold text-xl">Documento 1</h3>
-          <h4 className="font-serif font-light">Status: Sin enviar</h4>
-        </section>
-        <Dropzone />
-      </Container>
+      {documentsArray.map((document) => (
+        <DocumentContainer
+          key={document.nombre}
+          nombredDocumento={document.nombre}
+          status={document.status}
+          observaciones={document.observaciones}
+        />
+      ))}
     </Column>
   );
 };

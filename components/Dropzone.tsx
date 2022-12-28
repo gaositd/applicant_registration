@@ -3,9 +3,11 @@
 import { useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { BsCheck2, BsTrash } from "react-icons/bs";
-interface props {}
+interface props {
+  status: string;
+}
 
-const Dropzone: React.FC<props> = () => {
+const Dropzone: React.FC<props> = ({ status }) => {
   const [file, setFile] = useState<File | null>(null);
 
   const onDropAccepted = useCallback((acceptedFile: File[]) => {
@@ -20,11 +22,10 @@ const Dropzone: React.FC<props> = () => {
     setFile(null);
   };
 
-  const { getRootProps, getInputProps, isDragActive, acceptedFiles } =
-    useDropzone({
-      onDropAccepted,
-      maxFiles: 1,
-    });
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    onDropAccepted,
+    maxFiles: 1,
+  });
 
   if (file)
     return (
@@ -56,7 +57,7 @@ const Dropzone: React.FC<props> = () => {
       </section>
     );
 
-  return (
+  return status !== "ACEPTADO" ? (
     <div
       {...getRootProps()}
       className="border-dashed border-2 w-1/2 h-32 rounded flex justify-center items-center"
@@ -69,7 +70,7 @@ const Dropzone: React.FC<props> = () => {
         <p>Arrastra tu archivo aqui</p>
       ) : null}
     </div>
-  );
+  ) : null;
 };
 
 export default Dropzone;
