@@ -36,3 +36,8 @@ yarn-error.log*
 next-env.d.ts
 
 .vscode/settings.json
+
+#Lock files
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
