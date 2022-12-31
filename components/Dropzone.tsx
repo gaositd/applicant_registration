@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useState } from "react";
-import { useDropzone } from "react-dropzone";
+import { FileRejection, useDropzone } from "react-dropzone";
 import { BsCheck2, BsTrash } from "react-icons/bs";
 interface props {
   status: string;
@@ -18,6 +18,10 @@ const Dropzone: React.FC<props> = ({ status }) => {
     console.log("Animo, algun dia subira!");
   };
 
+  const onDropRejected = (fileRejected: FileRejection[]) => {
+    alert("El archivo no tiene extensio aceptada" + fileRejected[0].file.name);
+  };
+
   const deleteFile = () => {
     setFile(null);
   };
@@ -25,16 +29,26 @@ const Dropzone: React.FC<props> = ({ status }) => {
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDropAccepted,
     maxFiles: 1,
+    accept: {
+      "image/*": [".jpeg", ".jpg", ".png"],
+      "application/pdf": [],
+    },
+    onDropRejected,
   });
 
   if (file)
     return (
-      <section className="flex">
-        <div className="h-40 w-48">
-          <img
-            src={URL.createObjectURL(file)}
-            className="w-full h-full object-cover"
-          ></img>
+      <section className="flex p-2 w-48">
+        <div className="h-40 w-48 p-2">
+          {file.type.includes("pdf") ? (
+            <img src="/pdf.png" className="w-full h-[80%] object-cover"></img>
+          ) : (
+            <img
+              src={URL.createObjectURL(file)}
+              className="w-full h-full object-cover"
+            ></img>
+          )}
+          <p className="h-10 text-sm font-light truncate">{file.name}</p>
         </div>
         <div className="flex flex-col h-full w-24 gap-5 z-10">
           <button
