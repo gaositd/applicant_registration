@@ -1,5 +1,6 @@
 "use client";
 
+import { useToast } from "@chakra-ui/react";
 import { useCallback, useState } from "react";
 import { FileRejection, useDropzone } from "react-dropzone";
 import { BsCheck2, BsTrash } from "react-icons/bs";
@@ -9,17 +10,27 @@ interface props {
 
 const Dropzone: React.FC<props> = ({ status }) => {
   const [file, setFile] = useState<File | null>(null);
+  const toast = useToast();
 
   const onDropAccepted = useCallback((acceptedFile: File[]) => {
     setFile(acceptedFile[0]);
   }, []);
 
   const uploadFile = () => {
-    console.log("Animo, algun dia subira!");
+    toast({
+      title: "Subiendo archivo...",
+      description: "El archivo se subirá pronto jaja",
+      status: "info",
+    });
   };
 
   const onDropRejected = (fileRejected: FileRejection[]) => {
-    alert("El archivo no tiene extensio aceptada" + fileRejected[0].file.name);
+    toast({
+      title: "Error",
+      description: `El archivo que se intenta subir no tiene la extensión soportada: (${fileRejected[0].file.type})`,
+      status: "error",
+    });
+    console.log("aaa");
   };
 
   const deleteFile = () => {
