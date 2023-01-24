@@ -9,7 +9,7 @@ interface props {
 }
 
 const Dropzone: React.FC<props> = ({ status }) => {
-  const [file, setFile] = useState<File | null>(null);
+  const [file, setFile] = useState<File>();
   const toast = useToast();
 
   const onDropAccepted = useCallback((acceptedFile: File[]) => {
@@ -17,11 +17,29 @@ const Dropzone: React.FC<props> = ({ status }) => {
   }, []);
 
   const uploadFile = () => {
-    toast({
-      title: "Subiendo archivo...",
-      description: "El archivo se subirá pronto jaja",
-      status: "info",
-    });
+    const formData = new FormData();
+    //@ts-ignore
+    formData.append("documento", file);
+
+    fetch(`http://localhost:4242/users/upload?fileType=${"CURP"}`, {
+      method: "POST",
+      body: formData,
+    })
+      .then((resp) => resp.json())
+      .then((data) =>
+        toast({
+          title: "Archivo subido",
+          description: data.message,
+          status: "success",
+        })
+      )
+      .catch((err) =>
+        toast({
+          title: "Error al subir el archivo",
+          description: err.message,
+          status: "error",
+        })
+      );
   };
 
   const onDropRejected = (fileRejected: FileRejection[]) => {
@@ -34,7 +52,7 @@ const Dropzone: React.FC<props> = ({ status }) => {
   };
 
   const deleteFile = () => {
-    setFile(null);
+    setFile(undefined);
   };
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
@@ -52,7 +70,7 @@ const Dropzone: React.FC<props> = ({ status }) => {
       <section className="flex p-2 w-48">
         <div className="h-40 w-48 p-2">
           {file.type.includes("pdf") ? (
-            <img src="/pdf.png" className="w-full h-[80%] object-cover"></img>
+            <img src="/pdf.png" className="w-full h-[80%] object-fill"></img>
           ) : (
             <img
               src={URL.createObjectURL(file)}
