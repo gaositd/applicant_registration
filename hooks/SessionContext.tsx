@@ -1,30 +1,26 @@
-import { createContext, ReactNode, useState } from "react";
+import {
+  createContext,
+  Dispatch,
+  ReactNode,
+  SetStateAction,
+  useState,
+} from "react";
 
 export type User = {
   nombre: string;
   matricula: string;
-  rol: string;
+  role: string;
 };
 
-type SessionContextType = {
-  user: User | undefined;
-  login?: (user: User) => void;
-  logout?: () => void;
-};
-
-export const SessionContext = createContext<SessionContextType | undefined>(undefined);
+export const SessionContext = createContext<
+  [User | undefined, Dispatch<SetStateAction<User | undefined>>]
+>([undefined, () => {}]);
 
 export const SessionProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | undefined>();
 
-  const handleLogin = (user: User) => setUser(user);
-
-  const handleLogout = () => setUser(undefined);
-
   return (
-    <SessionContext.Provider
-      value={{ user, login: handleLogin, logout: handleLogout }}
-    >
+    <SessionContext.Provider value={[user, setUser]}>
       {children}
     </SessionContext.Provider>
   );

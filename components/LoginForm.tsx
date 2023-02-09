@@ -2,7 +2,8 @@
 
 import { useToast } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import { SessionContext } from "../hooks/SessionContext";
 import CustomButton from "./CustomButton";
 import CustomInput from "./CustomInput";
 
@@ -11,6 +12,7 @@ interface props {}
 const LoginForm: React.FC<props> = () => {
   const router = useRouter();
   const toast = useToast();
+  const [_, setUser] = useContext(SessionContext);
 
   const [inputs, setInputs] = useState<{ matricula: string; password: string }>(
     {
@@ -41,6 +43,8 @@ const LoginForm: React.FC<props> = () => {
           });
           return;
         }
+        setUser(data);
+
         router.push("/dashboard");
       })
       .catch((err) => {
