@@ -48,7 +48,6 @@ const Dropzone: React.FC<props> = ({ status }) => {
       description: `El archivo que se intenta subir no tiene la extensión soportada: (${fileRejected[0].file.type})`,
       status: "error",
     });
-    console.log("aaa");
   };
 
   const deleteFile = () => {

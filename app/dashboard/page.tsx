@@ -7,11 +7,12 @@ async function page() {
   const user = await useSession();
 
   if (!user) {
-    return redirect("/login");
+    redirect("/login");
   }
 
-  return user.role !== "prospecto" ? (
+  return user.role === "prospecto" ? (
     <>
+      {/* @ts-expect-error Server Component */}
       <UserPage />
     </>
   ) : (
