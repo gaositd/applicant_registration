@@ -25,8 +25,6 @@ async function fetchUserDocuments<T>(): Promise<T[]> {
 const UserPage = async () => {
   const userDocuments = await fetchUserDocuments<UsersDocumentType>();
 
-  console.log(userDocuments);
-
   return <UserFilesInformation documentsArray={userDocuments} />;
 };
 

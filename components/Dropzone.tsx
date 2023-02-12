@@ -6,9 +6,12 @@ import { FileRejection, useDropzone } from "react-dropzone";
 import { BsCheck2, BsTrash } from "react-icons/bs";
 interface props {
   status: string;
+  tipoDocumento: string;
 }
 
-const Dropzone: React.FC<props> = ({ status }) => {
+const Dropzone: React.FC<props> = ({ status, tipoDocumento }) => {
+  console.log(tipoDocumento);
+
   const [file, setFile] = useState<File>();
   const toast = useToast();
 
@@ -21,9 +24,10 @@ const Dropzone: React.FC<props> = ({ status }) => {
     //@ts-ignore
     formData.append("documento", file);
 
-    fetch(`http://localhost:4242/users/upload?fileType=${"CURP"}`, {
+    fetch(`http://localhost:4242/users/upload?fileType=${tipoDocumento}`, {
       method: "POST",
       body: formData,
+      credentials: "include",
     })
       .then((resp) => resp.json())
       .then((data) =>

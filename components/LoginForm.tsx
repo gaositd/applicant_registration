@@ -43,6 +43,7 @@ const LoginForm: React.FC<props> = () => {
           });
           return;
         }
+
         setUser(data);
 
         router.push("/dashboard");

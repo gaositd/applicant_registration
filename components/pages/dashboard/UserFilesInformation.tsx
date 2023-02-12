@@ -7,8 +7,10 @@ import Column from "../../GridSystem/Column";
 export type UsersDocumentType = {
   status: string;
   id: string;
-  nombre: string;
+  fileType: string;
   observaciones: string[];
+  updatedAt: string;
+  createdAt: string;
 };
 
 interface props {
@@ -21,7 +23,7 @@ const UserFilesInformation: React.FC<props> = ({ documentsArray }) => {
 
   useEffect(() => {
     const aceptados = documentsArray.reduce(
-      (acc, docuento) => (docuento.status === "ACEPTADO" ? (acc += 1) : acc),
+      (acc, docuento) => (docuento.status === "approved" ? (acc += 1) : acc),
       0
     );
 
@@ -41,8 +43,8 @@ const UserFilesInformation: React.FC<props> = ({ documentsArray }) => {
       </Container>
       {documentos.map((document) => (
         <DocumentContainer
-          key={document.nombre}
-          nombredDocumento={document.nombre}
+          key={document.id}
+          nombredDocumento={document.fileType}
           status={document.status}
           observaciones={document.observaciones}
         />
