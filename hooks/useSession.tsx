@@ -13,8 +13,6 @@ export const useSession = async () => {
 
     const Cookie = nextHeaders.get("Cookie") ?? "";
 
-    console.log(Cookie);
-
     const res = await fetch("http://localhost:4242/auth/me", {
       method: "GET",
       credentials: "include",
@@ -25,7 +23,6 @@ export const useSession = async () => {
     });
 
     const data: sessionType = await res.json();
-    console.log(data);
 
     return data.user;
   } catch (err: any) {

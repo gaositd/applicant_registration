@@ -6,10 +6,12 @@ import { FileRejection, useDropzone } from "react-dropzone";
 import { BsCheck2, BsTrash } from "react-icons/bs";
 interface props {
   status: string;
+  tipoDocumento: string;
 }
 
-const Dropzone: React.FC<props> = ({ status }) => {
+const Dropzone: React.FC<props> = ({ status, tipoDocumento }) => {
   const [file, setFile] = useState<File>();
+  const [isUploading, setUploading] = useState<boolean>(false);
   const toast = useToast();
 
   const onDropAccepted = useCallback((acceptedFile: File[]) => {
@@ -17,22 +19,34 @@ const Dropzone: React.FC<props> = ({ status }) => {
   }, []);
 
   const uploadFile = () => {
+    if (isUploading) {
+      toast({
+        title: "Aviso",
+        description: "Solo se puede subir una imagen a la vez...",
+        status: "warning",
+      });
+      return;
+    }
+
+    setUploading(true);
     const formData = new FormData();
     //@ts-ignore
     formData.append("documento", file);
 
-    fetch(`http://localhost:4242/users/upload?fileType=${"CURP"}`, {
+    fetch(`http://localhost:4242/users/upload?fileType=${tipoDocumento}`, {
       method: "POST",
       body: formData,
+      credentials: "include",
     })
       .then((resp) => resp.json())
-      .then((data) =>
+      .then((data) => {
+        setUploading(false);
         toast({
           title: "Archivo subido",
           description: data.message,
           status: "success",
-        })
-      )
+        });
+      })
       .catch((err) =>
         toast({
           title: "Error al subir el archivo",
@@ -42,13 +56,15 @@ const Dropzone: React.FC<props> = ({ status }) => {
       );
   };
 
+  const requiredFileUploadStatus = (localStatus: string) =>
+    localStatus === "open-to-upload" || localStatus === "rejected";
+
   const onDropRejected = (fileRejected: FileRejection[]) => {
     toast({
       title: "Error",
       description: `El archivo que se intenta subir no tiene la extensión soportada: (${fileRejected[0].file.type})`,
       status: "error",
     });
-    console.log("aaa");
   };
 
   const deleteFile = () => {
@@ -100,7 +116,7 @@ const Dropzone: React.FC<props> = ({ status }) => {
       </section>
     );
 
-  return status !== "ACEPTADO" ? (
+  return requiredFileUploadStatus(status) ? (
     <div
       {...getRootProps()}
       className="border-dashed border-2 w-1/2 h-32 rounded flex justify-center items-center"
