@@ -10,9 +10,8 @@ interface props {
 }
 
 const Dropzone: React.FC<props> = ({ status, tipoDocumento }) => {
-  console.log(tipoDocumento);
-
   const [file, setFile] = useState<File>();
+  const [isUploading, setUploading] = useState<boolean>(false);
   const toast = useToast();
 
   const onDropAccepted = useCallback((acceptedFile: File[]) => {
@@ -20,6 +19,16 @@ const Dropzone: React.FC<props> = ({ status, tipoDocumento }) => {
   }, []);
 
   const uploadFile = () => {
+    if (isUploading) {
+      toast({
+        title: "Aviso",
+        description: "Solo se puede subir una imagen a la vez...",
+        status: "warning",
+      });
+      return;
+    }
+
+    setUploading(true);
     const formData = new FormData();
     //@ts-ignore
     formData.append("documento", file);
@@ -30,13 +39,14 @@ const Dropzone: React.FC<props> = ({ status, tipoDocumento }) => {
       credentials: "include",
     })
       .then((resp) => resp.json())
-      .then((data) =>
+      .then((data) => {
+        setUploading(false);
         toast({
           title: "Archivo subido",
           description: data.message,
           status: "success",
-        })
-      )
+        });
+      })
       .catch((err) =>
         toast({
           title: "Error al subir el archivo",
@@ -45,6 +55,9 @@ const Dropzone: React.FC<props> = ({ status, tipoDocumento }) => {
         })
       );
   };
+
+  const requiredFileUploadStatus = (localStatus: string) =>
+    localStatus === "open-to-upload" || localStatus === "rejected";
 
   const onDropRejected = (fileRejected: FileRejection[]) => {
     toast({
@@ -103,7 +116,7 @@ const Dropzone: React.FC<props> = ({ status, tipoDocumento }) => {
       </section>
     );
 
-  return status !== "ACEPTADO" ? (
+  return requiredFileUploadStatus(status) ? (
     <div
       {...getRootProps()}
       className="border-dashed border-2 w-1/2 h-32 rounded flex justify-center items-center"

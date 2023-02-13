@@ -91,6 +91,9 @@ const LoginForm: React.FC<props> = () => {
                   password: e.target.value,
                 }))
               }
+              onKeyUp={(e) => {
+                if (e.key === "Enter") handleSubmit();
+              }}
             />
           </div>
           <CustomButton
