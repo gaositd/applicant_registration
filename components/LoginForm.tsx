@@ -21,7 +21,12 @@ const LoginForm: React.FC<props> = () => {
     }
   );
 
+  const [isSubmitting, setSubmitting] = useState(false);
+
   const handleSubmit = () => {
+    if (isSubmitting) return;
+
+    setSubmitting(true);
     fetch("http://localhost:4242/auth/login", {
       method: "POST",
       headers: {
@@ -32,8 +37,6 @@ const LoginForm: React.FC<props> = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
-
         if (data.statusCode > 400) {
           toast({
             title: "Error",
@@ -45,6 +48,8 @@ const LoginForm: React.FC<props> = () => {
         }
 
         setUser(data);
+
+        setSubmitting(false);
 
         router.push("/dashboard");
       })
@@ -100,6 +105,7 @@ const LoginForm: React.FC<props> = () => {
             text="Iniciar sesión"
             size="lg"
             onClick={handleSubmit}
+            isLoading={isSubmitting}
           />
         </div>
       </div>
