@@ -1,5 +1,7 @@
 import { redirect } from "next/navigation";
 import React from "react";
+import { AdminPage } from "../../components/pages/dashboard/AdminPage";
+import { SecretariaPage } from "../../components/pages/dashboard/SecretariaPage";
 import UserPage from "../../components/pages/dashboard/UserPage";
 import { useSession } from "../../hooks/useSession";
 
@@ -15,9 +17,13 @@ async function page() {
       {/* @ts-expect-error Server Component */}
       <UserPage />
     </>
+  ) : user.role === "admin" ? (
+    <>
+      <AdminPage />
+    </>
   ) : (
     <>
-      <h1>Bienvenido! {user.nombre}</h1>
+      <SecretariaPage />
     </>
   );
 }

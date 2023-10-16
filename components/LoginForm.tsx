@@ -38,6 +38,7 @@ const LoginForm: React.FC<props> = () => {
       .then((res) => res.json())
       .then((data) => {
         if (data.statusCode > 400) {
+          setSubmitting(false);
           toast({
             title: "Error",
             description: "Credenciales incorrectas",
@@ -50,6 +51,14 @@ const LoginForm: React.FC<props> = () => {
         setUser(data);
 
         setSubmitting(false);
+
+        localStorage.setItem(
+          "user",
+          JSON.stringify({
+            name: data.nombre,
+            matricula: data.matricula,
+          })
+        );
 
         router.push("/dashboard");
       })
