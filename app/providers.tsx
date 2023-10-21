@@ -10,7 +10,7 @@ const Providers: React.FC<props> = ({ children }) => {
   const extendedTheme = extendTheme({
     colors: {
       primary: {
-        base: "#1E40AF",
+        base: "#B11830",
         hover: "#1D4ED8",
       },
     },
