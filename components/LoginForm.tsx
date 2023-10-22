@@ -14,17 +14,24 @@ import {
   Image,
   Text,
   Box,
-  
+  useToast,
 } from "@chakra-ui/react";
 import { Field, Form, Formik } from "formik";
+import { useRouter } from "next/navigation";
 import { BiSolidUserCircle } from "react-icons/bi";
 import { FaLock } from "react-icons/fa";
 
 const LoginForm: React.FC = () => {
+  const router = useRouter();
+  const toast = useToast();
+
   return (
-    <Flex as={"main"} color="#6C6C6C" h={"100vh"} flexDir={{ base: "column", md: "row" }}>
-
-
+    <Flex
+      as={"main"}
+      color="#6C6C6C"
+      h={"100vh"}
+      flexDir={{ base: "column", md: "row" }}
+    >
       <Flex
         as={"article"}
         w={{ base: "100%", md: "60%" }}
@@ -46,15 +53,13 @@ const LoginForm: React.FC = () => {
           marginTop="auto"
           position={"absolute"}
           bottom={"0"}
-        >
-          <Text
           display={{ base: "none", md: "block" }}
           textAlign={{ base: "center", md: "center" }}
-          fontSize="md"
-          >
-            <Text fontWeight={"bold"}>
-              Universidad Juárez del Estado de Durango
-            </Text>
+        >
+          <Text fontWeight={"bold"}>
+            Universidad Juárez del Estado de Durango
+          </Text>
+          <Text fontSize="md">
             Constitución 404 Sur. Zona Centro. C.P. 34000. Durango, Dgo. México.
             <br />
             Tel: 618 827 1200.
@@ -63,20 +68,54 @@ const LoginForm: React.FC = () => {
       </Flex>
       <Flex
         as={"aside"}
-        bg="primary.base" 
+        bg="primary.base"
         w={{ base: "100%", md: "40%" }}
         h={{ base: "70%", md: "100%" }}
-        alignItems={{ base: "flex-start", md: "center" }} 
+        alignItems={{ base: "flex-start", md: "center" }}
         justifyContent="center"
-        p={{ base: "2rem", md: 0 }} 
+        p={{ base: "2rem", md: 0 }}
       >
         <Formik
-          initialValues={{ name: "Sasuke" }}
+          initialValues={{ matricula: "", password: "" }}
           onSubmit={(values, actions) => {
-            setTimeout(() => {
-              alert(JSON.stringify(values, null, 2));
-              actions.setSubmitting(false);
-            }, 1000);
+            actions.setSubmitting(true);
+
+            fetch("http://localhost:4242/auth/login", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              credentials: "include",
+              body: JSON.stringify(values),
+            })
+              .then((res) => {
+                if (res.status > 400)
+                  throw new Error("Credenciales incorrectas");
+                else return res.json();
+              })
+              .then((data) => {
+                localStorage.setItem(
+                  "user",
+                  JSON.stringify({
+                    name: data.nombre,
+                    matricula: data.matricula,
+                  })
+                );
+
+                router.push("/dashboard");
+                actions.setSubmitting(false);
+              })
+              .catch((err) => {
+                console.log(err);
+
+                toast({
+                  title: "Error",
+                  description: `${err.message}, si el error persiste comunicate a las oficinas de la UJED`,
+                  status: "error",
+                  duration: 3500,
+                });
+                actions.setSubmitting(false);
+              });
           }}
         >
           {(props) => (
@@ -104,11 +143,10 @@ const LoginForm: React.FC = () => {
                           color={"black"}
                           _placeholder={{ color: "#6A6A6A" }}
                           bgColor="white"
-                          
                         />
                         <InputRightAddon
                           bg="#E7E7E7"
-                          w={{base: "2rem", md:"4.5rem"}}
+                          w={{ base: "2rem", md: "4.5rem" }}
                           display="flex"
                           justifyContent={"center"}
                         >
@@ -119,11 +157,10 @@ const LoginForm: React.FC = () => {
                           />
                         </InputRightAddon>
                       </InputGroup>
-                      <FormErrorMessage>{form.errors.name}</FormErrorMessage>
                     </FormControl>
                   )}
                 </Field>
-                <Field name="contraseña">
+                <Field name="password">
                   {({ field, form }: { field: any; form: any }) => (
                     <FormControl
                       isInvalid={form.errors.name && form.touched.name}
@@ -133,12 +170,13 @@ const LoginForm: React.FC = () => {
                       <InputGroup>
                         <Input
                           {...field}
+                          type="password"
                           placeholder="Contraseña"
                           _placeholder={{ color: "#6A6A6A" }}
                           bgColor="white"
                         />
                         <InputRightAddon
-                          w={{base: "2rem", md:"4.5rem"}}
+                          w={{ base: "2rem", md: "4.5rem" }}
                           display="flex"
                           justifyContent={"center"}
                           children={
