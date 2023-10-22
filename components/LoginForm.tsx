@@ -14,7 +14,7 @@ import {
   Image,
   Text,
   Box,
-  Spacer,
+  
 } from "@chakra-ui/react";
 import { Field, Form, Formik } from "formik";
 import { BiSolidUserCircle } from "react-icons/bi";
@@ -22,20 +22,22 @@ import { FaLock } from "react-icons/fa";
 
 const LoginForm: React.FC = () => {
   return (
-    <Flex as={"main"} color="#6C6C6C" h={"100dvh"}>
+    <Flex as={"main"} color="#6C6C6C" h={"100vh"} flexDir={{ base: "column", md: "row" }}>
+
+
       <Flex
         as={"article"}
-        w="60%"
-        h={"100%"}
+        w={{ base: "100%", md: "60%" }}
+        h={{ base: "30%", md: "100%" }}
         bg="white"
         flexDir={"column"}
-        alignItems={"center"}
-        justifyContent="space-around"
+        alignItems="center"
+        justifyContent="center"
       >
         <Image
           src="/logo.svg"
-          boxSize={"45%"}
-          flexGrow={"1"}
+          boxSize={{ base: "70%", md: "45%" }}
+          maxW="100%"
           minHeight="max-content"
         />
         <Box
@@ -45,7 +47,11 @@ const LoginForm: React.FC = () => {
           position={"absolute"}
           bottom={"0"}
         >
-          <Text textAlign={"center"} fontSize="md">
+          <Text
+          display={{ base: "none", md: "block" }}
+          textAlign={{ base: "center", md: "center" }}
+          fontSize="md"
+          >
             <Text fontWeight={"bold"}>
               Universidad Juárez del Estado de Durango
             </Text>
@@ -57,10 +63,12 @@ const LoginForm: React.FC = () => {
       </Flex>
       <Flex
         as={"aside"}
-        bg="primary.base"
-        w="40%"
-        alignItems={"center"}
+        bg="primary.base" 
+        w={{ base: "100%", md: "40%" }}
+        h={{ base: "70%", md: "100%" }}
+        alignItems={{ base: "flex-start", md: "center" }} 
         justifyContent="center"
+        p={{ base: "2rem", md: 0 }} 
       >
         <Formik
           initialValues={{ name: "Sasuke" }}
@@ -86,6 +94,7 @@ const LoginForm: React.FC = () => {
                   {({ field, form }: { field: any; form: any }) => (
                     <FormControl
                       isInvalid={form.errors.name && form.touched.name}
+                      marginBottom={{ base: "1rem", md: 0 }}
                     >
                       <FormLabel></FormLabel>
                       <InputGroup>
@@ -95,10 +104,11 @@ const LoginForm: React.FC = () => {
                           color={"black"}
                           _placeholder={{ color: "#6A6A6A" }}
                           bgColor="white"
+                          
                         />
                         <InputRightAddon
                           bg="#E7E7E7"
-                          w={"4.5rem"}
+                          w={{base: "2rem", md:"4.5rem"}}
                           display="flex"
                           justifyContent={"center"}
                         >
@@ -117,6 +127,7 @@ const LoginForm: React.FC = () => {
                   {({ field, form }: { field: any; form: any }) => (
                     <FormControl
                       isInvalid={form.errors.name && form.touched.name}
+                      marginBottom={{ base: "1rem", md: 0 }}
                     >
                       <FormLabel></FormLabel>
                       <InputGroup>
@@ -127,7 +138,7 @@ const LoginForm: React.FC = () => {
                           bgColor="white"
                         />
                         <InputRightAddon
-                          w={"4.5rem"}
+                          w={{base: "2rem", md:"4.5rem"}}
                           display="flex"
                           justifyContent={"center"}
                           children={
