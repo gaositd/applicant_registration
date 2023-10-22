@@ -14,7 +14,9 @@ const page = async ({ children }: props) => {
   return (
     <div className="flex flex-col h-screen w-screen">
       <Navbar />
-      <main className="p-4">{children}</main>
+      <main className="p-4" style={{ width: "100%", height: "100%" }}>
+        {children}
+      </main>
     </div>
   );
 };

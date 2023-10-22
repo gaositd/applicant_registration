@@ -14,7 +14,6 @@ async function page() {
 
   return user.role === "prospecto" ? (
     <>
-      {/* @ts-expect-error Server Component */}
       <UserPage />
     </>
   ) : user.role === "admin" ? (

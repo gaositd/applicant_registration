@@ -13,6 +13,9 @@ const Providers: React.FC<props> = ({ children }) => {
         base: "#B11830",
         hover: "#1D4ED8",
       },
+      structure: {
+        borders: "#BFBFBF",
+      },
     },
   });
 
