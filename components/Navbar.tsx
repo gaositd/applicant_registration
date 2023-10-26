@@ -22,7 +22,6 @@ const Navbar: React.FC<props> = () => {
   );
 
   useEffect(() => {
-    console.log("useEffect");
     const user = localStorage.getItem("user");
 
     if (user) setUser(JSON.parse(user));

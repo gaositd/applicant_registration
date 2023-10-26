@@ -20,13 +20,25 @@ import {
   Tr,
   ButtonGroup,
   Tooltip,
+  useDisclosure,
 } from "@chakra-ui/react";
 import { BiSearch } from "react-icons/bi";
 import { ImProfile } from "react-icons/im";
 import { BsFillTrashFill } from "react-icons/bs";
 import { AiFillEdit } from "react-icons/ai";
+import ModalProspecto from "./ModalProspecto";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export const SecretariaPage = () => {
+  const { isOpen, onClose, onOpen } = useDisclosure();
+  const [modalAction, setModalAction] = useState<"remove" | "edit">("remove");
+
+  const handleModal = (action: "remove" | "edit") => {
+    setModalAction(action);
+    onOpen();
+  };
+
   return (
     <Grid
       templateColumns={{ base: "1fr" }}
@@ -75,9 +87,21 @@ export const SecretariaPage = () => {
               </Tr>
             </Thead>
             <Tbody>
-              <TableItem matricula={"AAAAAA-AAAAA"} nombre={"Nombre"} />
-              <TableItem matricula={"AAAAAA-AAAAA"} nombre={"Nombre"} />
-              <TableItem matricula={"AAAAAA-AAAAA"} nombre={"Nombre"} />
+              <TableItem
+                matricula={"AAAAAA-AAAAA"}
+                nombre={"Nombre"}
+                modalEvent={handleModal}
+              />
+              <TableItem
+                matricula={"AAAAAA-AAAAA"}
+                nombre={"Nombre"}
+                modalEvent={handleModal}
+              />
+              <TableItem
+                matricula={"AAAAAA-AAAAA"}
+                nombre={"Nombre"}
+                modalEvent={handleModal}
+              />
             </Tbody>
           </Table>
         </TableContainer>
@@ -87,6 +111,12 @@ export const SecretariaPage = () => {
           </Button>
         </Flex>
       </GridItem>
+      <ModalProspecto
+        isOpen={isOpen}
+        onClose={onClose}
+        matricula={"AAAAAA-AAAAA"}
+        action={modalAction}
+      />
     </Grid>
   );
 };
@@ -94,9 +124,12 @@ export const SecretariaPage = () => {
 interface ITableItems {
   matricula: string;
   nombre: string;
+  modalEvent: (arg0: "remove" | "edit") => void;
 }
 
-const TableItem = ({ matricula, nombre }: ITableItems) => {
+const TableItem = ({ matricula, nombre, modalEvent }: ITableItems) => {
+  const router = useRouter();
+
   return (
     <Tr _hover={{ bgColor: "#f2f2f2" }}>
       <Td fontWeight={"bold"}>{matricula}</Td>
@@ -109,6 +142,7 @@ const TableItem = ({ matricula, nombre }: ITableItems) => {
               aria-label="Ver expediente"
               fontSize={"2xl"}
               icon={<ImProfile />}
+              onClick={() => router.push(`/prospecto/${matricula}`)}
             />
           </Tooltip>
           <Tooltip label="Dar de baja prospecto">
@@ -117,6 +151,7 @@ const TableItem = ({ matricula, nombre }: ITableItems) => {
               aria-label="Baja Prospecto"
               fontSize="2xl "
               icon={<BsFillTrashFill />}
+              onClick={() => modalEvent("remove")}
             />
           </Tooltip>
           <Tooltip label="Editar la informacion">
@@ -125,6 +160,7 @@ const TableItem = ({ matricula, nombre }: ITableItems) => {
               aria-label="Editar Prospecto"
               fontSize={"2xl"}
               icon={<AiFillEdit />}
+              onClick={() => modalEvent("edit")}
             />
           </Tooltip>
         </ButtonGroup>
