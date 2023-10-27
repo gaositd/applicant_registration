@@ -15,6 +15,7 @@
     "@types/node": "20.8.7",
     "@types/react": "18.2.31",
     "@types/react-dom": "18.2.14",
+    "axios": "^1.6.0",
     "eslint": "8.52.0",
     "eslint-config-next": "^13.5.6",
     "formik": "^2.4.5",
@@ -24,6 +25,7 @@
     "react-dom": "18.2.0",
     "react-dropzone": "^14.2.3",
     "react-icons": "^4.11.0",
+    "react-query": "^3.39.3",
     "typescript": "5.2.2"
   },
   "devDependencies": {

@@ -1,3 +1,4 @@
+"use client";
 import {
   ButtonGroup,
   Grid,
@@ -12,13 +13,17 @@ import {
   Thead,
   Tooltip,
   Tr,
+  useDisclosure,
 } from "@chakra-ui/react";
 import { FaCheck } from "react-icons/fa";
 import { ImCross } from "react-icons/im";
 import { BiDownload } from "react-icons/bi";
 import { GrView } from "react-icons/gr";
+import { ModalViewDocument } from "../../../components/prospectos/ModalViewDocument";
 
 export default function ProspectoPage({ params }: { params: { id: string } }) {
+  const { isOpen, onClose, onOpen } = useDisclosure();
+
   return (
     <Grid templateRows={"repeat(10,1fr)"} w="100%" h={"100%"}>
       <GridItem w="100%" rowSpan={1} display="flex" alignItems={"center"}>
@@ -51,6 +56,7 @@ export default function ProspectoPage({ params }: { params: { id: string } }) {
                         variant={"ghost"}
                         fontSize="2xl"
                         icon={<GrView />}
+                        onClick={onOpen}
                       />
                     </Tooltip>
                     <Tooltip label="Descargar documento">
@@ -88,6 +94,12 @@ export default function ProspectoPage({ params }: { params: { id: string } }) {
           </Table>
         </TableContainer>
       </GridItem>
+      <ModalViewDocument
+        isOpen={isOpen}
+        onClose={onClose}
+        documentId={"1"}
+        documentName={"Acta de nacimiento"}
+      />
     </Grid>
   );
 }

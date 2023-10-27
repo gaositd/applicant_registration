@@ -1,11 +1,13 @@
 "use client";
 import {
   Button,
+  ButtonGroup,
   Flex,
   Grid,
   GridItem,
   HStack,
   Icon,
+  IconButton,
   Input,
   InputGroup,
   InputRightElement,
@@ -14,25 +16,41 @@ import {
   TableContainer,
   Tbody,
   Td,
-  IconButton,
   Th,
   Thead,
-  Tr,
-  ButtonGroup,
   Tooltip,
+  Tr,
   useDisclosure,
 } from "@chakra-ui/react";
-import { BiSearch } from "react-icons/bi";
-import { ImProfile } from "react-icons/im";
-import { BsFillTrashFill } from "react-icons/bs";
-import { AiFillEdit } from "react-icons/ai";
-import ModalProspecto from "./ModalProspecto";
-import { useState } from "react";
+import axios from "axios";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { AiFillEdit } from "react-icons/ai";
+import { BiSearch } from "react-icons/bi";
+import { BsFillTrashFill } from "react-icons/bs";
+import { ImProfile } from "react-icons/im";
+import { useQuery } from "react-query";
+import { UserType } from "../../../../types/userType";
+import ModalProspecto from "./ModalProspecto";
 
 export const SecretariaPage = () => {
   const { isOpen, onClose, onOpen } = useDisclosure();
   const [modalAction, setModalAction] = useState<"remove" | "edit">("remove");
+  const [status, setStatus] = useState("all");
+
+  const fetchProspectos = async () => {
+    const { data } = await axios.get(
+      `${process.env.NEXT_PUBLIC_API_URL}/users/prospectos?status=${status}`,
+      { withCredentials: true }
+    );
+    return data;
+  };
+
+  const { isLoading, error, data } = useQuery<UserType[]>(
+    ["prospectos", status],
+    fetchProspectos,
+    {}
+  );
 
   const handleModal = (action: "remove" | "edit") => {
     setModalAction(action);
@@ -54,10 +72,14 @@ export const SecretariaPage = () => {
         colSpan={2}
       >
         <HStack w="50%">
-          <Select w={"30%"} borderRadius={"2xl"}>
-            <option value="option1">Todos</option>
-            <option value="option2">Pendientes</option>
-            <option value="option3">Atrasados</option>
+          <Select
+            w={"30%"}
+            borderRadius={"2xl"}
+            onChange={(val) => setStatus(val.target.value)}
+          >
+            <option value="all">Todos</option>
+            <option value="pending">Pendientes</option>
+            <option value="dueued">Atrasados</option>
           </Select>
           <InputGroup w={"70%"}>
             <Input placeholder="Buscar" borderRadius={"2xl"} />
@@ -87,21 +109,24 @@ export const SecretariaPage = () => {
               </Tr>
             </Thead>
             <Tbody>
-              <TableItem
-                matricula={"AAAAAA-AAAAA"}
-                nombre={"Nombre"}
-                modalEvent={handleModal}
-              />
-              <TableItem
-                matricula={"AAAAAA-AAAAA"}
-                nombre={"Nombre"}
-                modalEvent={handleModal}
-              />
-              <TableItem
-                matricula={"AAAAAA-AAAAA"}
-                nombre={"Nombre"}
-                modalEvent={handleModal}
-              />
+              {isLoading ? (
+                <Tr>
+                  <Td colSpan={3}>Cargando...</Td>
+                </Tr>
+              ) : error ? (
+                <Tr>
+                  <Td colSpan={3}>Error al cargar los datos</Td>
+                </Tr>
+              ) : (
+                data?.map((prospecto) => (
+                  <TableItem
+                    key={prospecto.matricula}
+                    matricula={prospecto.matricula}
+                    nombre={`${prospecto.nombre}`}
+                    modalEvent={handleModal}
+                  />
+                ))
+              )}
             </Tbody>
           </Table>
         </TableContainer>
