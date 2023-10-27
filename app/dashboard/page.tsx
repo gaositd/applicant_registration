@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
 import React from "react";
-import { AdminPage } from "../../components/pages/dashboard/AdminPage";
-import { SecretariaPage } from "../../components/pages/dashboard/SecretariaPage";
+import { AdminPage } from "../../components/pages/dashboard/admin/AdminPage";
+import { SecretariaPage } from "../../components/pages/dashboard/secretaria/SecretariaPage";
 import UserPage from "../../components/pages/dashboard/UserPage";
 import { useSession } from "../../hooks/useSession";
 
@@ -14,7 +14,6 @@ async function page() {
 
   return user.role === "prospecto" ? (
     <>
-      {/* @ts-expect-error Server Component */}
       <UserPage />
     </>
   ) : user.role === "admin" ? (

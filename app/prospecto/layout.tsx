@@ -1,13 +1,12 @@
 import { redirect } from "next/navigation";
-import React from "react";
 import Navbar from "../../components/Navbar";
 import { useSession } from "../../hooks/useSession";
 
-interface props {
+export default async function LayoutProspecto({
+  children,
+}: {
   children: React.ReactNode;
-}
-
-const page = async ({ children }: props) => {
+}) {
   const user = await useSession();
 
   if (!user) return redirect("/login");
@@ -19,6 +18,4 @@ const page = async ({ children }: props) => {
       </main>
     </div>
   );
-};
-
-export default page;
+}

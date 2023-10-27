@@ -18,12 +18,14 @@ import {
 } from "@chakra-ui/react";
 import { Field, Form, Formik } from "formik";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { BiSolidUserCircle } from "react-icons/bi";
 import { FaLock } from "react-icons/fa";
 
 const LoginForm: React.FC = () => {
   const router = useRouter();
   const toast = useToast();
+  const [isDisabled, setIsDisabled] = useState(false);
 
   return (
     <Flex
@@ -101,9 +103,10 @@ const LoginForm: React.FC = () => {
                     matricula: data.matricula,
                   })
                 );
+                actions.setSubmitting(false);
+                setIsDisabled(true);
 
                 router.push("/dashboard");
-                actions.setSubmitting(false);
               })
               .catch((err) => {
                 console.log(err);
@@ -143,6 +146,7 @@ const LoginForm: React.FC = () => {
                           color={"black"}
                           _placeholder={{ color: "#6A6A6A" }}
                           bgColor="white"
+                          isDisabled={isDisabled}
                         />
                         <InputRightAddon
                           bg="#E7E7E7"
@@ -174,6 +178,7 @@ const LoginForm: React.FC = () => {
                           placeholder="Contraseña"
                           _placeholder={{ color: "#6A6A6A" }}
                           bgColor="white"
+                          isDisabled={isDisabled}
                         />
                         <InputRightAddon
                           w={{ base: "2rem", md: "4.5rem" }}
@@ -201,6 +206,7 @@ const LoginForm: React.FC = () => {
                   bgColor="white"
                   isLoading={props.isSubmitting}
                   type="submit"
+                  isDisabled={isDisabled}
                 >
                   Iniciar sesión
                 </Button>
