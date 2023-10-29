@@ -12,14 +12,14 @@ import {
 interface IModalViewDocumentProps {
   isOpen: boolean;
   onClose: () => void;
-  documentId: string;
+  documentUrl: string;
   documentName: string;
 }
 
 export const ModalViewDocument: React.FC<IModalViewDocumentProps> = ({
   isOpen,
   onClose,
-  documentId,
+  documentUrl,
   documentName,
 }) => {
   return (
@@ -32,14 +32,12 @@ export const ModalViewDocument: React.FC<IModalViewDocumentProps> = ({
     >
       <ModalOverlay />
       <ModalContent h={"70%"}>
-        <ModalHeader>
-          {documentName},{documentId}
-        </ModalHeader>
+        <ModalHeader>{documentName}</ModalHeader>
         <ModalCloseButton />
         <ModalBody h={"100%"}>
           <object height={"100%"}>
             <embed
-              src={`https://www.orimi.com/pdf-test.pdf`}
+              src={documentUrl}
               type="application/pdf"
               width="100%"
               height="100%"
