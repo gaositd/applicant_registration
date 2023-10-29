@@ -29,7 +29,6 @@ import { FileNames } from "../../../types/types";
 export interface DocumentSelector {
   documentId: string;
   documentName: string;
-  documentUrl: string;
 }
 
 interface ApiDocuments {
@@ -50,12 +49,11 @@ export default function ProspectoPage({ params }: { params: { id: string } }) {
   const [selectedDocument, setSelectedDocument] = useState<DocumentSelector>({
     documentId: "",
     documentName: "",
-    documentUrl: "",
   });
 
   const fetchUserDocuments = async () => {
     const { data } = await axios.get(
-      `${process.env.NEXT_PUBLIC_API_URL}/users/docs/${params.id}`,
+      `${process.env.NEXT_PUBLIC_API_URL}/docs/${params.id}`,
       { withCredentials: true }
     );
     return data;
@@ -113,7 +111,6 @@ export default function ProspectoPage({ params }: { params: { id: string } }) {
                     key={document.id}
                     documentName={FileNames.get(document.fileType) || ""}
                     documentId={document.id}
-                    documentUrl={document.ruta}
                     handleClick={handleDocumentClick}
                     status={document.status}
                   />
@@ -126,8 +123,8 @@ export default function ProspectoPage({ params }: { params: { id: string } }) {
       <ModalViewDocument
         isOpen={isOpen}
         onClose={onClose}
-        documentUrl={selectedDocument.documentUrl}
-        documentName={"Acta de nacimiento"}
+        documentId={selectedDocument.documentId}
+        documentName={selectedDocument.documentName}
       />
     </Grid>
   );
@@ -144,21 +141,21 @@ interface TableItemProps {
 const TableItem: React.FC<TableItemProps> = ({
   documentName,
   documentId,
-  documentUrl,
   handleClick,
   status,
 }) => {
   const toast = useToast();
 
   const handleDownload = () => {
-    console.log("documentUrl", documentUrl);
     axios
-      .get(documentUrl || "", {
+      .get(`${process.env.NEXT_PUBLIC_API_URL}/docs/file/${documentId}` || "", {
         responseType: "blob",
+        withCredentials: true,
       })
       .then((response) => {
-        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const url = window.URL.createObjectURL(response.data);
         const link = document.createElement("a");
+
         link.href = url;
         link.setAttribute("download", documentName);
         document.body.appendChild(link);
@@ -182,50 +179,75 @@ const TableItem: React.FC<TableItemProps> = ({
       <Td>{documentName}</Td>
       <Td>
         <ButtonGroup gap={10}>
-          <Tooltip label="Ver documento">
+          <Tooltip
+            label={`${
+              status === "open-to-upload"
+                ? "El archivo no ha sido recibido"
+                : "Ver el documento"
+            }`}
+          >
             <IconButton
               aria-label="See document"
               variant={"ghost"}
               fontSize="2xl"
-              disabled={!documentUrl || status === "open-to-upload"}
+              isDisabled={status === "open-to-upload"}
               icon={<GrView />}
               onClick={() =>
                 handleClick({
                   documentId,
                   documentName,
-                  documentUrl: documentUrl || "",
                 })
               }
             />
           </Tooltip>
-          <Tooltip label="Descargar documento">
+          <Tooltip
+            label={`${
+              status === "open-to-upload"
+                ? "El archivo no ha sido recibido"
+                : "Descargar el documento"
+            }`}
+          >
             <IconButton
               aria-label="Download document"
               variant={"ghost"}
               fontSize="2xl"
               icon={<BiDownload />}
               onClick={handleDownload}
-              disabled={!documentUrl || status === "open-to-upload"}
+              isDisabled={status === "open-to-upload"}
             />
           </Tooltip>
         </ButtonGroup>
       </Td>
       <Td isNumeric>
         <ButtonGroup gap={10}>
-          <Tooltip label="Aceptar documento">
+          <Tooltip
+            label={`${
+              status === "open-to-upload"
+                ? "El archivo no ha sido recibido"
+                : "Aceptar el documento"
+            }`}
+          >
             <IconButton
               aria-label="Accept document"
               variant={"ghost"}
               fontSize="2xl"
               icon={<FaCheck />}
+              isDisabled={status === "open-to-upload"}
             />
           </Tooltip>
-          <Tooltip label="Denegar documento">
+          <Tooltip
+            label={`${
+              status === "open-to-upload"
+                ? "El archivo no ha sido recibido"
+                : "Denegar el documento"
+            }`}
+          >
             <IconButton
               aria-label="Deny document"
               variant={"ghost"}
               fontSize="2xl"
               icon={<ImCross />}
+              isDisabled={status === "open-to-upload"}
             />
           </Tooltip>
         </ButtonGroup>
