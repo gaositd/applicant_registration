@@ -35,7 +35,9 @@ import ModalProspecto from "./ModalProspecto";
 
 export const SecretariaPage = () => {
   const { isOpen, onClose, onOpen } = useDisclosure();
-  const [modalAction, setModalAction] = useState<"remove" | "edit">("remove");
+  const [modalAction, setModalAction] = useState<"remove" | "edit" | "add">(
+    "remove"
+  );
   const [status, setStatus] = useState("all");
 
   const fetchProspectos = async () => {
@@ -52,7 +54,7 @@ export const SecretariaPage = () => {
     {}
   );
 
-  const handleModal = (action: "remove" | "edit") => {
+  const handleModal = (action: "remove" | "edit" | "add") => {
     setModalAction(action);
     onOpen();
   };
@@ -131,7 +133,11 @@ export const SecretariaPage = () => {
           </Table>
         </TableContainer>
         <Flex align={"center"} justify={"flex-end"} w="100%" h="10%" px={2}>
-          <Button bgColor={"primary.base"} color="white">
+          <Button
+            bgColor={"primary.base"}
+            color="white"
+            onClick={() => handleModal("add")}
+          >
             Agregar aspirante
           </Button>
         </Flex>
