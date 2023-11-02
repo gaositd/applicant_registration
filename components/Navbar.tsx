@@ -32,7 +32,7 @@ const Navbar: React.FC<props> = () => {
   const toast = useToast();
 
   const handleLogout = () => {
-    fetch("http://localhost:4242/auth/logout", {
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/logout`, {
       method: "DELETE",
       credentials: "include",
     }).then((res) => {

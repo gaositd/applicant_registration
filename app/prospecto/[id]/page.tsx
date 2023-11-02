@@ -24,11 +24,13 @@ import { ModalViewDocument } from "../../../components/prospectos/ModalViewDocum
 import axios from "axios";
 import { useQuery } from "react-query";
 import { useState } from "react";
-import { FileNames } from "../../../types/types";
+import { FileNames, STATUSMAP } from "../../../types/types";
+import { ModalDocumentActions } from "../../../components/pages/dashboard/secretaria/ModalDocumentActions";
 
 export interface DocumentSelector {
   documentId: string;
   documentName: string;
+  action?: "approve" | "reject";
 }
 
 interface ApiDocuments {
@@ -46,6 +48,11 @@ interface ApiUsersDocumentsResponse {
 
 export default function ProspectoPage({ params }: { params: { id: string } }) {
   const { isOpen, onClose, onOpen } = useDisclosure();
+  const {
+    isOpen: isOpenActions,
+    onClose: onCloseActions,
+    onOpen: onOpenActions,
+  } = useDisclosure();
   const [selectedDocument, setSelectedDocument] = useState<DocumentSelector>({
     documentId: "",
     documentName: "",
@@ -66,15 +73,16 @@ export default function ProspectoPage({ params }: { params: { id: string } }) {
 
   const handleDocumentClick = (documentData: DocumentSelector) => {
     setSelectedDocument(documentData);
-    onOpen();
+    if (typeof documentData.action !== "undefined") onOpenActions();
+    else onOpen();
   };
-
-  if (!isLoading && !error) console.log("data", data);
 
   return (
     <Grid templateRows={"repeat(10,1fr)"} w="100%" h={"100%"}>
       <GridItem w="100%" rowSpan={1} display="flex" alignItems={"center"}>
-        <Text fontSize={"2xl"}>Aqui va el nombre: {params.id}</Text>
+        <Text fontSize={"2xl"} fontWeight={"bold"} px={2}>
+          {data?.name}
+        </Text>
       </GridItem>
       <GridItem rowSpan={9}>
         <TableContainer
@@ -87,7 +95,8 @@ export default function ProspectoPage({ params }: { params: { id: string } }) {
           <Table variant="simple">
             <Thead borderBottom={"2px"} borderColor="structure.borders">
               <Tr>
-                <Th w={"40%"}>Documento</Th>
+                <Th w={"30%"}>Documento</Th>
+                <Th w={"20%"}>Status</Th>
                 <Th w="30%">Acciones</Th>
                 <Th isNumeric>Acciones del archivo</Th>
               </Tr>
@@ -125,6 +134,13 @@ export default function ProspectoPage({ params }: { params: { id: string } }) {
         onClose={onClose}
         documentId={selectedDocument.documentId}
         documentName={selectedDocument.documentName}
+      />
+      <ModalDocumentActions
+        isOpen={isOpenActions}
+        onClose={onCloseActions}
+        documentId={selectedDocument.documentId}
+        documentName={selectedDocument.documentName}
+        action={selectedDocument.action || "approve"}
       />
     </Grid>
   );
@@ -174,9 +190,15 @@ const TableItem: React.FC<TableItemProps> = ({
       });
   };
 
+  const isDisabled = (isAction: boolean = false) => {
+    if (!isAction) return status === "open-to-upload";
+    return status === "open-to-upload" || status === "approved";
+  };
+
   return (
     <Tr>
       <Td>{documentName}</Td>
+      <Td>{STATUSMAP.get(status)}</Td>
       <Td>
         <ButtonGroup gap={10}>
           <Tooltip
@@ -190,7 +212,7 @@ const TableItem: React.FC<TableItemProps> = ({
               aria-label="See document"
               variant={"ghost"}
               fontSize="2xl"
-              isDisabled={status === "open-to-upload"}
+              isDisabled={isDisabled()}
               icon={<GrView />}
               onClick={() =>
                 handleClick({
@@ -213,7 +235,7 @@ const TableItem: React.FC<TableItemProps> = ({
               fontSize="2xl"
               icon={<BiDownload />}
               onClick={handleDownload}
-              isDisabled={status === "open-to-upload"}
+              isDisabled={isDisabled()}
             />
           </Tooltip>
         </ButtonGroup>
@@ -232,7 +254,10 @@ const TableItem: React.FC<TableItemProps> = ({
               variant={"ghost"}
               fontSize="2xl"
               icon={<FaCheck />}
-              isDisabled={status === "open-to-upload"}
+              isDisabled={isDisabled(true)}
+              onClick={() =>
+                handleClick({ documentId, documentName, action: "approve" })
+              }
             />
           </Tooltip>
           <Tooltip
@@ -247,7 +272,10 @@ const TableItem: React.FC<TableItemProps> = ({
               variant={"ghost"}
               fontSize="2xl"
               icon={<ImCross />}
-              isDisabled={status === "open-to-upload"}
+              isDisabled={isDisabled(true)}
+              onClick={() =>
+                handleClick({ documentId, documentName, action: "reject" })
+              }
             />
           </Tooltip>
         </ButtonGroup>

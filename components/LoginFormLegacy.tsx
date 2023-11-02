@@ -27,7 +27,7 @@ const LoginForm: React.FC<props> = () => {
     if (isSubmitting) return;
 
     setSubmitting(true);
-    fetch("http://localhost:4242/auth/login", {
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

@@ -34,11 +34,14 @@ const Dropzone: React.FC<props> = ({ status, tipoDocumento }) => {
     //@ts-ignore
     formData.append("documento", file);
 
-    fetch(`http://localhost:4242/users/upload?fileType=${tipoDocumento}`, {
-      method: "POST",
-      body: formData,
-      credentials: "include",
-    })
+    fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/users/upload?fileType=${tipoDocumento}`,
+      {
+        method: "POST",
+        body: formData,
+        credentials: "include",
+      }
+    )
       .then((resp) => {
         if (resp.status === 201) return resp.json();
         else throw new Error("Error al subir el archivo");
