@@ -22,7 +22,7 @@ import {
   Tr,
   useDisclosure,
 } from "@chakra-ui/react";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { AiFillEdit } from "react-icons/ai";
@@ -117,7 +117,7 @@ export const SecretariaPage = () => {
                 </Tr>
               ) : error ? (
                 <Tr>
-                  <Td colSpan={3}>Error al cargar los datos</Td>
+                  <Td colSpan={3}>{showErrorMessage(error)}</Td>
                 </Tr>
               ) : (
                 data?.map((prospecto) => (
@@ -198,4 +198,14 @@ const TableItem = ({ matricula, nombre, modalEvent }: ITableItems) => {
       </Td>
     </Tr>
   );
+};
+
+const showErrorMessage = (error: unknown) => {
+  if (error instanceof AxiosError) {
+    if (error.response?.status === 404) {
+      return "No se encontraron prospectos";
+    } else {
+      return "Error al cargar la información";
+    }
+  }
 };
