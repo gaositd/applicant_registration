@@ -35,9 +35,13 @@ import ModalProspecto from "./ModalProspecto";
 
 export const SecretariaPage = () => {
   const { isOpen, onClose, onOpen } = useDisclosure();
-  const [modalAction, setModalAction] = useState<"remove" | "edit" | "add">(
-    "remove"
-  );
+  const [modalAction, setModalAction] = useState<{
+    action: "remove" | "edit" | "add";
+    matricula: string;
+  }>({
+    action: "remove",
+    matricula: "",
+  });
   const [status, setStatus] = useState("all");
 
   const fetchProspectos = async () => {
@@ -49,13 +53,15 @@ export const SecretariaPage = () => {
   };
 
   const { isLoading, error, data } = useQuery<UserType[]>(
-    ["prospectos", status],
-    fetchProspectos,
-    {}
+    ["prospectosTable", status],
+    fetchProspectos
   );
 
-  const handleModal = (action: "remove" | "edit" | "add") => {
-    setModalAction(action);
+  const handleModal = (data: {
+    action: "remove" | "edit" | "add";
+    matricula: string;
+  }) => {
+    setModalAction(data);
     onOpen();
   };
 
@@ -136,7 +142,12 @@ export const SecretariaPage = () => {
           <Button
             bgColor={"primary.base"}
             color="white"
-            onClick={() => handleModal("add")}
+            onClick={() =>
+              handleModal({
+                action: "add",
+                matricula: "",
+              })
+            }
           >
             Agregar aspirante
           </Button>
@@ -145,8 +156,8 @@ export const SecretariaPage = () => {
       <ModalProspecto
         isOpen={isOpen}
         onClose={onClose}
-        matricula={"AAAAAA-AAAAA"}
-        action={modalAction}
+        matricula={modalAction.matricula}
+        action={modalAction.action}
       />
     </Grid>
   );
@@ -155,7 +166,7 @@ export const SecretariaPage = () => {
 interface ITableItems {
   matricula: string;
   nombre: string;
-  modalEvent: (arg0: "remove" | "edit") => void;
+  modalEvent: (arg0: { action: "remove" | "edit"; matricula: string }) => void;
 }
 
 const TableItem = ({ matricula, nombre, modalEvent }: ITableItems) => {
@@ -182,7 +193,12 @@ const TableItem = ({ matricula, nombre, modalEvent }: ITableItems) => {
               aria-label="Baja Prospecto"
               fontSize="2xl "
               icon={<BsFillTrashFill />}
-              onClick={() => modalEvent("remove")}
+              onClick={() =>
+                modalEvent({
+                  action: "remove",
+                  matricula: matricula,
+                })
+              }
             />
           </Tooltip>
           <Tooltip label="Editar la informacion">
@@ -191,7 +207,12 @@ const TableItem = ({ matricula, nombre, modalEvent }: ITableItems) => {
               aria-label="Editar Prospecto"
               fontSize={"2xl"}
               icon={<AiFillEdit />}
-              onClick={() => modalEvent("edit")}
+              onClick={() =>
+                modalEvent({
+                  action: "edit",
+                  matricula: matricula,
+                })
+              }
             />
           </Tooltip>
         </ButtonGroup>
