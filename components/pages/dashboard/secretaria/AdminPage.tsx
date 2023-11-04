@@ -32,8 +32,9 @@ import { ImProfile } from "react-icons/im";
 import { useQuery } from "react-query";
 import { UserType } from "../../../../types/userType";
 import ModalProspecto from "./ModalProspecto";
+import { debounce } from "lodash";
 
-export const SecretariaPage = () => {
+export const AdminPage = () => {
   const { isOpen, onClose, onOpen } = useDisclosure();
   const [modalAction, setModalAction] = useState<{
     action: "remove" | "edit" | "add";
@@ -44,16 +45,18 @@ export const SecretariaPage = () => {
   });
   const [status, setStatus] = useState("all");
 
+  const [searchQuery, setSearchQuery] = useState("");
+
   const fetchProspectos = async () => {
     const { data } = await axios.get(
-      `${process.env.NEXT_PUBLIC_API_URL}/users/prospectos?status=${status}`,
+      `${process.env.NEXT_PUBLIC_API_URL}/users/prospectos?status=${status}&search=${searchQuery}`,
       { withCredentials: true }
     );
     return data;
   };
 
   const { isLoading, error, data } = useQuery<UserType[]>(
-    ["prospectosTable", status],
+    ["prospectosTable", status, searchQuery],
     fetchProspectos
   );
 
@@ -64,6 +67,12 @@ export const SecretariaPage = () => {
     setModalAction(data);
     onOpen();
   };
+
+  const handleOnChangeSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(e.target.value);
+  };
+
+  const handleOnChangeSearchDebounce = debounce(handleOnChangeSearch, 500);
 
   return (
     <Grid
@@ -90,7 +99,11 @@ export const SecretariaPage = () => {
             <option value="dueued">Atrasados</option>
           </Select>
           <InputGroup w={"70%"}>
-            <Input placeholder="Buscar" borderRadius={"2xl"} />
+            <Input
+              placeholder="Buscar"
+              borderRadius={"2xl"}
+              onChange={handleOnChangeSearchDebounce}
+            />
             <InputRightElement children={<Icon as={BiSearch} />} />
           </InputGroup>
         </HStack>
@@ -107,6 +120,7 @@ export const SecretariaPage = () => {
           border={"2px"}
           borderColor={"structure.borders"}
           borderRadius={"2xl"}
+          overflowY={"auto"}
         >
           <Table size={"lg"}>
             <Thead>

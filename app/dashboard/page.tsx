@@ -1,7 +1,6 @@
 import { redirect } from "next/navigation";
 import React from "react";
-import { AdminPage } from "../../components/pages/dashboard/admin/AdminPage";
-import { SecretariaPage } from "../../components/pages/dashboard/secretaria/SecretariaPage";
+import { AdminPage } from "../../components/pages/dashboard/secretaria/AdminPage";
 import UserPage from "../../components/pages/dashboard/UserPage";
 import { useSession } from "../../hooks/useSession";
 
@@ -16,13 +15,9 @@ async function page() {
     <>
       <UserPage />
     </>
-  ) : user.role === "admin" ? (
-    <>
-      <AdminPage />
-    </>
   ) : (
     <>
-      <SecretariaPage />
+      <AdminPage />
     </>
   );
 }
