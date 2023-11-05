@@ -17,7 +17,7 @@ async function page() {
     </>
   ) : (
     <>
-      <AdminPage />
+      <AdminPage isAdmin={user.role === "admin"} />
     </>
   );
 }

@@ -1,13 +1,37 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
+#UJED prescription App
+
+This is a project for the UJED university, it's a prescription app for the math faculty.
+
 ## Getting Started
+
+### Prerequisites
+
+El manejador de paquetes usado en este proyecto es pnpm, para instalarlo hay que correr el siguiente comando
+
+```bash
+$ npm install -g pnpm
+```
+
+Primero hay que setear las variables de entorno, para eso hay que crear un archivo .env en la raiz del proyecto y copiar el contenido del archivo .env.example
+
+```bash
+$ cp .env.example .env
+```
+
+### Installing
+
+Primero hay que instalar las dependencias del proyecto
+
+```bash
+$ pnpm install
+```
 
 First, run the development server:
 
 ```bash
-npm run dev
-# or
-yarn dev
+pnpm run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
@@ -26,9 +50,3 @@ To learn more about Next.js, take a look at the following resources:
 - [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
 You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.

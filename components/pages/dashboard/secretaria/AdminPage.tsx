@@ -29,12 +29,16 @@ import { AiFillEdit } from "react-icons/ai";
 import { BiSearch } from "react-icons/bi";
 import { BsFillTrashFill } from "react-icons/bs";
 import { ImProfile } from "react-icons/im";
-import { useQuery } from "react-query";
+import { useQuery, useQueryClient } from "react-query";
 import { UserType } from "../../../../types/userType";
 import ModalProspecto from "./ModalProspecto";
 import { debounce } from "lodash";
 
-export const AdminPage = () => {
+interface IAdminPageProps {
+  isAdmin: boolean;
+}
+
+export const AdminPage: React.FC<IAdminPageProps> = ({ isAdmin }) => {
   const { isOpen, onClose, onOpen } = useDisclosure();
   const [modalAction, setModalAction] = useState<{
     action: "remove" | "edit" | "add";
@@ -43,20 +47,21 @@ export const AdminPage = () => {
     action: "remove",
     matricula: "",
   });
+  const [userType, setUserType] = useState<string>("prospecto");
   const [status, setStatus] = useState("all");
 
   const [searchQuery, setSearchQuery] = useState("");
 
   const fetchProspectos = async () => {
     const { data } = await axios.get(
-      `${process.env.NEXT_PUBLIC_API_URL}/users/prospectos?status=${status}&search=${searchQuery}`,
+      `${process.env.NEXT_PUBLIC_API_URL}/users?status=${status}&search=${searchQuery}&role=${userType}`,
       { withCredentials: true }
     );
     return data;
   };
 
   const { isLoading, error, data } = useQuery<UserType[]>(
-    ["prospectosTable", status, searchQuery],
+    ["prospectosTable", status, searchQuery, userType],
     fetchProspectos
   );
 
@@ -70,6 +75,10 @@ export const AdminPage = () => {
 
   const handleOnChangeSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value);
+  };
+
+  const handleOnUsertypeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setUserType(e.target.value);
   };
 
   const handleOnChangeSearchDebounce = debounce(handleOnChangeSearch, 500);
@@ -88,7 +97,19 @@ export const AdminPage = () => {
         rowSpan={1}
         colSpan={2}
       >
-        <HStack w="50%">
+        <HStack w="70%">
+          {isAdmin && (
+            <Select
+              w={"30%"}
+              value={userType}
+              borderRadius={"2xl"}
+              onChange={handleOnUsertypeChange}
+            >
+              <option value="prospecto">Prospectos</option>
+              <option value="admin">Administradores</option>
+              <option value="secretaria">Secretarias</option>
+            </Select>
+          )}
           <Select
             w={"30%"}
             borderRadius={"2xl"}
@@ -97,6 +118,7 @@ export const AdminPage = () => {
             <option value="all">Todos</option>
             <option value="pending">Pendientes</option>
             <option value="dueued">Atrasados</option>
+            <option value="completed">Expediente completo</option>
           </Select>
           <InputGroup w={"70%"}>
             <Input
