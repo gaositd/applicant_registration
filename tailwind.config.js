@@ -13,11 +13,11 @@ module.exports = {
 
       colors: {
         pallete: {
-          primary: "#A32A35",
+          primary: "#B11830",
         },
         buttons: {
           primary: {
-            DEFAULT: "#A32A35",
+            DEFAULT: "#B11830",
             hover: "#85272F",
             selected: "#5A1B21",
           },

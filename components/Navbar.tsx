@@ -2,6 +2,7 @@
 
 import {
   Button,
+  Heading,
   Menu,
   MenuButton,
   MenuDivider,
@@ -10,26 +11,34 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
-import React, { useContext } from "react";
+import React, { useEffect, useState } from "react";
 import { AiFillCaretDown } from "react-icons/ai";
-import { SessionContext } from "../hooks/SessionContext";
 
 interface props {}
 
 const Navbar: React.FC<props> = () => {
-  const [user, setUser] = useContext(SessionContext);
+  const [user, setUser] = useState<{ name: string; matricula: string } | null>(
+    null
+  );
+
+  useEffect(() => {
+    const user = localStorage.getItem("user");
+
+    if (user) setUser(JSON.parse(user));
+  }, []);
 
   const router = useRouter();
 
   const toast = useToast();
 
   const handleLogout = () => {
-    fetch("http://localhost:4242/auth/logout", {
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/logout`, {
       method: "DELETE",
       credentials: "include",
     }).then((res) => {
       if (res.status === 200) {
-        setUser(undefined);
+        localStorage.removeItem("user");
+
         router.push("/login");
       } else
         toast({
@@ -45,20 +54,29 @@ const Navbar: React.FC<props> = () => {
       <div>
         <img src="/logo.png" alt="logo" className="h-full object-cover" />
       </div>
+
+      <div>
+        <Heading color="white" size="md">
+          Sistema de preinscripciones
+        </Heading>
+      </div>
       <Menu>
         <MenuButton
+          id="3"
           as={Button}
           rightIcon={<AiFillCaretDown />}
-          transition="all 0.2s"
           borderRadius={10}
           colorScheme={"white"}
         >
-          {user?.nombre}
+          {user?.name}
         </MenuButton>
+
         <MenuList>
-          <MenuItem>Perfil</MenuItem>
+          <MenuItem id="1">Perfil</MenuItem>
           <MenuDivider />
-          <MenuItem onClick={handleLogout}>Cerrar sesion</MenuItem>
+          <MenuItem id="2" onClick={handleLogout}>
+            Cerrar sesion
+          </MenuItem>
         </MenuList>
       </Menu>
       {/* <h2 className="font-bold text-white">John Doe</h2>

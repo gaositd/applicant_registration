@@ -9,7 +9,7 @@ async function fetchUserDocuments<T>(): Promise<T[]> {
 
   const Cookie = nextHeaders.get("Cookie") ?? "";
 
-  const response = await fetch("http://localhost:4242/users/docs", {
+  const response = await fetch(`${process.env.NEXT_PUBIC_API_URL}/users/docs`, {
     method: "GET",
     headers: {
       Cookie,

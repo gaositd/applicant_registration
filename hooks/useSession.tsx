@@ -1,3 +1,4 @@
+import axios from "axios";
 import { UserType } from "../types/userType";
 import { headers } from "next/headers";
 
@@ -13,16 +14,15 @@ export const useSession = async () => {
 
     const Cookie = nextHeaders.get("Cookie") ?? "";
 
-    const res = await fetch("http://localhost:4242/auth/me", {
-      method: "GET",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-        Cookie,
-      },
-    });
-
-    const data: sessionType = await res.json();
+    const { data } = await axios.get<sessionType>(
+      `${process.env.NEXT_PUBLIC_API_URL}/auth/me`,
+      {
+        withCredentials: true,
+        headers: {
+          Cookie,
+        },
+      }
+    );
 
     return data.user;
   } catch (err: any) {

@@ -4,6 +4,7 @@ import { useToast } from "@chakra-ui/react";
 import { useCallback, useState } from "react";
 import { FileRejection, useDropzone } from "react-dropzone";
 import { BsCheck2, BsTrash } from "react-icons/bs";
+import { Loading } from "./loadingComponent";
 interface props {
   status: string;
   tipoDocumento: string;
@@ -33,12 +34,18 @@ const Dropzone: React.FC<props> = ({ status, tipoDocumento }) => {
     //@ts-ignore
     formData.append("documento", file);
 
-    fetch(`http://localhost:4242/users/upload?fileType=${tipoDocumento}`, {
-      method: "POST",
-      body: formData,
-      credentials: "include",
-    })
-      .then((resp) => resp.json())
+    fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/users/upload?fileType=${tipoDocumento}`,
+      {
+        method: "POST",
+        body: formData,
+        credentials: "include",
+      }
+    )
+      .then((resp) => {
+        if (resp.status === 201) return resp.json();
+        else throw new Error("Error al subir el archivo");
+      })
       .then((data) => {
         setUploading(false);
         toast({
@@ -46,14 +53,20 @@ const Dropzone: React.FC<props> = ({ status, tipoDocumento }) => {
           description: data.message,
           status: "success",
         });
+
+        //reload page
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000);
       })
-      .catch((err) =>
+      .catch((err) => {
+        setUploading(false);
         toast({
           title: "Error al subir el archivo",
           description: err.message,
           status: "error",
-        })
-      );
+        });
+      });
   };
 
   const requiredFileUploadStatus = (localStatus: string) =>
@@ -85,12 +98,14 @@ const Dropzone: React.FC<props> = ({ status, tipoDocumento }) => {
     return (
       <section className="flex p-2 w-48">
         <div className="h-40 w-48 p-2">
-          {file.type.includes("pdf") ? (
+          {isUploading ? (
+            <Loading />
+          ) : file.type.includes("pdf") ? (
             <img src="/pdf.png" className="w-full h-[80%] object-fill"></img>
           ) : (
             <img
-              src={URL.createObjectURL(file)}
-              className="w-full h-full object-cover"
+              src="/picture.png"
+              className="w-full h-[80%] object-fill"
             ></img>
           )}
           <p className="h-10 text-sm font-light truncate">{file.name}</p>
@@ -100,6 +115,7 @@ const Dropzone: React.FC<props> = ({ status, tipoDocumento }) => {
             type="button"
             className="text-white font-bold bg-buttons-success/50 w-8 h-8 flex justify-center items-center ml-3 p-1.5 rounded-lg"
             onClick={uploadFile}
+            disabled={isUploading}
           >
             <BsCheck2 className="h-full w-full" />
             <span className="sr-only">Subir archivo</span>
@@ -108,6 +124,7 @@ const Dropzone: React.FC<props> = ({ status, tipoDocumento }) => {
             type="button"
             className="text-white font-bold bg-buttons-danger/50 w-8 h-8 flex justify-center items-center ml-3 p-1.5 rounded-lg"
             onClick={deleteFile}
+            disabled={isUploading}
           >
             <BsTrash className="h-full w-full" />
             <span className="sr-only">Cancelar archivo</span>
@@ -119,14 +136,14 @@ const Dropzone: React.FC<props> = ({ status, tipoDocumento }) => {
   return requiredFileUploadStatus(status) ? (
     <div
       {...getRootProps()}
-      className="border-dashed border-2 w-1/2 h-32 rounded flex justify-center items-center"
+      className="border-dashed border-2 w-1/2 h-32 rounded flex justify-center items-center cursor-pointer"
     >
       <img src="/upload.svg" alt="upload image" className="h-8 mr-2"></img>
       <input {...getInputProps()} className="border" />
       {isDragActive ? (
         <p>Suelta tu archivo aqui</p>
       ) : !file ? (
-        <p>Arrastra tu archivo aqui</p>
+        <p>Arrastra tu archivo aqui o da click para seleccionar</p>
       ) : null}
     </div>
   ) : null;
