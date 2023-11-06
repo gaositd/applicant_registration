@@ -8,7 +8,9 @@ export type UsersDocumentType = {
   status: string;
   id: string;
   fileType: string;
-  observaciones: string[];
+  observaciones: {
+    observacion: string;
+  }[];
   updatedAt: string;
   createdAt: string;
 };
@@ -28,7 +30,7 @@ const UserFilesInformation: React.FC<props> = ({ documentsArray }) => {
     );
 
     setPercentage(Math.floor((aceptados * 100) / documentsArray.length));
-  }, []);
+  }, [documentsArray]);
 
   return (
     <Column>
