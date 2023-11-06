@@ -1,5 +1,5 @@
 export const FILETYPES = {
-  curp: "Curp",
+  curp: "CURP",
   acta_nacimiento: "Acta de Nacimiento",
   comprobante_domicilio: "Comprobante de Domicilio",
 };

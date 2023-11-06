@@ -47,6 +47,7 @@ export const ModalDocumentActions: React.FC<ModalDocumentActionsProps> = ({
     },
     {
       onSuccess: () => {
+        onClose();
         toast({
           title: "Documento actualizado",
           description: `El documento ${documentName.toUpperCase()} ha sido actualizado`,
@@ -54,13 +55,13 @@ export const ModalDocumentActions: React.FC<ModalDocumentActionsProps> = ({
           duration: 3000,
           isClosable: true,
           onCloseComplete: () => {
-            onClose();
             queryClient.invalidateQueries("userDocuments");
           },
         });
       },
       onError: (error) => {
         console.log(error);
+        onClose();
         toast({
           title: "Error al actualizar el documento",
           description:
