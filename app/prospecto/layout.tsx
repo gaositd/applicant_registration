@@ -10,6 +10,9 @@ export default async function LayoutProspecto({
   const user = await useSession();
 
   if (!user) return redirect("/login");
+
+  if (user.role === "prospecto")
+    throw new Error("No tienes permisos para ver esta página");
   return (
     <div className="flex flex-col h-screen w-screen">
       <Navbar />

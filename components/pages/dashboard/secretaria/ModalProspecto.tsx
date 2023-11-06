@@ -375,6 +375,7 @@ const ModalProspectoAdd: React.FC<IModalProspectoAddProps> = ({ onClose }) => {
     },
     {
       onSuccess(data: User) {
+        onClose();
         toast({
           title: "Prospecto agregado",
           description:
@@ -388,7 +389,6 @@ const ModalProspectoAdd: React.FC<IModalProspectoAddProps> = ({ onClose }) => {
           duration: null,
           onCloseComplete: () => {
             queryClient.invalidateQueries("prospectosTable");
-            onClose();
           },
         });
       },

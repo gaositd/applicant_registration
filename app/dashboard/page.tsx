@@ -11,6 +11,7 @@ async function page() {
     redirect("/login");
   }
 
+  console.log(user);
   return user.role === "prospecto" ? (
     <>
       <UserPage />

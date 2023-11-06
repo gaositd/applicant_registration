@@ -24,13 +24,13 @@ const DocumentContainer: React.FC<props> = ({
         <h4 className="font-serif font-light">
           Status: {FILE_STATUSES[status as keyof typeof FILE_STATUSES]}
         </h4>
-        {observaciones ? (
+        {observaciones && (
           <ul className="list-disc text-red-500">
             {observaciones.map((obs) => (
               <li key={obs}>{obs}</li>
             ))}
           </ul>
-        ) : null}
+        )}
       </section>
       <Dropzone status={status} tipoDocumento={nombredDocumento} />
     </Container>

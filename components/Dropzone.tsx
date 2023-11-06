@@ -1,10 +1,12 @@
 "use client";
 
-import { useToast } from "@chakra-ui/react";
+import { Button, IconButton, useToast } from "@chakra-ui/react";
 import { useCallback, useState } from "react";
 import { FileRejection, useDropzone } from "react-dropzone";
 import { BsCheck2, BsTrash } from "react-icons/bs";
 import { Loading } from "./loadingComponent";
+import { useMutation } from "react-query";
+import axios from "axios";
 interface props {
   status: string;
   tipoDocumento: string;
@@ -14,6 +16,18 @@ const Dropzone: React.FC<props> = ({ status, tipoDocumento }) => {
   const [file, setFile] = useState<File>();
   const [isUploading, setUploading] = useState<boolean>(false);
   const toast = useToast();
+
+  const updateFiles = async (formData: FormData) => {
+    await axios.post(
+      `${process.env.NEXT_PUBLIC_API_URL}/docs/upload`,
+      formData,
+      {
+        withCredentials: true,
+      }
+    );
+  };
+
+  const { mutate, isLoading } = useMutation("uploadFile", updateFiles);
 
   const onDropAccepted = useCallback((acceptedFile: File[]) => {
     setFile(acceptedFile[0]);
@@ -34,8 +48,10 @@ const Dropzone: React.FC<props> = ({ status, tipoDocumento }) => {
     //@ts-ignore
     formData.append("documento", file);
 
+    mutate(formData);
+
     fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/users/upload?fileType=${tipoDocumento}`,
+      `${process.env.NEXT_PUBLIC_API_URL}/docs/upload?fileType=${tipoDocumento}`,
       {
         method: "POST",
         body: formData,
@@ -110,16 +126,18 @@ const Dropzone: React.FC<props> = ({ status, tipoDocumento }) => {
           )}
           <p className="h-10 text-sm font-light truncate">{file.name}</p>
         </div>
-        <div className="flex flex-col h-full w-24 gap-5 z-10">
-          <button
+        <div className="flex flex-col h-full  gap-5 z-10">
+          <IconButton
+            aria-label="upload-file"
             type="button"
-            className="text-white font-bold bg-buttons-success/50 w-8 h-8 flex justify-center items-center ml-3 p-1.5 rounded-lg"
+            colorScheme="green"
             onClick={uploadFile}
             disabled={isUploading}
-          >
-            <BsCheck2 className="h-full w-full" />
-            <span className="sr-only">Subir archivo</span>
-          </button>
+            isLoading={isLoading}
+            fontSize={"3xl"}
+            size={"sm"}
+            icon={<BsCheck2 />}
+          ></IconButton>
           <button
             type="button"
             className="text-white font-bold bg-buttons-danger/50 w-8 h-8 flex justify-center items-center ml-3 p-1.5 rounded-lg"
