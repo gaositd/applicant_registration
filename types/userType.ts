@@ -5,7 +5,7 @@ export interface UserType {
   matricula: string;
   isDeleted: boolean;
   role: RoleType;
-  status: "all" | "pending" | "dueued";
+  status: "completed" | "pending" | "dueued";
 }
 
 export type RoleType = "admin" | "secretaria" | "prospecto";
