@@ -33,6 +33,7 @@ import { useQuery, useQueryClient } from "react-query";
 import { UserType } from "../../../../types/userType";
 import ModalProspecto from "./ModalProspecto";
 import { debounce } from "lodash";
+import { USER_STATUSES } from "../../../../constants";
 
 interface IAdminPageProps {
   isAdmin: boolean;
@@ -149,6 +150,7 @@ export const AdminPage: React.FC<IAdminPageProps> = ({ isAdmin }) => {
               <Tr>
                 <Th>Matricula</Th>
                 <Th>Nombre</Th>
+                <Th>Status</Th>
                 <Th isNumeric>Acciones</Th>
               </Tr>
             </Thead>
@@ -165,8 +167,7 @@ export const AdminPage: React.FC<IAdminPageProps> = ({ isAdmin }) => {
                 data?.map((prospecto) => (
                   <TableItem
                     key={prospecto.matricula}
-                    matricula={prospecto.matricula}
-                    nombre={`${prospecto.nombre}`}
+                    Usuario={prospecto}
                     modalEvent={handleModal}
                   />
                 ))
@@ -200,18 +201,20 @@ export const AdminPage: React.FC<IAdminPageProps> = ({ isAdmin }) => {
 };
 
 interface ITableItems {
-  matricula: string;
-  nombre: string;
+  Usuario: UserType;
   modalEvent: (arg0: { action: "remove" | "edit"; matricula: string }) => void;
 }
 
-const TableItem = ({ matricula, nombre, modalEvent }: ITableItems) => {
+const TableItem = ({ Usuario, modalEvent }: ITableItems) => {
+  const { matricula, nombre, status } = Usuario;
+
   const router = useRouter();
 
   return (
     <Tr _hover={{ bgColor: "#f2f2f2" }}>
       <Td fontWeight={"bold"}>{matricula}</Td>
       <Td>{nombre}</Td>
+      <Td>{USER_STATUSES[status]}</Td>
       <Td isNumeric>
         <ButtonGroup>
           <Tooltip label="Ver expediente">

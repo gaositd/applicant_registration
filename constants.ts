@@ -10,3 +10,9 @@ export const FILE_STATUSES = {
   rejected: "Archivo rechazado",
   "open-to-upload": "Archivo pendiente",
 };
+
+export const USER_STATUSES = {
+  completed: "Expediente completo",
+  pending: "Expediente incompleto",
+  dueued: "Expediente vencido",
+};

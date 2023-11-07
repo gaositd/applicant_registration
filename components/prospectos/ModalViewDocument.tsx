@@ -1,12 +1,10 @@
 import {
   Modal,
-  ModalOverlay,
+  ModalBody,
+  ModalCloseButton,
   ModalContent,
   ModalHeader,
-  ModalCloseButton,
-  ModalBody,
-  ModalFooter,
-  Button,
+  ModalOverlay,
 } from "@chakra-ui/react";
 import axios from "axios";
 import { useEffect, useState } from "react";
@@ -41,32 +39,21 @@ export const ModalViewDocument: React.FC<IModalViewDocumentProps> = ({
   }, [documentId]);
 
   return (
-    <Modal
-      onClose={onClose}
-      isOpen={isOpen}
-      isCentered
-      size={"6xl"}
-      orientation="vertical"
-    >
+    <Modal onClose={onClose} isOpen={isOpen} size={"6xl"}>
       <ModalOverlay />
-      <ModalContent h={"70%"}>
+      <ModalContent h="100%">
         <ModalHeader>{documentName}</ModalHeader>
         <ModalCloseButton />
-        <ModalBody h={"100%"}>
+        <ModalBody h={"100%"} overflowY={"auto"}>
           {file && (
-            <object height={"100%"}>
-              <embed
-                src={file}
-                type="application/pdf"
-                width="100%"
-                height="100%"
-              />
-            </object>
+            <embed
+              src={file}
+              type="application/pdf"
+              width="100%"
+              height="100%"
+            />
           )}
         </ModalBody>
-        <ModalFooter>
-          <Button onClick={onClose}>Close</Button>
-        </ModalFooter>
       </ModalContent>
     </Modal>
   );
