@@ -121,7 +121,13 @@ const Dropzone: React.FC<props> = ({ status, tipoDocumento }) => {
           {isUploading ? (
             <Loading />
           ) : file.type.includes("pdf") ? (
-            <Image src="/pdf.png" alt="file-pdf" w={"80%"} h={"80%"} />
+            <Image
+              src="/pdf.png"
+              alt="file-pdf"
+              w={"80%"}
+              h={"80%"}
+              objectFit={"contain"}
+            />
           ) : (
             // <img src="/pdf.png" className="w-full h-[80%] object-fill"></img>
             <img

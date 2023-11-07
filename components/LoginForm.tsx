@@ -106,7 +106,7 @@ const LoginForm: React.FC = () => {
                 actions.setSubmitting(false);
                 setIsDisabled(true);
 
-                router.push("/dashboard");
+                router.replace("/dashboard");
               })
               .catch((err) => {
                 console.log(err);
