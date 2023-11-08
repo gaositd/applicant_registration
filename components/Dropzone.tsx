@@ -1,11 +1,9 @@
 "use client";
 
 import { Flex, IconButton, Image, Text, useToast } from "@chakra-ui/react";
-import axios from "axios";
 import { useCallback, useState } from "react";
 import { FileRejection, useDropzone } from "react-dropzone";
 import { BsCheck2, BsTrash } from "react-icons/bs";
-import { useMutation } from "react-query";
 import { Loading } from "./loadingComponent";
 interface props {
   status: string;
@@ -16,18 +14,7 @@ const Dropzone: React.FC<props> = ({ status, tipoDocumento }) => {
   const [file, setFile] = useState<File>();
   const [isUploading, setUploading] = useState<boolean>(false);
   const toast = useToast();
-
-  const updateFiles = async (formData: FormData) => {
-    await axios.post(
-      `${process.env.NEXT_PUBLIC_API_URL}/docs/upload`,
-      formData,
-      {
-        withCredentials: true,
-      }
-    );
-  };
-
-  const { mutate, isLoading } = useMutation("uploadFile", updateFiles);
+  const [isUploadSuccesful, setIsUploadSuccesful] = useState<boolean>(false);
 
   const onDropAccepted = useCallback((acceptedFile: File[]) => {
     setFile(acceptedFile[0]);
@@ -47,8 +34,6 @@ const Dropzone: React.FC<props> = ({ status, tipoDocumento }) => {
     const formData = new FormData();
     //@ts-ignore
     formData.append("documento", file);
-
-    mutate(formData);
 
     fetch(
       `${process.env.NEXT_PUBLIC_API_URL}/docs/upload?fileType=${tipoDocumento}`,
@@ -71,6 +56,7 @@ const Dropzone: React.FC<props> = ({ status, tipoDocumento }) => {
         });
 
         //reload page
+        setIsUploadSuccesful(true);
         setTimeout(() => {
           window.location.reload();
         }, 1000);
@@ -150,7 +136,7 @@ const Dropzone: React.FC<props> = ({ status, tipoDocumento }) => {
             colorScheme="green"
             onClick={uploadFile}
             disabled={isUploading}
-            isLoading={isLoading}
+            isLoading={isUploading}
             fontSize={"3xl"}
             size={"sm"}
             icon={<BsCheck2 />}
@@ -161,7 +147,7 @@ const Dropzone: React.FC<props> = ({ status, tipoDocumento }) => {
             colorScheme="red"
             onClick={deleteFile}
             disabled={isUploading}
-            isLoading={isLoading}
+            isLoading={isUploading}
             fontSize={"xl"}
             size={"sm"}
             icon={<BsTrash />}
@@ -169,6 +155,8 @@ const Dropzone: React.FC<props> = ({ status, tipoDocumento }) => {
         </Flex>
       </Flex>
     );
+
+  if (isUploadSuccesful) return <></>;
 
   return requiredFileUploadStatus(status) ? (
     <Flex
