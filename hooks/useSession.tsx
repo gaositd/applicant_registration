@@ -20,6 +20,7 @@ export const useSession = async () => {
         withCredentials: true,
         headers: {
           Cookie,
+          "Cache-Control": "no-cache",
         },
       }
     );

@@ -1,3 +1,6 @@
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 import { redirect } from "next/navigation";
 import React from "react";
 import { AdminPage } from "../../components/pages/dashboard/secretaria/AdminPage";
@@ -7,6 +10,10 @@ import { useSession } from "../../hooks/useSession";
 async function page() {
   const user = await useSession();
 
+  console.log(user && "User authenticated: ", {
+    user: user?.nombre,
+    role: user?.role,
+  });
   if (!user) {
     redirect("/login");
   }
