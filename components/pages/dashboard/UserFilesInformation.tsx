@@ -1,8 +1,16 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { Container } from "@chakra-ui/react";
+import {
+  Container,
+  Grid,
+  GridItem,
+  Stack,
+  Flex,
+  Heading,
+  Progress,
+} from "@chakra-ui/react";
 import DocumentContainer from "../../DocumentContainer";
-import Column from "../../GridSystem/Column";
+import { TalonAvisos } from "./user/TalonAvisos";
 
 export type UsersDocumentType = {
   status: string;
@@ -33,25 +41,35 @@ const UserFilesInformation: React.FC<props> = ({ documentsArray }) => {
   }, [documentsArray]);
 
   return (
-    <Column>
-      <Container className="w-4/6 mx-auto">
-        <h1 className="text-xl mb-5">Tiene un {percentage}% terminado</h1>
-        <div className="mb-4 w-full h-4 bg-gray-200 rounded-full dark:bg-gray-700">
-          <div
-            className={`h-4 bg-blue-600 rounded-full dark:bg-blue-500 `}
-            style={{ width: `${percentage}%` }}
-          ></div>
-        </div>
-      </Container>
-      {documentos.map((document) => (
-        <DocumentContainer
-          key={document.id}
-          nombredDocumento={document.fileType}
-          status={document.status}
-          observaciones={document.observaciones}
-        />
-      ))}
-    </Column>
+    <Flex height={"100%"} w={"100%"} id="GridContainer" flexDir={"column"}>
+      <Flex
+        w={"100%"}
+        flexDir={"column"}
+        h={"15%"}
+        justify={"center"}
+        align={"center"}
+        gap={4}
+      >
+        <Heading fontSize={"xl"}>
+          Tienes un {percentage}% del expediente terminado
+        </Heading>
+        <Progress value={percentage} w={"60%"} borderRadius={"lg"} hasStripe />
+      </Flex>
+
+      <Flex gap={4} w="100%" h={"85%"}>
+        <Stack w={"75%"}>
+          {documentos.map((document) => (
+            <DocumentContainer
+              key={document.id}
+              nombredDocumento={document.fileType}
+              status={document.status}
+              observaciones={document.observaciones}
+            />
+          ))}
+        </Stack>
+        <TalonAvisos />
+      </Flex>
+    </Flex>
   );
 };
 
