@@ -45,6 +45,7 @@ const DocumentContainer: React.FC<props> = ({
       align={"center"}
       as={"section"}
       flexDir={{ base: "column", md: "row" }}
+      overflowY={"auto"}
     >
       <Flex as={"article"} flexDir={"column"}>
         <Text fontWeight={"bold"} fontSize={"2xl"}>
