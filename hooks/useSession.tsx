@@ -1,6 +1,5 @@
-import axios from "axios";
-import { UserType } from "../types/userType";
 import { headers } from "next/headers";
+import { UserType } from "../types/userType";
 
 interface sessionType {
   user?: UserType;
@@ -14,16 +13,18 @@ export const useSession = async () => {
 
     const Cookie = nextHeaders.get("Cookie") ?? "";
 
-    const { data } = await axios.get<sessionType>(
-      `${process.env.NEXT_PUBLIC_API_URL}/auth/me`,
-      {
-        withCredentials: true,
-        headers: {
-          Cookie,
-          "Cache-Control": "no-cache",
-        },
-      }
-    );
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/me`, {
+      credentials: "include",
+      headers: {
+        Cookie,
+        "Cache-Control": "no-cache",
+      },
+      cache: "no-store",
+    });
+
+    const data: sessionType = await response.json();
+
+    if (!data.user) return null;
 
     return data.user;
   } catch (err: any) {
