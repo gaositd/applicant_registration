@@ -1,14 +1,6 @@
 "use client";
+import { Flex, Heading, Progress, Stack } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
-import {
-  Container,
-  Grid,
-  GridItem,
-  Stack,
-  Flex,
-  Heading,
-  Progress,
-} from "@chakra-ui/react";
 import DocumentContainer from "../../DocumentContainer";
 import { TalonAvisos } from "./user/TalonAvisos";
 
@@ -25,9 +17,13 @@ export type UsersDocumentType = {
 
 interface props {
   documentsArray: UsersDocumentType[];
+  isExpedienteBlocked: boolean;
 }
 
-const UserFilesInformation: React.FC<props> = ({ documentsArray }) => {
+const UserFilesInformation: React.FC<props> = ({
+  documentsArray,
+  isExpedienteBlocked,
+}) => {
   const [percentage, setPercentage] = useState(0);
   const [documentos] = useState(documentsArray);
 
@@ -56,18 +52,30 @@ const UserFilesInformation: React.FC<props> = ({ documentsArray }) => {
         <Progress value={percentage} w={"60%"} borderRadius={"lg"} hasStripe />
       </Flex>
 
-      <Flex gap={4} w="100%" h={"85%"}>
-        <Stack w={"75%"}>
-          {documentos.map((document) => (
-            <DocumentContainer
-              key={document.id}
-              nombredDocumento={document.fileType}
-              status={document.status}
-              observaciones={document.observaciones}
-            />
-          ))}
-        </Stack>
+      <Flex
+        gap={4}
+        w="100%"
+        h={"85%"}
+        flexDir={{ base: "column", md: "row-reverse" }}
+      >
         <TalonAvisos />
+        {!isExpedienteBlocked ? (
+          <Stack w={"75%"}>
+            {documentos.map((document) => (
+              <DocumentContainer
+                key={document.id}
+                nombredDocumento={document.fileType}
+                status={document.status}
+                observaciones={document.observaciones}
+              />
+            ))}
+          </Stack>
+        ) : (
+          <Heading fontSize={"xl"}>
+            No puedes subir documentos hasta que completes los requerimientos en
+            el talon de avisos, revisalos o ponte en contacto con tu asesor
+          </Heading>
+        )}
       </Flex>
     </Flex>
   );

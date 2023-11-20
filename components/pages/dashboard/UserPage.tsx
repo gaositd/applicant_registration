@@ -5,34 +5,48 @@ import UserFilesInformation, {
 } from "./UserFilesInformation";
 import axios from "axios";
 
-async function fetchUserDocuments<T>(): Promise<T[]> {
+async function fetchUserDocuments(): Promise<{
+  documentos: UsersDocumentType[];
+  expedienteBlocked: boolean;
+}> {
   const nextHeaders = headers();
 
   const Cookie = nextHeaders.get("Cookie") ?? "";
 
   try {
-    const { data } = await axios.get(
-      `${process.env.NEXT_PUBLIC_API_URL}/docs`,
-      {
-        withCredentials: true,
-        headers: {
-          Cookie,
-          "Content-Type": "application/json",
-        },
-      }
-    );
+    const { data } = await axios.get<{
+      documentos: UsersDocumentType[];
+      isExpedienteBlocked: boolean;
+    }>(`${process.env.NEXT_PUBLIC_API_URL}/docs`, {
+      withCredentials: true,
+      headers: {
+        Cookie,
+        "Content-Type": "application/json",
+      },
+    });
 
-    return data.documentos;
+    return {
+      documentos: data.documentos,
+      expedienteBlocked: data.isExpedienteBlocked,
+    };
   } catch (error) {
     console.log(error);
-    return [];
+    return {
+      documentos: [],
+      expedienteBlocked: false,
+    };
   }
 }
 
 const UserPage = async () => {
-  const userDocuments = await fetchUserDocuments<UsersDocumentType>();
+  const userDocuments = await fetchUserDocuments();
 
-  return <UserFilesInformation documentsArray={userDocuments} />;
+  return (
+    <UserFilesInformation
+      documentsArray={userDocuments.documentos}
+      isExpedienteBlocked={userDocuments.expedienteBlocked}
+    />
+  );
 };
 
 export default UserPage;

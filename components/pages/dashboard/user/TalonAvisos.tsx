@@ -29,7 +29,7 @@ export const TalonAvisos: React.FC = () => {
       border={"2px"}
       borderColor={"structure.borders"}
       borderRadius={"2xl"}
-      w={"25%"}
+      w={{ base: "100%", md: "40%" }}
       flexDir={"column"}
       p={3}
       align={"center"}
