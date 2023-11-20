@@ -2,6 +2,7 @@
 
 import {
   Button,
+  Flex,
   Heading,
   Menu,
   MenuButton,
@@ -9,6 +10,7 @@ import {
   MenuItem,
   MenuList,
   useToast,
+  Image,
 } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
@@ -50,10 +52,17 @@ const Navbar: React.FC<props> = () => {
   };
 
   return (
-    <div className="bg-pallete-primary w-full h-24 flex p-6 justify-between">
-      <div>
-        <img src="/logo.png" alt="logo" className="h-full object-cover" />
-      </div>
+    <Flex
+      bgColor={"primary.base"}
+      w={"100%"}
+      h={"10%"}
+      p={6}
+      justify={"space-between"}
+      align={"center"}
+    >
+      <Flex>
+        <Image src="/logo.png" alt="logo" />
+      </Flex>
 
       <div>
         <Heading color="white" size="md">
@@ -81,7 +90,7 @@ const Navbar: React.FC<props> = () => {
       </Menu>
       {/* <h2 className="font-bold text-white">John Doe</h2>
       <AiFillCaretDown className="text-white" /> */}
-    </div>
+    </Flex>
   );
 };
 
