@@ -1,13 +1,21 @@
-import * as Yup from "yup";
-const RegisterSchema = Yup.object().shape({
-  nombre: Yup.string().required("El nombre es requerido"),
-  apellidoPaterno: Yup.string().required("El apellido paterno es requerido"),
-  apellidoMaterno: Yup.string().required("El apellido materno es requerido"),
-  sexo: Yup.mixed().oneOf(["hombre", "mujer"]).required("El sexo es requerido"),
-  email: Yup.string()
-    .email("El email no es válido")
-    .required("El email es requerido"),
-  telefono: Yup.string().required("El teléfono es requerido"),
-  direccion: Yup.string().required("La dirección es requerida"),
+import { z } from "zod";
+
+enum Sexo {
+  mujer = "mujer",
+  hombre = "hombre",
+}
+
+const RegisterSchema = z.object({
+  nombre: z.string(),
+  apellidoPaterno: z.string(),
+  apellidoMaterno: z.string(),
+  email: z.string().email(),
+  sexo: z.nativeEnum(Sexo, {
+    required_error: "Sexo requerido",
+    invalid_type_error: "Opción inválida",
+  }),
+  telefono: z.string(),
+  direccion: z.string(),
 });
+
 export default RegisterSchema;

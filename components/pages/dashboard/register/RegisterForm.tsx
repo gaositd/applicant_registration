@@ -27,7 +27,7 @@ import { FaPhone } from "react-icons/fa";
 import { FaHouseChimneyUser } from "react-icons/fa6";
 import { TFormInputsSections, TInput } from "./register.types";
 import RegisterSchema from "./validation.schema";
-import * as Yup from "yup";
+import { ZodError } from "zod";
 
 const FormInputs: TFormInputsSections[] = [
   {
@@ -149,20 +149,29 @@ const RegisterForm: React.FC = () => {
 
   const handleOnStepChange = async (action: "next" | "prev") => {
     try {
-      const test = await RegisterSchema.validate(formData);
+      const data = RegisterSchema.parse(formData);
 
-      console.log("QUIERO VER ESTE VALIR", test);
+      console.log("QUIERO VER ESTE VALIR", data);
       if (action === "next" && currentPage !== FormInputs.length - 1) {
         setCurrentPage((prev) => prev + 1);
       } else {
         setCurrentPage((prev) => prev - 1);
       }
     } catch (error) {
-      if (error instanceof Yup.ValidationError) {
-        setErrors((prev) => ({
-          ...prev,
-          [error.path]: error.message,
-        }));
+      if (error instanceof ZodError) {
+        const formErrors: Record<string, string> = {};
+
+        const flatErrors = error.flatten().fieldErrors;
+        Object.keys(flatErrors).forEach((errorKey) => {
+          const errorValue = flatErrors[errorKey];
+          if (Array.isArray(errorValue) && errorValue.length > 0) {
+            formErrors[errorKey] = errorValue[0];
+          }
+        });
+
+        console.log(formErrors);
+
+        setErrors(formErrors);
       }
     }
   };
