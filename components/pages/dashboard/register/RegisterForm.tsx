@@ -17,68 +17,113 @@ import {
   useToast,
   Heading,
   ButtonGroup,
+  Select,
 } from "@chakra-ui/react";
-import { Field, Form, Formik } from "formik";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { IconType } from "react-icons";
+import { useEffect, useState } from "react";
 import { BiSolidUserCircle } from "react-icons/bi";
-import { FaLock } from "react-icons/fa";
+import { MdAlternateEmail } from "react-icons/md";
+import { FaPhone } from "react-icons/fa";
+import { FaHouseChimneyUser } from "react-icons/fa6";
+import { TFormInputsSections, TInput } from "./register.types";
+import RegisterSchema from "./validation.schema";
+import * as Yup from "yup";
 
-type TFormInputs = {
-  [key: string]: {
-    placeholder: string;
-    icon: IconType;
-  };
-};
-
-const FormInputs: TFormInputs[] = [
+const FormInputs: TFormInputsSections[] = [
   {
-    name: {
-      placeholder: "Nombre",
-      icon: BiSolidUserCircle,
-    },
-    apellidoPaterno: {
-      placeholder: "Apellido paterno",
-      icon: BiSolidUserCircle,
-    },
-    apellidoMaterno: {
-      placeholder: "Apellido materno",
-      icon: BiSolidUserCircle,
+    name: "Datos personales",
+    inputs: {
+      nombre: {
+        type: "text",
+        placeholder: "Nombre",
+        icon: BiSolidUserCircle,
+      },
+      apellidoPaterno: {
+        type: "text",
+        placeholder: "Apellido paterno",
+        icon: BiSolidUserCircle,
+      },
+      apellidoMaterno: {
+        type: "text",
+        placeholder: "Apellido materno",
+        icon: BiSolidUserCircle,
+      },
+      sexo: {
+        type: "select",
+        icon: BiSolidUserCircle,
+        placeholder: "Sexo",
+        options: [
+          {
+            value: "H",
+            label: "Hombre",
+          },
+          {
+            value: "M",
+            label: "Mujer",
+          },
+        ],
+      },
     },
   },
   {
-    matricula: {
-      placeholder: "Matrícula",
-      icon: BiSolidUserCircle,
-    },
-    password: {
-      placeholder: "Contraseña",
-      icon: FaLock,
-    },
-  },
-  {
-    carrera: {
-      placeholder: "Carrera",
-      icon: BiSolidUserCircle,
-    },
-    semestre: {
-      placeholder: "Semestre",
-      icon: BiSolidUserCircle,
-    },
-    grupo: {
-      placeholder: "Grupo",
-      icon: BiSolidUserCircle,
+    name: "Datos de contacto",
+    inputs: {
+      email: {
+        type: "email",
+        placeholder: "Correo electrónico",
+        icon: MdAlternateEmail,
+      },
+      telefono: {
+        type: "text",
+        placeholder: "Teléfono",
+        icon: FaPhone,
+      },
+      direccion: {
+        type: "text",
+        placeholder: "Dirección",
+        icon: FaHouseChimneyUser,
+      },
     },
   },
 ];
 
 const getInputObject = () => {
-  return FormInputs.map((input) => {
-    return Object.keys(input).map((key) => {
-      return { [key]: "" };
+  type TInputs = {
+    [key: string]: string;
+  };
+
+  const inputs: TInputs = {};
+
+  FormInputs.forEach((section) => {
+    Object.keys(section.inputs).forEach((key) => {
+      inputs[key] = "";
     });
   });
+
+  return inputs;
+};
+
+const getInputHTML = (input: TInput) => {
+  if (input.type === "select") {
+    return (
+      <Select bgColor={"white"}>
+        {input.options.map((option) => (
+          <option value={option.value} key={option.value}>
+            {option.label}
+          </option>
+        ))}
+      </Select>
+    );
+  }
+
+  return (
+    <Input
+      type={input.type}
+      placeholder={input.placeholder}
+      bgColor={"white"}
+      {...input.additonalProps}
+    />
+  );
 };
 
 const RegisterForm: React.FC = () => {
@@ -86,7 +131,41 @@ const RegisterForm: React.FC = () => {
   const toast = useToast();
   const [isDisabled, setIsDisabled] = useState(false);
   const [currentPage, setCurrentPage] = useState(0);
+  const [formData, setFormData] = useState(getInputObject());
+  const [errors, setErrors] = useState<Record<string, string>>({});
 
+  useEffect(() => {
+    console.log(
+      currentPage,
+      currentPage === FormInputs.length - 1,
+      FormInputs.length
+    );
+  }, [currentPage]);
+
+  const handleSubmit = () => {
+    console.log("Registrarse");
+    console.log(formData);
+  };
+
+  const handleOnStepChange = async (action: "next" | "prev") => {
+    try {
+      const test = await RegisterSchema.validate(formData);
+
+      console.log("QUIERO VER ESTE VALIR", test);
+      if (action === "next" && currentPage !== FormInputs.length - 1) {
+        setCurrentPage((prev) => prev + 1);
+      } else {
+        setCurrentPage((prev) => prev - 1);
+      }
+    } catch (error) {
+      if (error instanceof Yup.ValidationError) {
+        setErrors((prev) => ({
+          ...prev,
+          [error.path]: error.message,
+        }));
+      }
+    }
+  };
   return (
     <Flex
       as={"main"}
@@ -139,136 +218,65 @@ const RegisterForm: React.FC = () => {
         flexDir={"column"}
       >
         <Heading color={"white"}>Registrate</Heading>
-        <Formik
-          initialValues={{ ...getInputObject() }}
-          onSubmit={(values, actions) => {
-            actions.setSubmitting(true);
 
-            fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/login`, {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              credentials: "include",
-              body: JSON.stringify(values),
-            })
-              .then((res) => {
-                if (res.status > 400)
-                  throw new Error("Credenciales incorrectas");
-                else return res.json();
-              })
-              .then((data) => {
-                localStorage.setItem(
-                  "user",
-                  JSON.stringify({
-                    name: data.nombre,
-                    matricula: data.matricula,
-                  })
-                );
-                actions.setSubmitting(false);
-                setIsDisabled(true);
-
-                router.replace("/dashboard");
-              })
-              .catch((err) => {
-                console.log(err);
-
-                toast({
-                  title: "Error",
-                  description: `${err.message}, si el error persiste comunicate a las oficinas de la UJED`,
-                  status: "error",
-                  duration: 3500,
-                });
-                actions.setSubmitting(false);
-              });
-          }}
+        <Stack
+          gap={3}
+          display="flex"
+          flexDir={"column"}
+          justify="center"
+          align={"center"}
+          w={"100%"}
+          padding={"3rem"}
         >
-          {(props) => (
-            <Form style={{ width: "100%", height: "60%" }}>
-              <Stack
-                gap={3}
-                display="flex"
-                flexDir={"column"}
-                justify="center"
-                align={"center"}
-                w={"100%"}
-                padding={"3rem"}
+          {Object.keys(FormInputs[currentPage].inputs).map((key) => {
+            return (
+              <FormControl key={key}>
+                <FormLabel
+                  htmlFor={key}
+                  color={"whiteAlpha.900"}
+                  fontWeight={"bold"}
+                >
+                  {FormInputs[currentPage].inputs[key].placeholder}
+                </FormLabel>
+                <InputGroup>
+                  {getInputHTML(FormInputs[currentPage].inputs[key])}
+                  <InputRightAddon
+                    children={
+                      <Icon as={FormInputs[currentPage].inputs[key].icon} />
+                    }
+                  />
+                </InputGroup>
+                <FormErrorMessage>{errors[key]}</FormErrorMessage>
+              </FormControl>
+            );
+          })}
+          <ButtonGroup>
+            {currentPage !== 0 && (
+              <Button
+                mt={4}
+                alignItems={"center"}
+                color="black"
+                bgColor="white"
+                onClick={() => setCurrentPage((prev) => prev - 1)}
               >
-                {FormInputs[currentPage] &&
-                  Object.keys(FormInputs[currentPage]).map((key) => (
-                    <Field name={key}>
-                      {({ field, form }: { field: any; form: any }) => (
-                        <FormControl
-                          isInvalid={form.errors.name && form.touched.name}
-                          marginBottom={{ base: "1rem", md: 0 }}
-                        >
-                          <FormLabel></FormLabel>
-                          <InputGroup>
-                            <Input
-                              {...field}
-                              placeholder={
-                                FormInputs[currentPage][key].placeholder
-                              }
-                              color={"black"}
-                              _placeholder={{ color: "#6A6A6A" }}
-                              bgColor="white"
-                              isDisabled={isDisabled}
-                            />
-                            <InputRightAddon
-                              bg="#E7E7E7"
-                              w={{ base: "2rem", md: "4.5rem" }}
-                              display="flex"
-                              justifyContent={"center"}
-                            >
-                              <Icon
-                                as={FormInputs[currentPage][key].icon}
-                                color="#6A6A6A"
-                                fontSize={{ base: "1rem", md: "1.5rem" }}
-                              />
-                            </InputRightAddon>
-                          </InputGroup>
-                        </FormControl>
-                      )}
-                    </Field>
-                  ))}
+                Atrás
+              </Button>
+            )}
 
-                <ButtonGroup>
-                  {currentPage !== 0 && (
-                    <Button
-                      mt={4}
-                      alignItems={"center"}
-                      color="black"
-                      bgColor="white"
-                      onClick={() => setCurrentPage((prev) => prev - 1)}
-                    >
-                      Atrás
-                    </Button>
-                  )}
-
-                  <Button
-                    mt={4}
-                    alignItems={"center"}
-                    color="black"
-                    bgColor="white"
-                    isLoading={props.isSubmitting}
-                    isDisabled={isDisabled}
-                    onClick={() => {
-                      if (currentPage === FormInputs.length - 1) {
-                        props.submitForm();
-                      } else {
-                        setCurrentPage((prev) => prev + 1);
-                      }
-                    }}
-                  >
-                    {currentPage === FormInputs.length - 1
-                      ? "Registrarse"
-                      : "Siguiente"}
-                  </Button>
-                </ButtonGroup>
-              </Stack>
-            </Form>
-          )}
-        </Formik>
+            <Button
+              mt={4}
+              alignItems={"center"}
+              color="black"
+              bgColor="white"
+              isDisabled={isDisabled}
+              onClick={() => handleOnStepChange("next")}
+            >
+              {currentPage === FormInputs.length - 1
+                ? "Registrarse"
+                : "Siguiente"}
+            </Button>
+          </ButtonGroup>
+        </Stack>
       </Flex>
     </Flex>
   );
