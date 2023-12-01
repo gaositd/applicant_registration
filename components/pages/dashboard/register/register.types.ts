@@ -3,7 +3,7 @@ import { IconType } from "react-icons";
 
 export type TInput =
   | {
-      type: "text" | "email" | "password" | "mail" | "date";
+      type: "text" | "email" | "password" | "mail" | "date" | "number";
       placeholder: string;
       icon: IconType;
       additonalProps?: InputProps;

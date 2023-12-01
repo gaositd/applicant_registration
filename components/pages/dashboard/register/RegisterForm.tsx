@@ -21,10 +21,19 @@ import {
 } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { BiSolidUserCircle } from "react-icons/bi";
-import { FaPhone } from "react-icons/fa";
+import {
+  BiCalendar,
+  BiDetail,
+  BiSolidFoodMenu,
+  BiSolidSchool,
+  BiSolidUserCircle,
+  BiWrench,
+} from "react-icons/bi";
+import { FaHouseUser, FaPhone } from "react-icons/fa";
 import { FaHouseChimneyUser } from "react-icons/fa6";
+import { GiMexico } from "react-icons/gi";
 import { MdAlternateEmail } from "react-icons/md";
+import { TbLanguageHiragana } from "react-icons/tb";
 import { ZodError } from "zod";
 import { TFormInputsSections, TInput } from "./register.types";
 import RegisterSchema from "./validation.schema";
@@ -51,6 +60,12 @@ const FormInputs: TFormInputsSections[] = [
         placeholder: "Escibre tu apellido materno",
         icon: BiSolidUserCircle,
       },
+      fechaNacimiento:{
+        type:"date",
+        placeholder:"",
+        icon: BiCalendar,
+        label:"Fecha de nacimiento"
+      },
       sexo: {
         label: "Sexo",
         type: "select",
@@ -71,6 +86,44 @@ const FormInputs: TFormInputsSections[] = [
           },
         ],
       },
+      curp:{
+        type: "text",
+        label:"C.U.R.P. escrita",
+        placeholder: "Escribe tu C.U.R.P.",
+        icon: BiSolidFoodMenu,
+      },
+      estadoCivil:{
+        label: "Estado civil",
+        type: "select",
+        icon: BiSolidUserCircle,
+        placeholder: "Selecciona tu estado civil de las opciones",
+        options:[
+          {
+            value: "soltero",
+            label: "Soltero",
+          },
+          {
+            value: "casado",
+            label: "Casado",
+          },
+        ],
+      },
+      dialecto:{
+        label: "Hablas alguna lengua indígena?",
+        type: "select",
+        icon: TbLanguageHiragana,
+        placeholder: "Selecciona una de las opciones",
+        options:[
+          {
+            value: "si",
+            label: "Sí",
+          },
+          {
+            value: "no",
+            label: "No",
+          },
+        ],
+      },
     },
   },
   {
@@ -86,18 +139,365 @@ const FormInputs: TFormInputsSections[] = [
       },
       telefono: {
         type: "text",
-        label: "Teléfono",
+        label: "Teléfono fijo",
+        placeholder: "Debe contener 10 dígitos (ej. 6181234567)",
+        icon: FaPhone,
+      },
+      celular: {
+        type: "text",
+        label: "Teléfono celular",
         placeholder: "Debe contener 10 dígitos (ej. 6181234567)",
         icon: FaPhone,
       },
       direccion: {
         type: "text",
-        label: "Dirección",
+        label: "Dirección actual",
         placeholder: "Escribe tu dirección completa",
         icon: FaHouseChimneyUser,
       },
+      trabaja:{
+        label: "¿Trabajas?",
+        type: "select",
+        icon: BiWrench,
+        placeholder: "Selecciona una de las opciones",
+        options:[
+          {
+            value: "si",
+            label: "Sí",
+          },
+          {
+            value: "no",
+            label: "No",
+          },
+        ],
+      },
+      estadoNacimiento:{
+        label: "Estado de nacimiento",
+        type: "select",
+        icon: GiMexico,
+        placeholder: "Selecciona un estado de las opciones",
+        options:[
+          {
+            value: "aguascalientes",
+            label: "Aguascalientes",
+          },
+          {
+            value: "bajaCalifonia",
+            label: "Baja Califonia",
+          },
+          {
+            value: "bajaCalifoniaSur",
+            label: "Baja Califonia Sur",
+          },
+          {
+            value: "Campeche",
+            label: "Campeche",
+          },
+          {
+            value: "Chiapas",
+            label: "Chiapas",
+          },
+          {
+            value: "chihuahua",
+            label: "Chihuahua",
+          },
+          {
+            value: "cdmx",
+            label: "Ciudad de México",
+          },
+          {
+            value: "cohahuila",
+            label: "Coahuila de Zaragoza",
+          },
+          {
+            value: "colima",
+            label: "Colima",
+          },
+          {
+            value: "df",
+            label: "Distrito Federal",
+          },
+          {
+            value: "durango",
+            label: "Durango",
+          },
+          {
+            value: "guanajuato",
+            label: "Guanajuato",
+          },
+          {
+            value: "guerrero",
+            label: "Guerrero",
+          },
+          {
+            value: "hidalgo",
+            label: "Hidalgo",
+          },
+          {
+            value: "Jalisco",
+            label: "Jalisco",
+          },
+          {
+            value: "michoacan",
+            label: "Michoacan de Ocampo",
+          },
+          {
+            value: "Morelos",
+            label: "Morelos",
+          },
+          {
+            value: "Nayarit",
+            label: "Nayarit",
+          },
+          {
+            value: "nuevoLeon",
+            label: "Nuevo León",
+          },
+          {
+            value: "oaxaca",
+            label: "Oaxaca",
+          },
+          {
+            value: "puebla",
+            label: "Puebla",
+          },
+          {
+            value: "qro",
+            label: "Querétaro",
+          },
+          {
+            value: "quintanaRoo",
+            label: "Quintana Roo",
+          },
+          {
+            value: "slp",
+            label: "San Luis Potosí",
+          },
+          {
+            value: "sin",
+            label: "Sinaloa",
+          },
+          {
+            value: "son",
+            label: "Sonora",
+          },
+          {
+            value: "taba",
+            label: "Tabasco",
+          },
+          {
+            value: "tam",
+            label: "Tamaulipas",
+          },
+          {
+            value: "tlx",
+            label: "Tlaxcala",
+          },
+          {
+            value: "vera",
+            label: "Veracruz de la Llave",
+          },
+          {
+            value: "yuc",
+            label: "Yucatán",
+          },
+          {
+            value: "zac",
+            label: "Zacatecas",
+          },
+          {
+            value: "extr",
+            label: "Extranjero",
+          },
+        ],
+      },
+      municipioNacimiento: {
+        type: "text",
+        label: "Municipio de nacimiento",
+        placeholder: "Municipio donde naciste",
+        icon: FaHouseUser,
+      },
     },
   },
+  {
+    name:"Datos Escolares",
+    inputs:{
+      escuelaProcedencia:{
+        type:"text",
+        label: "Nombre de la escuela de procedencia",
+        placeholder: "Nombre de la escuela",
+        icon: BiSolidSchool,
+      },
+      promedioBachillerato:{
+        type: "number",
+        label: "Promedio de certificado de bachillerato",
+        placeholder: "Sí aún no terminas el bachillerato poner el promedio de 1ro a 5to semestre",
+        icon: BiDetail,
+      },
+      tipoEscuelaProcedencia:{
+        label: "Tipo escuela de procedencia",
+        type: "select",
+        icon: BiSolidSchool,
+        placeholder: "Selecciona el tipo de escuela de las opciones",
+        options:[
+          {
+            value: "privada",
+            label: "Privada",
+          },
+          {
+            value: "publica",
+            label: "Pública",
+          },
+        ],
+      },
+      estadoEscuela:{
+        label: "Estado de la escuela de procedencia",
+        type: "select",
+        icon: GiMexico,
+        placeholder: "Selecciona un estado de las opciones",
+        options:[
+          {
+            value: "aguascalientes",
+            label: "Aguascalientes",
+          },
+          {
+            value: "bajaCalifonia",
+            label: "Baja Califonia",
+          },
+          {
+            value: "bajaCalifoniaSur",
+            label: "Baja Califonia Sur",
+          },
+          {
+            value: "Campeche",
+            label: "Campeche",
+          },
+          {
+            value: "Chiapas",
+            label: "Chiapas",
+          },
+          {
+            value: "chihuahua",
+            label: "Chihuahua",
+          },
+          {
+            value: "cdmx",
+            label: "Ciudad de México",
+          },
+          {
+            value: "cohahuila",
+            label: "Coahuila de Zaragoza",
+          },
+          {
+            value: "colima",
+            label: "Colima",
+          },
+          {
+            value: "df",
+            label: "Distrito Federal",
+          },
+          {
+            value: "durango",
+            label: "Durango",
+          },
+          {
+            value: "guanajuato",
+            label: "Guanajuato",
+          },
+          {
+            value: "guerrero",
+            label: "Guerrero",
+          },
+          {
+            value: "hidalgo",
+            label: "Hidalgo",
+          },
+          {
+            value: "Jalisco",
+            label: "Jalisco",
+          },
+          {
+            value: "michoacan",
+            label: "Michoacan de Ocampo",
+          },
+          {
+            value: "Morelos",
+            label: "Morelos",
+          },
+          {
+            value: "Nayarit",
+            label: "Nayarit",
+          },
+          {
+            value: "nuevoLeon",
+            label: "Nuevo León",
+          },
+          {
+            value: "oaxaca",
+            label: "Oaxaca",
+          },
+          {
+            value: "puebla",
+            label: "Puebla",
+          },
+          {
+            value: "qro",
+            label: "Querétaro",
+          },
+          {
+            value: "quintanaRoo",
+            label: "Quintana Roo",
+          },
+          {
+            value: "slp",
+            label: "San Luis Potosí",
+          },
+          {
+            value: "sin",
+            label: "Sinaloa",
+          },
+          {
+            value: "son",
+            label: "Sonora",
+          },
+          {
+            value: "taba",
+            label: "Tabasco",
+          },
+          {
+            value: "tam",
+            label: "Tamaulipas",
+          },
+          {
+            value: "tlx",
+            label: "Tlaxcala",
+          },
+          {
+            value: "vera",
+            label: "Veracruz de la Llave",
+          },
+          {
+            value: "yuc",
+            label: "Yucatán",
+          },
+          {
+            value: "zac",
+            label: "Zacatecas",
+          },
+          {
+            value: "extr",
+            label: "Extranjero",
+          },
+        ],
+      },
+      municipioEscuela: {
+        type: "text",
+        label: "Municipio de la escuela de procedencia",
+        placeholder: "Municipio de la escuela de procedencia",
+        icon: FaHouseUser,
+      },
+    },
+  }
 ];
 
 const getInputObject = () => {
@@ -330,7 +730,7 @@ const RegisterForm: React.FC = () => {
               isDisabled={isDisabled}
               onClick={() => handleOnStepChange("next")}
             >
-              {currentPage === FormInputs.length - 1
+              {currentPage === FormInputs.length
                 ? "Registrarse"
                 : "Siguiente"}
             </Button>
