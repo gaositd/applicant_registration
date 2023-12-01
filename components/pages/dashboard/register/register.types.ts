@@ -7,9 +7,11 @@ export type TInput =
       placeholder: string;
       icon: IconType;
       additonalProps?: InputProps;
+      label: string;
     }
   | {
       type: "select";
+      label: string;
       placeholder: string;
       icon: IconType;
       options: {

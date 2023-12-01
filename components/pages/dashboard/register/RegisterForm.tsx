@@ -1,12 +1,23 @@
 "use client";
 
 import {
-  Box, Button, ButtonGroup, Flex,
+  Box,
+  Button,
+  ButtonGroup,
+  Flex,
   FormControl,
   FormErrorMessage,
-  FormLabel, Heading, Icon, Image, Input,
+  FormLabel,
+  Heading,
+  Icon,
+  Image,
+  Input,
   InputGroup,
-  InputRightAddon, Select, Stack, Text, useToast
+  InputRightAddon,
+  Select,
+  Stack,
+  Text,
+  useToast,
 } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -22,43 +33,41 @@ const FormInputs: TFormInputsSections[] = [
   {
     name: "Datos personales",
     inputs: {
-      correo: {
-        type: "mail",
-        placeholder: "Email",
-        icon: BiSolidUserCircle,
-      },
       nombre: {
         type: "text",
-        placeholder: "Nombre(s)",
+        label: "Nombre",
+        placeholder: "Escribe tu nombre",
         icon: BiSolidUserCircle,
       },
       apellidoPaterno: {
         type: "text",
-        placeholder: "Primer Apelido",
+        label: "Apellido paterno",
+        placeholder: "Escibre tu apellido paterno",
         icon: BiSolidUserCircle,
       },
       apellidoMaterno: {
         type: "text",
-        placeholder: "Segundo Apellido",
-        icon: BiSolidUserCircle,
-      },
-      fechaNacimiento: {
-        type: "date",
-        placeholder: "",
+        label: "Apellido materno",
+        placeholder: "Escibre tu apellido materno",
         icon: BiSolidUserCircle,
       },
       sexo: {
+        label: "Sexo",
         type: "select",
         icon: BiSolidUserCircle,
-        placeholder: "Sexo",
+        placeholder: "Selecciona tu sexo de las opciones",
         options: [
           {
-            value: "H",
+            value: "hombre",
             label: "Hombre",
           },
           {
-            value: "M",
+            value: "mujer",
             label: "Mujer",
+          },
+          {
+            value: "otro",
+            label: "Prefiero no decirlo",
           },
         ],
       },
@@ -69,17 +78,22 @@ const FormInputs: TFormInputsSections[] = [
     inputs: {
       email: {
         type: "email",
-        placeholder: "Correo electrónico",
+        label: "Correo electrónico",
+        placeholder:
+          "Debe contener un @ y un dominio válido (gmail.com, hotmail.com, etc)",
+
         icon: MdAlternateEmail,
       },
       telefono: {
         type: "text",
-        placeholder: "Teléfono",
+        label: "Teléfono",
+        placeholder: "Debe contener 10 dígitos (ej. 6181234567)",
         icon: FaPhone,
       },
       direccion: {
         type: "text",
-        placeholder: "Dirección",
+        label: "Dirección",
+        placeholder: "Escribe tu dirección completa",
         icon: FaHouseChimneyUser,
       },
     },
@@ -100,29 +114,6 @@ const getInputObject = () => {
   });
 
   return inputs;
-};
-
-const getInputHTML = (input: TInput) => {
-  if (input.type === "select") {
-    return (
-      <Select bgColor={"white"}>
-        {input.options.map((option) => (
-          <option value={option.value} key={option.value}>
-            {option.label}
-          </option>
-        ))}
-      </Select>
-    );
-  }
-
-  return (
-    <Input
-      type={input.type}
-      placeholder={input.placeholder}
-      bgColor={"white"}
-      {...input.additonalProps}
-    />
-  );
 };
 
 const RegisterForm: React.FC = () => {
@@ -146,11 +137,68 @@ const RegisterForm: React.FC = () => {
     console.log(formData);
   };
 
+  const getInputHTML = (input: TInput, key: string) => {
+    if (input.type === "select") {
+      return (
+        <Select
+          bgColor={"white"}
+          value={formData[key]}
+          placeholder={input.placeholder}
+          onKeyUp={(e) => {
+            if (e.key === "Enter") {
+              if (currentPage !== FormInputs.length - 1) {
+                handleOnStepChange("next");
+              }
+            }
+          }}
+          onChange={(e) =>
+            setFormData((prev) => ({
+              ...prev,
+              [key]: e.target.value,
+            }))
+          }
+        >
+          {input.options.map((option) => (
+            <option value={option.value} key={option.value}>
+              {option.label}
+            </option>
+          ))}
+        </Select>
+      );
+    }
+
+    return (
+      <Input
+        value={formData[key]}
+        onChange={(e) =>
+          setFormData((prev) => ({
+            ...prev,
+            [key]: e.target.value,
+          }))
+        }
+        onKeyUp={(e) => {
+          if (e.key === "Enter") {
+            if (currentPage !== FormInputs.length - 1) {
+              handleOnStepChange("next");
+            }
+          }
+        }}
+        type={input.type}
+        placeholder={input.placeholder}
+        bgColor={"white"}
+        {...input.additonalProps}
+      />
+    );
+  };
+
   const handleOnStepChange = async (action: "next" | "prev") => {
     try {
-      const data = RegisterSchema.parse(formData);
+      RegisterSchema[currentPage].parse(formData);
 
-      console.log("QUIERO VER ESTE VALIR", data);
+      if (action === "next" && currentPage === FormInputs.length - 1) {
+        handleSubmit();
+      }
+
       if (action === "next" && currentPage !== FormInputs.length - 1) {
         setCurrentPage((prev) => prev + 1);
       } else {
@@ -167,8 +215,6 @@ const RegisterForm: React.FC = () => {
             formErrors[errorKey] = errorValue[0];
           }
         });
-
-        console.log(formErrors);
 
         setErrors(formErrors);
       }
@@ -238,23 +284,28 @@ const RegisterForm: React.FC = () => {
         >
           {Object.keys(FormInputs[currentPage].inputs).map((key) => {
             return (
-              <FormControl key={key}>
+              <FormControl
+                key={key}
+                isInvalid={errors && typeof errors[key] !== "undefined"}
+              >
                 <FormLabel
                   htmlFor={key}
                   color={"whiteAlpha.900"}
                   fontWeight={"bold"}
                 >
-                  {FormInputs[currentPage].inputs[key].placeholder}
+                  {FormInputs[currentPage].inputs[key].label}
                 </FormLabel>
                 <InputGroup>
-                  {getInputHTML(FormInputs[currentPage].inputs[key])}
+                  {getInputHTML(FormInputs[currentPage].inputs[key], key)}
                   <InputRightAddon
                     children={
                       <Icon as={FormInputs[currentPage].inputs[key].icon} />
                     }
                   />
                 </InputGroup>
-                <FormErrorMessage>{errors[key]}</FormErrorMessage>
+                <FormErrorMessage color={"whiteAlpha.900"} fontWeight={"bold"}>
+                  {errors[key]}
+                </FormErrorMessage>
               </FormControl>
             );
           })}
