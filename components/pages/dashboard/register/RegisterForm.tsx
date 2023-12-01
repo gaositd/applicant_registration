@@ -1,51 +1,50 @@
 "use client";
 
 import {
-  Icon,
-  Button,
-  Flex,
+  Box, Button, ButtonGroup, Flex,
   FormControl,
   FormErrorMessage,
-  FormLabel,
-  Input,
+  FormLabel, Heading, Icon, Image, Input,
   InputGroup,
-  InputRightAddon,
-  Stack,
-  Image,
-  Text,
-  Box,
-  useToast,
-  Heading,
-  ButtonGroup,
-  Select,
+  InputRightAddon, Select, Stack, Text, useToast
 } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { BiSolidUserCircle } from "react-icons/bi";
-import { MdAlternateEmail } from "react-icons/md";
 import { FaPhone } from "react-icons/fa";
 import { FaHouseChimneyUser } from "react-icons/fa6";
+import { MdAlternateEmail } from "react-icons/md";
+import { ZodError } from "zod";
 import { TFormInputsSections, TInput } from "./register.types";
 import RegisterSchema from "./validation.schema";
-import { ZodError } from "zod";
 
 const FormInputs: TFormInputsSections[] = [
   {
     name: "Datos personales",
     inputs: {
+      correo: {
+        type: "mail",
+        placeholder: "Email",
+        icon: BiSolidUserCircle,
+      },
       nombre: {
         type: "text",
-        placeholder: "Nombre",
+        placeholder: "Nombre(s)",
         icon: BiSolidUserCircle,
       },
       apellidoPaterno: {
         type: "text",
-        placeholder: "Apellido paterno",
+        placeholder: "Primer Apelido",
         icon: BiSolidUserCircle,
       },
       apellidoMaterno: {
         type: "text",
-        placeholder: "Apellido materno",
+        placeholder: "Segundo Apellido",
+        icon: BiSolidUserCircle,
+      },
+      fechaNacimiento: {
+        type: "date",
+        placeholder: "",
         icon: BiSolidUserCircle,
       },
       sexo: {

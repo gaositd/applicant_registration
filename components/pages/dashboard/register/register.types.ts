@@ -1,9 +1,9 @@
-import { IconType } from "react-icons";
 import { InputProps } from "@chakra-ui/react";
+import { IconType } from "react-icons";
 
 export type TInput =
   | {
-      type: "text" | "email" | "password";
+      type: "text" | "email" | "password" | "mail" | "date";
       placeholder: string;
       icon: IconType;
       additonalProps?: InputProps;
