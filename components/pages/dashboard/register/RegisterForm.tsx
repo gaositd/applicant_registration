@@ -132,9 +132,7 @@ const FormInputs: TFormInputsSections[] = [
       email: {
         type: "email",
         label: "Correo electrónico",
-        placeholder:
-          "Debe contener un @ y un dominio válido (gmail.com, hotmail.com, etc)",
-
+        placeholder: "Debe contener un @ y un dominio válido (gmail.com, hotmail.com, etc)",
         icon: MdAlternateEmail,
       },
       telefono: {
@@ -735,6 +733,13 @@ const RegisterForm: React.FC = () => {
                 : "Siguiente"}
             </Button>
           </ButtonGroup>
+          <Text
+            fontSize='1xl'
+            color='white'
+            as='b'
+          >
+            *Podrás pasar a la siguiente página hasta completar esta sección
+          </Text>
         </Stack>
       </Flex>
     </Flex>
