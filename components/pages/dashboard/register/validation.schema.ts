@@ -16,6 +16,11 @@ enum SiNo {
   no = "no",
 }
 
+enum TipoEscuela {
+  privada = "privada",
+  publica = "publica",
+}
+
 enum Estados {
   ags  = "ags",
   bjn  = "bjn",
@@ -145,7 +150,7 @@ const StepTwoValidationSchema = z.object({
       };
     },
   }),
-  estadoNacimiento: z.nativeEnum(SiNo, {
+  estadoNacimiento: z.nativeEnum(Estados, {
     errorMap: (issue, ctx) => {
       console.log(issue, ctx);
       if (issue.code === "invalid_enum_value")
@@ -157,14 +162,68 @@ const StepTwoValidationSchema = z.object({
       };
     },
   }),
-  municipioNacimiento: z.string().min(10, {
-    message: "El municipio de nacimiento debe tener al menos 15 caracteres.",
+  municipioNacimiento: z.string().min(5, {
+    message: "El municipio de nacimiento debe tener al menos 5 caracteres.",
   }),
 });
+
+const StepThreeValidationSchema = z.object({
+  escuerlaProcedencia: z.nativeEnum(Estados, {
+    errorMap: (issue, ctx) => {
+      console.log(issue, ctx);
+      if (issue.code === "invalid_enum_value")
+        return {
+          message: "Opción no válida.",
+        };
+      return {
+        message: "Debes seleccionar una opción.",
+      };
+    },
+  }),
+  promedioBachillerato: z.number().refine(promedio => {
+    if(promedio < 60){
+      return "promedio demasiado bajo, favor de revisar";
+    }
+    return;
+  }),
+  tipoEscuelaProcedencia: z.nativeEnum(TipoEscuela, {
+    errorMap: (issue, ctx) => {
+      console.log(issue, ctx);
+      if (issue.code === "invalid_enum_value")
+        return {
+          message: "Opción no válida.",
+        };
+      return {
+        message: "Debes seleccionar una opción.",
+      };
+    },
+  }),
+  estadoEscuela: z.nativeEnum(Estados, {
+    errorMap: (issue, ctx) => {
+      console.log(issue, ctx);
+      if (issue.code === "invalid_enum_value")
+        return {
+          message: "Opción no válida.",
+        };
+      return {
+        message: "Debes seleccionar una opción.",
+      };
+    },
+  }),
+  municipioEscuela: z.string().min(5, {
+    message: "El municipio de nacimiento debe tener al menos 5 caracteres.",
+  }),
+});
+
+// const StepFourValidationSchema = z.object({
+  
+// });
 
 const RegisterFormValidationSchemas = [
   StepOneValidationSchema,
   StepTwoValidationSchema,
+  StepThreeValidationSchema,
+  // StepFourValidationSchema,
 ];
 
 export default RegisterFormValidationSchemas;

@@ -329,7 +329,7 @@ const FormInputs: TFormInputsSections[] = [
       promedioBachillerato:{
         type: "number",
         label: "Promedio de certificado de bachillerato",
-        placeholder: "Sí aún no terminas el bachillerato poner el promedio de 1ro a 5to semestre",
+        placeholder: "Sí aún no terminas el bachillerato poner el promedio de 1ro a 5to semestre, escla 1 a 100",
         icon: BiDetail,
       },
       tipoEscuelaProcedencia:{
@@ -728,7 +728,7 @@ const RegisterForm: React.FC = () => {
               isDisabled={isDisabled}
               onClick={() => handleOnStepChange("next")}
             >
-              {currentPage === FormInputs.length
+              {currentPage === FormInputs.length - 1
                 ? "Registrarse"
                 : "Siguiente"}
             </Button>
