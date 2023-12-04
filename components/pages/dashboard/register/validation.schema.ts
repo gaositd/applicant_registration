@@ -11,9 +11,45 @@ enum EstadoCivil {
   soltero = "soltero",
 }
 
-enum Dialecto {
+enum SiNo {
   si = "si",
   no = "no",
+}
+
+enum Estados {
+  ags  = "ags",
+  bjn  = "bjn",
+  bjs  = "bjs",
+  cam  = "cam",
+  chs  = "chs",
+  chi  = "chi",
+  cdmx = "cdmx",
+  coh  = "coh",
+  col  = "col",
+  df   = "df",
+  dgo  = "dgo",
+  gua  = "gua",
+  gue  = "gue",
+  hgo  = "hgo",
+  jal  = "jal",
+  mic  = "mic",
+  mor  = "mor",
+  nay  = "nay",
+  nln  = "nln",
+  oax  = "oax",
+  pue  = "pue",
+  qro  = "qro",
+  qnr  = "qnr",
+  slp  = "slp",
+  sin  = "sin",
+  son  = "son",
+  tab  = "tab",
+  tam  = "tam",
+  tlx  = "tlx",
+  ver  = "ver",
+  yuc  = "yuc",
+  zac  = "zac",
+  extr = "extr",
 }
 
 const StepOneValidationSchema = z.object({
@@ -51,7 +87,7 @@ const StepOneValidationSchema = z.object({
     const regexCurp = /^([A-Z][AEIOUX][A-Z]{2}\d{2}(?:0[1-9]|1[0-2])(?:0[1-9]|[12]\d|3[01])[HM](?:AS|B[CS]|C[CLMSH]|D[FG]|G[TR]|HG|JC|M[CNS]|N[ETL]|OC|PL|Q[TR]|S[PLR]|T[CSL]|VZ|YN|ZS)[B-DF-HJ-NP-TV-Z]{3}[A-Z\d])(\d)$/;
     
     if(!regexCurp.test(curp)){
-      return "C.R.P. inválida, favor de revisar"
+      return "C.U.R.P. inválida, favor de revisar"
     }
     return;
   }),
@@ -67,7 +103,7 @@ const StepOneValidationSchema = z.object({
       };
     },
   }),
-  dialecto: z.nativeEnum(Dialecto, {
+  dialecto: z.nativeEnum(SiNo, {
     errorMap: (issue, ctx) => {
       console.log(issue, ctx);
       if (issue.code === "invalid_enum_value")
@@ -91,8 +127,38 @@ const StepTwoValidationSchema = z.object({
   telefono: z.string().min(10, {
     message: "El teléfono debe tener al menos 10 caracteres.",
   }),
+  celular: z.string().min(10, {
+    message: "El teléfono debe tener al menos 10 caracteres.",
+  }),
   direccion: z.string().min(5, {
     message: "La dirección debe tener al menos 5 caracteres.",
+  }),
+  trabaja: z.nativeEnum(SiNo, {
+    errorMap: (issue, ctx) => {
+      console.log(issue, ctx);
+      if (issue.code === "invalid_enum_value")
+        return {
+          message: "Opción no válida.",
+        };
+      return {
+        message: "Debes seleccionar una opción.",
+      };
+    },
+  }),
+  estadoNacimiento: z.nativeEnum(SiNo, {
+    errorMap: (issue, ctx) => {
+      console.log(issue, ctx);
+      if (issue.code === "invalid_enum_value")
+        return {
+          message: "Opción no válida.",
+        };
+      return {
+        message: "Debes seleccionar una opción.",
+      };
+    },
+  }),
+  municipioNacimiento: z.string().min(10, {
+    message: "El municipio de nacimiento debe tener al menos 15 caracteres.",
   }),
 });
 

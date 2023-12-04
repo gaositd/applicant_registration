@@ -176,27 +176,27 @@ const FormInputs: TFormInputsSections[] = [
         placeholder: "Selecciona un estado de las opciones",
         options:[
           {
-            value: "aguascalientes",
+            value: "ags",
             label: "Aguascalientes",
           },
           {
-            value: "bajaCalifonia",
+            value: "bjn",
             label: "Baja Califonia",
           },
           {
-            value: "bajaCalifoniaSur",
+            value: "bjs",
             label: "Baja Califonia Sur",
           },
           {
-            value: "Campeche",
+            value: "cam",
             label: "Campeche",
           },
           {
-            value: "Chiapas",
+            value: "chs",
             label: "Chiapas",
           },
           {
-            value: "chihuahua",
+            value: "chi",
             label: "Chihuahua",
           },
           {
@@ -204,11 +204,11 @@ const FormInputs: TFormInputsSections[] = [
             label: "Ciudad de México",
           },
           {
-            value: "cohahuila",
+            value: "coh",
             label: "Coahuila de Zaragoza",
           },
           {
-            value: "colima",
+            value: "col",
             label: "Colima",
           },
           {
@@ -216,47 +216,47 @@ const FormInputs: TFormInputsSections[] = [
             label: "Distrito Federal",
           },
           {
-            value: "durango",
+            value: "dgo",
             label: "Durango",
           },
           {
-            value: "guanajuato",
+            value: "gua",
             label: "Guanajuato",
           },
           {
-            value: "guerrero",
+            value: "gue",
             label: "Guerrero",
           },
           {
-            value: "hidalgo",
+            value: "hgo",
             label: "Hidalgo",
           },
           {
-            value: "Jalisco",
+            value: "jal",
             label: "Jalisco",
           },
           {
-            value: "michoacan",
+            value: "mic",
             label: "Michoacan de Ocampo",
           },
           {
-            value: "Morelos",
+            value: "mor",
             label: "Morelos",
           },
           {
-            value: "Nayarit",
+            value: "nay",
             label: "Nayarit",
           },
           {
-            value: "nuevoLeon",
+            value: "nln",
             label: "Nuevo León",
           },
           {
-            value: "oaxaca",
+            value: "oax",
             label: "Oaxaca",
           },
           {
-            value: "puebla",
+            value: "pue",
             label: "Puebla",
           },
           {
@@ -264,7 +264,7 @@ const FormInputs: TFormInputsSections[] = [
             label: "Querétaro",
           },
           {
-            value: "quintanaRoo",
+            value: "qnr",
             label: "Quintana Roo",
           },
           {
@@ -280,7 +280,7 @@ const FormInputs: TFormInputsSections[] = [
             label: "Sonora",
           },
           {
-            value: "taba",
+            value: "tab",
             label: "Tabasco",
           },
           {
@@ -292,7 +292,7 @@ const FormInputs: TFormInputsSections[] = [
             label: "Tlaxcala",
           },
           {
-            value: "vera",
+            value: "ver",
             label: "Veracruz de la Llave",
           },
           {
