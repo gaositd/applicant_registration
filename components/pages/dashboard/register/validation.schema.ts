@@ -1,63 +1,10 @@
 import { z } from "zod";
+import { EstadoEnum, EstadoCivil, Sexo } from "./register.consts";
 
-enum Sexo {
-  mujer = "mujer",
-  hombre = "hombre",
-  otro = "otro",
-}
-
-enum EstadoCivil {
-  casado = "casado",
-  soltero = "soltero",
-}
-
-enum SiNo {
-  si = "si",
-  no = "no",
-}
-
-enum TipoEscuela {
-  privada = "privada",
-  publica = "publica",
-}
-
-enum Estados {
-  ags  = "ags",
-  bjn  = "bjn",
-  bjs  = "bjs",
-  cam  = "cam",
-  chs  = "chs",
-  chi  = "chi",
-  cdmx = "cdmx",
-  coh  = "coh",
-  col  = "col",
-  df   = "df",
-  dgo  = "dgo",
-  gua  = "gua",
-  gue  = "gue",
-  hgo  = "hgo",
-  jal  = "jal",
-  mic  = "mic",
-  mor  = "mor",
-  nay  = "nay",
-  nln  = "nln",
-  oax  = "oax",
-  pue  = "pue",
-  qro  = "qro",
-  qnr  = "qnr",
-  slp  = "slp",
-  sin  = "sin",
-  son  = "son",
-  tab  = "tab",
-  tam  = "tam",
-  tlx  = "tlx",
-  ver  = "ver",
-  yuc  = "yuc",
-  zac  = "zac",
-  extr = "extr",
-}
-
-const StepOneValidationSchema = z.object({
+const getValues = (object: any): [string] => {
+  return Object.keys(object) as [string];
+};
+const DatosPersonalesValidationSchema = z.object({
   nombre: z.string().min(2, {
     message: "El nombre debe tener al menos 2 caracteres.",
   }),
@@ -67,50 +14,9 @@ const StepOneValidationSchema = z.object({
   apellidoMaterno: z.string().min(2, {
     message: "El apellido materno debe tener al menos 2 caracteres.",
   }),
-  sexo: z.nativeEnum(Sexo, {
+  sexo: z.enum(getValues(Sexo), {
     errorMap: (issue, ctx) => {
-      console.log(issue, ctx);
-      if (issue.code === "invalid_enum_value")
-        return {
-          message: "Opción no válida.",
-        };
-      return {
-        message: "Debes seleccionar una opción.",
-      };
-    },
-  }),
-  fechaNacimiento:z.date().refine(fechaIngresada =>{
-    const fechaLimite = new Date();
-    //calcula la efcha 15 años hacia atras para poder ser una fecha válida
-    fechaLimite.setFullYear(fechaLimite.getFullYear() - 15);
-    return fechaIngresada <= fechaLimite;
-  },
-  {
-    message: `La fecha límite debe ser almenos 15 años atrás`
-  }),
-  curp: z.string().refine(curp =>{
-    const regexCurp = /^([A-Z][AEIOUX][A-Z]{2}\d{2}(?:0[1-9]|1[0-2])(?:0[1-9]|[12]\d|3[01])[HM](?:AS|B[CS]|C[CLMSH]|D[FG]|G[TR]|HG|JC|M[CNS]|N[ETL]|OC|PL|Q[TR]|S[PLR]|T[CSL]|VZ|YN|ZS)[B-DF-HJ-NP-TV-Z]{3}[A-Z\d])(\d)$/;
-    
-    if(!regexCurp.test(curp)){
-      return "C.U.R.P. inválida, favor de revisar"
-    }
-    return;
-  }),
-  estadoCivil: z.nativeEnum(EstadoCivil, {
-    errorMap: (issue, ctx) => {
-      console.log(issue, ctx);
-      if (issue.code === "invalid_enum_value")
-        return {
-          message: "Opción no válida.",
-        };
-      return {
-        message: "Debes seleccionar una opción.",
-      };
-    },
-  }),
-  dialecto: z.nativeEnum(SiNo, {
-    errorMap: (issue, ctx) => {
-      console.log(issue, ctx);
+      console.log(ctx);
       if (issue.code === "invalid_enum_value")
         return {
           message: "Opción no válida.",
@@ -122,7 +28,25 @@ const StepOneValidationSchema = z.object({
   }),
 });
 
-const StepTwoValidationSchema = z.object({
+const DatosUbicacionValidationSchema = z.object({
+  estadoNacimiento: z.nativeEnum(EstadoEnum, {
+    errorMap: (issue) => {
+      if (issue.code === "invalid_enum_value")
+        return {
+          message: "Opción no válida.",
+        };
+      return {
+        message: "Debes seleccionar una opción.",
+      };
+    },
+  }),
+  municipioNacimiento: z.string().min(2, {
+    message: "El municipio de nacimiento debe tener al menos 2 caracteres.",
+  }),
+  trabaja: z.boolean(),
+});
+
+const DatosContactoValidationSchema = z.object({
   email: z
     .string()
     .email('El email debe tener un formato válido. Ej: "mail@domain.com"')
@@ -138,57 +62,21 @@ const StepTwoValidationSchema = z.object({
   direccion: z.string().min(5, {
     message: "La dirección debe tener al menos 5 caracteres.",
   }),
-  trabaja: z.nativeEnum(SiNo, {
-    errorMap: (issue, ctx) => {
-      console.log(issue, ctx);
-      if (issue.code === "invalid_enum_value")
-        return {
-          message: "Opción no válida.",
-        };
-      return {
-        message: "Debes seleccionar una opción.",
-      };
-    },
-  }),
-  estadoNacimiento: z.nativeEnum(Estados, {
-    errorMap: (issue, ctx) => {
-      console.log(issue, ctx);
-      if (issue.code === "invalid_enum_value")
-        return {
-          message: "Opción no válida.",
-        };
-      return {
-        message: "Debes seleccionar una opción.",
-      };
-    },
-  }),
-  municipioNacimiento: z.string().min(5, {
-    message: "El municipio de nacimiento debe tener al menos 5 caracteres.",
-  }),
 });
 
-const StepThreeValidationSchema = z.object({
-  escuerlaProcedencia: z.nativeEnum(Estados, {
-    errorMap: (issue, ctx) => {
-      console.log(issue, ctx);
-      if (issue.code === "invalid_enum_value")
-        return {
-          message: "Opción no válida.",
-        };
-      return {
-        message: "Debes seleccionar una opción.",
-      };
-    },
-  }),
-  promedioBachillerato: z.number().refine(promedio => {
-    if(promedio < 60){
-      return "promedio demasiado bajo, favor de revisar";
+const DatosPersonalesIIValidationSchema = z.object({
+  fechaNacimiento: z.coerce.date(),
+  curp: z.string().refine((curp) => {
+    const regexCurp =
+      /^([A-Z][AEIOUX][A-Z]{2}\d{2}(?:0[1-9]|1[0-2])(?:0[1-9]|[12]\d|3[01])[HM](?:AS|B[CS]|C[CLMSH]|D[FG]|G[TR]|HG|JC|M[CNS]|N[ETL]|OC|PL|Q[TR]|S[PLR]|T[CSL]|VZ|YN|ZS)[B-DF-HJ-NP-TV-Z]{3}[A-Z\d])(\d)$/;
+
+    if (!regexCurp.test(curp)) {
+      return "C.U.R.P. inválida, favor de revisar";
     }
     return;
   }),
-  tipoEscuelaProcedencia: z.nativeEnum(TipoEscuela, {
-    errorMap: (issue, ctx) => {
-      console.log(issue, ctx);
+  estadoCivil: z.enum(getValues(EstadoCivil), {
+    errorMap: (issue) => {
       if (issue.code === "invalid_enum_value")
         return {
           message: "Opción no válida.",
@@ -198,9 +86,23 @@ const StepThreeValidationSchema = z.object({
       };
     },
   }),
-  estadoEscuela: z.nativeEnum(Estados, {
-    errorMap: (issue, ctx) => {
-      console.log(issue, ctx);
+  dialecto: z.boolean(),
+});
+
+const DatosEscuelaProcedenciaValidationSchema = z.object({
+  escuelaProcedencia: z.string().min(2, {
+    message: "El nombre de la escuela debe tener al menos 2 caracteres.",
+  }),
+  promedioBachillerato: z
+    .number()
+    .min(0, {
+      message: "El promedio debe ser mayor a 0.",
+    })
+    .max(100, {
+      message: "El promedio debe ser menor a 100.",
+    }),
+  tipoEscuelaProcedencia: z.enum(["publica", "privada"], {
+    errorMap: (issue) => {
       if (issue.code === "invalid_enum_value")
         return {
           message: "Opción no válida.",
@@ -210,20 +112,28 @@ const StepThreeValidationSchema = z.object({
       };
     },
   }),
-  municipioEscuela: z.string().min(5, {
-    message: "El municipio de nacimiento debe tener al menos 5 caracteres.",
+  estadoEscuela: z.nativeEnum(EstadoEnum, {
+    errorMap: (issue) => {
+      if (issue.code === "invalid_enum_value")
+        return {
+          message: "Opción no válida.",
+        };
+      return {
+        message: "Debes seleccionar una opción.",
+      };
+    },
+  }),
+  municipioEscuela: z.string().min(2, {
+    message: "El municipio de la escuela debe tener al menos 2 caracteres.",
   }),
 });
 
-// const StepFourValidationSchema = z.object({
-  
-// });
-
 const RegisterFormValidationSchemas = [
-  StepOneValidationSchema,
-  StepTwoValidationSchema,
-  StepThreeValidationSchema,
-  // StepFourValidationSchema,
+  DatosPersonalesValidationSchema,
+  DatosPersonalesIIValidationSchema,
+  DatosContactoValidationSchema,
+  DatosUbicacionValidationSchema,
+  DatosEscuelaProcedenciaValidationSchema,
 ];
 
 export default RegisterFormValidationSchemas;

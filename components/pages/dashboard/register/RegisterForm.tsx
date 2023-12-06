@@ -20,483 +20,14 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
-import {
-  BiCalendar,
-  BiDetail,
-  BiSolidFoodMenu,
-  BiSolidSchool,
-  BiSolidUserCircle,
-  BiWrench,
-} from "react-icons/bi";
-import { FaHouseUser, FaPhone } from "react-icons/fa";
-import { FaHouseChimneyUser } from "react-icons/fa6";
-import { GiMexico } from "react-icons/gi";
-import { MdAlternateEmail } from "react-icons/md";
-import { TbLanguageHiragana } from "react-icons/tb";
-import { ZodError } from "zod";
-import { TFormInputsSections, TInput } from "./register.types";
-import RegisterSchema from "./validation.schema";
+import { useState } from "react";
 
-const FormInputs: TFormInputsSections[] = [
-  {
-    name: "Datos personales",
-    inputs: {
-      nombre: {
-        type: "text",
-        label: "Nombre",
-        placeholder: "Escribe tu nombre",
-        icon: BiSolidUserCircle,
-      },
-      apellidoPaterno: {
-        type: "text",
-        label: "Apellido paterno",
-        placeholder: "Escibre tu apellido paterno",
-        icon: BiSolidUserCircle,
-      },
-      apellidoMaterno: {
-        type: "text",
-        label: "Apellido materno",
-        placeholder: "Escibre tu apellido materno",
-        icon: BiSolidUserCircle,
-      },
-      fechaNacimiento:{
-        type:"date",
-        placeholder:"",
-        icon: BiCalendar,
-        label:"Fecha de nacimiento"
-      },
-      sexo: {
-        label: "Sexo",
-        type: "select",
-        icon: BiSolidUserCircle,
-        placeholder: "Selecciona tu sexo de las opciones",
-        options: [
-          {
-            value: "hombre",
-            label: "Hombre",
-          },
-          {
-            value: "mujer",
-            label: "Mujer",
-          },
-          {
-            value: "otro",
-            label: "Prefiero no decirlo",
-          },
-        ],
-      },
-      curp:{
-        type: "text",
-        label:"C.U.R.P. escrita",
-        placeholder: "Escribe tu C.U.R.P.",
-        icon: BiSolidFoodMenu,
-      },
-      estadoCivil:{
-        label: "Estado civil",
-        type: "select",
-        icon: BiSolidUserCircle,
-        placeholder: "Selecciona tu estado civil de las opciones",
-        options:[
-          {
-            value: "soltero",
-            label: "Soltero",
-          },
-          {
-            value: "casado",
-            label: "Casado",
-          },
-        ],
-      },
-      dialecto:{
-        label: "Hablas alguna lengua indígena?",
-        type: "select",
-        icon: TbLanguageHiragana,
-        placeholder: "Selecciona una de las opciones",
-        options:[
-          {
-            value: "si",
-            label: "Sí",
-          },
-          {
-            value: "no",
-            label: "No",
-          },
-        ],
-      },
-    },
-  },
-  {
-    name: "Datos de contacto",
-    inputs: {
-      email: {
-        type: "email",
-        label: "Correo electrónico",
-        placeholder: "Debe contener un @ y un dominio válido (gmail.com, hotmail.com, etc)",
-        icon: MdAlternateEmail,
-      },
-      telefono: {
-        type: "text",
-        label: "Teléfono fijo",
-        placeholder: "Debe contener 10 dígitos (ej. 6181234567)",
-        icon: FaPhone,
-      },
-      celular: {
-        type: "text",
-        label: "Teléfono celular",
-        placeholder: "Debe contener 10 dígitos (ej. 6181234567)",
-        icon: FaPhone,
-      },
-      direccion: {
-        type: "text",
-        label: "Dirección actual",
-        placeholder: "Escribe tu dirección completa",
-        icon: FaHouseChimneyUser,
-      },
-      trabaja:{
-        label: "¿Trabajas?",
-        type: "select",
-        icon: BiWrench,
-        placeholder: "Selecciona una de las opciones",
-        options:[
-          {
-            value: "si",
-            label: "Sí",
-          },
-          {
-            value: "no",
-            label: "No",
-          },
-        ],
-      },
-      estadoNacimiento:{
-        label: "Estado de nacimiento",
-        type: "select",
-        icon: GiMexico,
-        placeholder: "Selecciona un estado de las opciones",
-        options:[
-          {
-            value: "ags",
-            label: "Aguascalientes",
-          },
-          {
-            value: "bjn",
-            label: "Baja Califonia",
-          },
-          {
-            value: "bjs",
-            label: "Baja Califonia Sur",
-          },
-          {
-            value: "cam",
-            label: "Campeche",
-          },
-          {
-            value: "chs",
-            label: "Chiapas",
-          },
-          {
-            value: "chi",
-            label: "Chihuahua",
-          },
-          {
-            value: "cdmx",
-            label: "Ciudad de México",
-          },
-          {
-            value: "coh",
-            label: "Coahuila de Zaragoza",
-          },
-          {
-            value: "col",
-            label: "Colima",
-          },
-          {
-            value: "df",
-            label: "Distrito Federal",
-          },
-          {
-            value: "dgo",
-            label: "Durango",
-          },
-          {
-            value: "gua",
-            label: "Guanajuato",
-          },
-          {
-            value: "gue",
-            label: "Guerrero",
-          },
-          {
-            value: "hgo",
-            label: "Hidalgo",
-          },
-          {
-            value: "jal",
-            label: "Jalisco",
-          },
-          {
-            value: "mic",
-            label: "Michoacan de Ocampo",
-          },
-          {
-            value: "mor",
-            label: "Morelos",
-          },
-          {
-            value: "nay",
-            label: "Nayarit",
-          },
-          {
-            value: "nln",
-            label: "Nuevo León",
-          },
-          {
-            value: "oax",
-            label: "Oaxaca",
-          },
-          {
-            value: "pue",
-            label: "Puebla",
-          },
-          {
-            value: "qro",
-            label: "Querétaro",
-          },
-          {
-            value: "qnr",
-            label: "Quintana Roo",
-          },
-          {
-            value: "slp",
-            label: "San Luis Potosí",
-          },
-          {
-            value: "sin",
-            label: "Sinaloa",
-          },
-          {
-            value: "son",
-            label: "Sonora",
-          },
-          {
-            value: "tab",
-            label: "Tabasco",
-          },
-          {
-            value: "tam",
-            label: "Tamaulipas",
-          },
-          {
-            value: "tlx",
-            label: "Tlaxcala",
-          },
-          {
-            value: "ver",
-            label: "Veracruz de la Llave",
-          },
-          {
-            value: "yuc",
-            label: "Yucatán",
-          },
-          {
-            value: "zac",
-            label: "Zacatecas",
-          },
-          {
-            value: "extr",
-            label: "Extranjero",
-          },
-        ],
-      },
-      municipioNacimiento: {
-        type: "text",
-        label: "Municipio de nacimiento",
-        placeholder: "Municipio donde naciste",
-        icon: FaHouseUser,
-      },
-    },
-  },
-  {
-    name:"Datos Escolares",
-    inputs:{
-      escuelaProcedencia:{
-        type:"text",
-        label: "Nombre de la escuela de procedencia",
-        placeholder: "Nombre de la escuela",
-        icon: BiSolidSchool,
-      },
-      promedioBachillerato:{
-        type: "number",
-        label: "Promedio de certificado de bachillerato",
-        placeholder: "Sí aún no terminas el bachillerato poner el promedio de 1ro a 5to semestre, escla 1 a 100",
-        icon: BiDetail,
-      },
-      tipoEscuelaProcedencia:{
-        label: "Tipo escuela de procedencia",
-        type: "select",
-        icon: BiSolidSchool,
-        placeholder: "Selecciona el tipo de escuela de las opciones",
-        options:[
-          {
-            value: "privada",
-            label: "Privada",
-          },
-          {
-            value: "publica",
-            label: "Pública",
-          },
-        ],
-      },
-      estadoEscuela:{
-        label: "Estado de la escuela de procedencia",
-        type: "select",
-        icon: GiMexico,
-        placeholder: "Selecciona un estado de las opciones",
-        options:[
-          {
-            value: "aguascalientes",
-            label: "Aguascalientes",
-          },
-          {
-            value: "bajaCalifonia",
-            label: "Baja Califonia",
-          },
-          {
-            value: "bajaCalifoniaSur",
-            label: "Baja Califonia Sur",
-          },
-          {
-            value: "Campeche",
-            label: "Campeche",
-          },
-          {
-            value: "Chiapas",
-            label: "Chiapas",
-          },
-          {
-            value: "chihuahua",
-            label: "Chihuahua",
-          },
-          {
-            value: "cdmx",
-            label: "Ciudad de México",
-          },
-          {
-            value: "cohahuila",
-            label: "Coahuila de Zaragoza",
-          },
-          {
-            value: "colima",
-            label: "Colima",
-          },
-          {
-            value: "df",
-            label: "Distrito Federal",
-          },
-          {
-            value: "durango",
-            label: "Durango",
-          },
-          {
-            value: "guanajuato",
-            label: "Guanajuato",
-          },
-          {
-            value: "guerrero",
-            label: "Guerrero",
-          },
-          {
-            value: "hidalgo",
-            label: "Hidalgo",
-          },
-          {
-            value: "Jalisco",
-            label: "Jalisco",
-          },
-          {
-            value: "michoacan",
-            label: "Michoacan de Ocampo",
-          },
-          {
-            value: "Morelos",
-            label: "Morelos",
-          },
-          {
-            value: "Nayarit",
-            label: "Nayarit",
-          },
-          {
-            value: "nuevoLeon",
-            label: "Nuevo León",
-          },
-          {
-            value: "oaxaca",
-            label: "Oaxaca",
-          },
-          {
-            value: "puebla",
-            label: "Puebla",
-          },
-          {
-            value: "qro",
-            label: "Querétaro",
-          },
-          {
-            value: "quintanaRoo",
-            label: "Quintana Roo",
-          },
-          {
-            value: "slp",
-            label: "San Luis Potosí",
-          },
-          {
-            value: "sin",
-            label: "Sinaloa",
-          },
-          {
-            value: "son",
-            label: "Sonora",
-          },
-          {
-            value: "taba",
-            label: "Tabasco",
-          },
-          {
-            value: "tam",
-            label: "Tamaulipas",
-          },
-          {
-            value: "tlx",
-            label: "Tlaxcala",
-          },
-          {
-            value: "vera",
-            label: "Veracruz de la Llave",
-          },
-          {
-            value: "yuc",
-            label: "Yucatán",
-          },
-          {
-            value: "zac",
-            label: "Zacatecas",
-          },
-          {
-            value: "extr",
-            label: "Extranjero",
-          },
-        ],
-      },
-      municipioEscuela: {
-        type: "text",
-        label: "Municipio de la escuela de procedencia",
-        placeholder: "Municipio de la escuela de procedencia",
-        icon: FaHouseUser,
-      },
-    },
-  }
-];
+import { useMutation } from "react-query";
+import { ZodError, date } from "zod";
+import FormInputs from "./register.input";
+import { TInput } from "./register.types";
+import RegisterSchema from "./validation.schema";
+import axios from "axios";
 
 const getInputObject = () => {
   type TInputs = {
@@ -514,21 +45,39 @@ const getInputObject = () => {
   return inputs;
 };
 
+const parseValueToString = (value: unknown, isDate?: boolean) => {
+  if (typeof value === "number") {
+    return value.toString();
+  } else if (typeof value === "boolean") {
+    return value ? "si" : "no";
+  } else if (
+    typeof value === "string" &&
+    isDate &&
+    value.split("-").length === 3
+  ) {
+    //get date string in aaa/mm/dd format
+    const date = new Date(value).toISOString().split("T")[0];
+    return date;
+  } else return String(value);
+};
+
 const RegisterForm: React.FC = () => {
   const router = useRouter();
   const toast = useToast();
   const [isDisabled, setIsDisabled] = useState(false);
   const [currentPage, setCurrentPage] = useState(0);
-  const [formData, setFormData] = useState(getInputObject());
+  const [formData, setFormData] = useState<
+    Record<string, string | boolean | number>
+  >(getInputObject());
   const [errors, setErrors] = useState<Record<string, string>>({});
 
-  useEffect(() => {
-    console.log(
-      currentPage,
-      currentPage === FormInputs.length - 1,
-      FormInputs.length
+  const {} = useMutation("register", async () => {
+    setIsDisabled(true);
+    const data = await axios.post(
+      `${process.env.NEXT_PUBLIC_API_URL}/users`,
+      formData
     );
-  }, [currentPage]);
+  });
 
   const handleSubmit = () => {
     console.log("Registrarse");
@@ -540,7 +89,7 @@ const RegisterForm: React.FC = () => {
       return (
         <Select
           bgColor={"white"}
-          value={formData[key]}
+          value={parseValueToString(formData[key])}
           placeholder={input.placeholder}
           onKeyUp={(e) => {
             if (e.key === "Enter") {
@@ -552,7 +101,7 @@ const RegisterForm: React.FC = () => {
           onChange={(e) =>
             setFormData((prev) => ({
               ...prev,
-              [key]: e.target.value,
+              [key]: input.boolean ? e.target.value === "si" : e.target.value,
             }))
           }
         >
@@ -563,47 +112,50 @@ const RegisterForm: React.FC = () => {
           ))}
         </Select>
       );
-    }
-
-    return (
-      <Input
-        value={formData[key]}
-        onChange={(e) =>
-          setFormData((prev) => ({
-            ...prev,
-            [key]: e.target.value,
-          }))
-        }
-        onKeyUp={(e) => {
-          if (e.key === "Enter") {
-            if (currentPage !== FormInputs.length - 1) {
-              handleOnStepChange("next");
-            }
+    } else
+      return (
+        <Input
+          value={parseValueToString(formData[key], input.type === "date")}
+          onChange={(e) =>
+            setFormData((prev) => ({
+              ...prev,
+              [key]:
+                input.type === "number"
+                  ? Number(e.target.value)
+                  : input.type === "date"
+                  ? new Date(e.target.value).toISOString()
+                  : e.target.value,
+            }))
           }
-        }}
-        type={input.type}
-        placeholder={input.placeholder}
-        bgColor={"white"}
-        {...input.additonalProps}
-      />
-    );
+          onKeyUp={(e) => {
+            if (e.key === "Enter") {
+              if (currentPage !== FormInputs.length - 1) {
+                handleOnStepChange("next");
+              }
+            }
+          }}
+          type={input.type}
+          placeholder={input.placeholder}
+          bgColor={"white"}
+          {...input.additonalProps}
+        />
+      );
   };
 
   const handleOnStepChange = async (action: "next" | "prev") => {
+    setErrors({});
     try {
       RegisterSchema[currentPage].parse(formData);
-
       if (action === "next" && currentPage === FormInputs.length - 1) {
         handleSubmit();
-      }
-
-      if (action === "next" && currentPage !== FormInputs.length - 1) {
+      } else if (action === "next" && currentPage !== FormInputs.length - 1) {
         setCurrentPage((prev) => prev + 1);
       } else {
         setCurrentPage((prev) => prev - 1);
       }
     } catch (error) {
       if (error instanceof ZodError) {
+        console.log(error);
         const formErrors: Record<string, string> = {};
 
         const flatErrors = error.flatten().fieldErrors;
@@ -628,7 +180,7 @@ const RegisterForm: React.FC = () => {
       <Flex
         as={"article"}
         w={{ base: "100%", md: "60%" }}
-        h={{ base: "30%", md: "100%" }}
+        h={{ base: "30%", md: "100%", sm: "20%" }}
         bg="white"
         flexDir={"column"}
         alignItems="center"
@@ -663,7 +215,7 @@ const RegisterForm: React.FC = () => {
         as={"aside"}
         bg="primary.base"
         w={{ base: "100%", md: "40%" }}
-        h={{ base: "70%", md: "100%" }}
+        h={{ base: "70%", md: "100%", sm: "80%" }}
         alignItems={{ base: "flex-start", md: "center" }}
         justifyContent="center"
         p={{ base: "2rem", md: 0 }}
@@ -672,7 +224,6 @@ const RegisterForm: React.FC = () => {
         <Heading color={"white"}>Registrate</Heading>
 
         <Stack
-          gap={3}
           display="flex"
           flexDir={"column"}
           justify="center"
@@ -724,7 +275,8 @@ const RegisterForm: React.FC = () => {
               mt={4}
               alignItems={"center"}
               color="black"
-              bgColor="white"
+              bgColor={currentPage < FormInputs.length - 1 ? "white" : "green"}
+              colorScheme={currentPage === FormInputs.length - 1 ? "green" : ""}
               isDisabled={isDisabled}
               onClick={() => handleOnStepChange("next")}
             >
@@ -733,11 +285,7 @@ const RegisterForm: React.FC = () => {
                 : "Siguiente"}
             </Button>
           </ButtonGroup>
-          <Text
-            fontSize='1xl'
-            color='white'
-            as='b'
-          >
+          <Text fontSize="1xl" color="white" as="b">
             *Podrás pasar a la siguiente página hasta completar esta sección
           </Text>
         </Stack>

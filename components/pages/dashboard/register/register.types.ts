@@ -14,6 +14,7 @@ export type TInput =
       label: string;
       placeholder: string;
       icon: IconType;
+      boolean?: boolean;
       options: {
         value: string;
         label: string;
