@@ -66,15 +66,10 @@ const DatosContactoValidationSchema = z.object({
 
 const DatosPersonalesIIValidationSchema = z.object({
   fechaNacimiento: z.coerce.date(),
-  curp: z.string().refine((curp) => {
-    const regexCurp =
-      /^([A-Z][AEIOUX][A-Z]{2}\d{2}(?:0[1-9]|1[0-2])(?:0[1-9]|[12]\d|3[01])[HM](?:AS|B[CS]|C[CLMSH]|D[FG]|G[TR]|HG|JC|M[CNS]|N[ETL]|OC|PL|Q[TR]|S[PLR]|T[CSL]|VZ|YN|ZS)[B-DF-HJ-NP-TV-Z]{3}[A-Z\d])(\d)$/;
-
-    if (!regexCurp.test(curp)) {
-      return "C.U.R.P. inválida, favor de revisar";
-    }
-    return;
+  curp: z.string().min(18, {
+    message: "La CURP debe tener al menos 18 caracteres.",
   }),
+
   estadoCivil: z.enum(getValues(EstadoCivil), {
     errorMap: (issue) => {
       if (issue.code === "invalid_enum_value")

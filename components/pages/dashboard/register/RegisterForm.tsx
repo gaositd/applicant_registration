@@ -28,6 +28,7 @@ import FormInputs from "./register.input";
 import { TInput } from "./register.types";
 import RegisterSchema from "./validation.schema";
 import axios from "axios";
+import { UserType } from "../../../../types/userType";
 
 const getInputObject = () => {
   type TInputs = {
@@ -43,6 +44,10 @@ const getInputObject = () => {
   });
 
   return inputs;
+};
+
+type RegisterUserType = UserType & {
+  password: string;
 };
 
 const parseValueToString = (value: unknown, isDate?: boolean) => {
@@ -71,17 +76,45 @@ const RegisterForm: React.FC = () => {
   >(getInputObject());
   const [errors, setErrors] = useState<Record<string, string>>({});
 
-  const {} = useMutation("register", async () => {
-    setIsDisabled(true);
-    const data = await axios.post(
-      `${process.env.NEXT_PUBLIC_API_URL}/users`,
-      formData
-    );
-  });
+  const { mutate } = useMutation<RegisterUserType>(
+    "register",
+    async () => {
+      setIsDisabled(true);
+      const { data } = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/users`,
+        formData
+      );
+      return data;
+    },
+    {
+      onSuccess: (data) => {
+        setIsDisabled(false);
+        toast({
+          title: "Usuario registrado",
+          description: `Tu matrícula es ${data.matricula} y tu contraseña es ${data.password}`,
+          status: "success",
+          duration: 3000,
+          isClosable: true,
+        });
+        router.push("/dashboard");
+      },
+      onError: (error) => {
+        setIsDisabled(false);
+
+        if (error instanceof Error)
+          toast({
+            title: "Error al registrar",
+            description: error.message,
+            status: "error",
+            duration: 3000,
+            isClosable: true,
+          });
+      },
+    }
+  );
 
   const handleSubmit = () => {
-    console.log("Registrarse");
-    console.log(formData);
+    mutate();
   };
 
   const getInputHTML = (input: TInput, key: string) => {
