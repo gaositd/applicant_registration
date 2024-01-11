@@ -22,6 +22,7 @@ import {
 } from "../validation.schema";
 
 import { ZodError } from "zod";
+import { set } from "lodash";
 
 export interface StepsRequiredProps {
   currentData: RegisterFormValues;
@@ -211,7 +212,8 @@ export const StepDatosPersonalesIIForm: React.FC<StepsRequiredProps> = ({
   currentData,
   setCurrentData,
   errors,
-  onStepChange,
+  setErrors,
+  setCurrentPage,
 }) => {
   const handleOnChange = (e: any) => {
     setCurrentData({
@@ -219,6 +221,34 @@ export const StepDatosPersonalesIIForm: React.FC<StepsRequiredProps> = ({
       [e.target.name]: e.target.value,
     });
   };
+
+  async function handleOnStepChange() {
+    console.log("Aqui la data viejon", currentData);
+    setErrors({});
+    try {
+      DatosPersonalesIIValidationSchema.parse(currentData);
+
+      setCurrentPage((prev) => prev + 1);
+    } catch (error) {
+      if (error instanceof ZodError) {
+        console.log(error);
+        const formErrors: Record<string, string> = {};
+
+        const flatErrors = error.flatten().fieldErrors;
+        Object.keys(flatErrors).forEach((errorKey) => {
+          const errorValue = flatErrors[errorKey];
+          if (Array.isArray(errorValue) && errorValue.length > 0) {
+            formErrors[errorKey] = errorValue[0];
+          }
+        });
+
+        setErrors(formErrors);
+      }
+    }
+  }
+  async function handleOnStepBack() {
+    setCurrentPage((prev) => prev - 1);
+  }
 
   return (
     <>
@@ -239,7 +269,7 @@ export const StepDatosPersonalesIIForm: React.FC<StepsRequiredProps> = ({
           placeholder={"fecha de nacimiento"}
           onKeyUp={(e) => {
             if (e.key === "Enter") {
-              onStepChange("next");
+              handleOnStepChange();
             }
           }}
           value={
@@ -271,7 +301,7 @@ export const StepDatosPersonalesIIForm: React.FC<StepsRequiredProps> = ({
           bgColor={"white"}
           onKeyUp={(e) => {
             if (e.key === "Enter") {
-              onStepChange("next");
+              handleOnStepChange();
             }
           }}
           placeholder={"CURP"}
@@ -294,7 +324,7 @@ export const StepDatosPersonalesIIForm: React.FC<StepsRequiredProps> = ({
           placeholder={"Estado Civil"}
           onKeyUp={(e) => {
             if (e.key === "Enter") {
-              onStepChange("next");
+              handleOnStepChange();
             }
           }}
           value={currentData.estadoCivil}
@@ -338,7 +368,7 @@ export const StepDatosPersonalesIIForm: React.FC<StepsRequiredProps> = ({
           alignItems={"center"}
           color="black"
           bgColor="white"
-          onClick={() => {}}
+          onClick={handleOnStepBack}
         >
           Atrás
         </Button>
@@ -348,7 +378,7 @@ export const StepDatosPersonalesIIForm: React.FC<StepsRequiredProps> = ({
           alignItems={"center"}
           color="black"
           bgColor={"white"}
-          onClick={() => {}}
+          onClick={handleOnStepChange}
         >
           Siguiente
         </Button>
