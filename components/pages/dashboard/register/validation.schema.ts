@@ -4,7 +4,7 @@ import { EstadoEnum, EstadoCivil, Sexo } from "./register.consts";
 const getValues = (object: any): [string] => {
   return Object.keys(object) as [string];
 };
-const DatosPersonalesValidationSchema = z.object({
+export const DatosPersonalesValidationSchema = z.object({
   nombre: z.string().min(2, {
     message: "El nombre debe tener al menos 2 caracteres.",
   }),
@@ -28,7 +28,7 @@ const DatosPersonalesValidationSchema = z.object({
   }),
 });
 
-const DatosUbicacionValidationSchema = z.object({
+export const DatosUbicacionValidationSchema = z.object({
   estadoNacimiento: z.nativeEnum(EstadoEnum, {
     errorMap: (issue) => {
       if (issue.code === "invalid_enum_value")
@@ -46,7 +46,7 @@ const DatosUbicacionValidationSchema = z.object({
   trabaja: z.boolean(),
 });
 
-const DatosContactoValidationSchema = z.object({
+export const DatosContactoValidationSchema = z.object({
   email: z
     .string()
     .email('El email debe tener un formato válido. Ej: "mail@domain.com"')
@@ -64,7 +64,7 @@ const DatosContactoValidationSchema = z.object({
   }),
 });
 
-const DatosPersonalesIIValidationSchema = z.object({
+export const DatosPersonalesIIValidationSchema = z.object({
   fechaNacimiento: z.coerce.date(),
   curp: z.string().min(18, {
     message: "La CURP debe tener al menos 18 caracteres.",
@@ -84,7 +84,7 @@ const DatosPersonalesIIValidationSchema = z.object({
   dialecto: z.boolean(),
 });
 
-const DatosEscuelaProcedenciaValidationSchema = z.object({
+export const DatosEscuelaProcedenciaValidationSchema = z.object({
   escuelaProcedencia: z.string().min(2, {
     message: "El nombre de la escuela debe tener al menos 2 caracteres.",
   }),
@@ -122,13 +122,3 @@ const DatosEscuelaProcedenciaValidationSchema = z.object({
     message: "El municipio de la escuela debe tener al menos 2 caracteres.",
   }),
 });
-
-const RegisterFormValidationSchemas = [
-  DatosPersonalesValidationSchema,
-  DatosPersonalesIIValidationSchema,
-  DatosContactoValidationSchema,
-  DatosUbicacionValidationSchema,
-  DatosEscuelaProcedenciaValidationSchema,
-];
-
-export default RegisterFormValidationSchemas;

@@ -5,16 +5,8 @@ import {
   Button,
   ButtonGroup,
   Flex,
-  FormControl,
-  FormErrorMessage,
-  FormLabel,
   Heading,
-  Icon,
   Image,
-  Input,
-  InputGroup,
-  InputRightAddon,
-  Select,
   Stack,
   Text,
   useToast,
@@ -22,48 +14,45 @@ import {
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-import { useMutation } from "react-query";
-import { ZodError, date } from "zod";
-import FormInputs from "./register.input";
-import { TInput } from "./register.types";
-import RegisterSchema from "./validation.schema";
 import axios from "axios";
+import { useMutation } from "react-query";
+import { ZodError } from "zod";
 import { UserType } from "../../../../types/userType";
-
-const getInputObject = () => {
-  type TInputs = {
-    [key: string]: string;
-  };
-
-  const inputs: TInputs = {};
-
-  FormInputs.forEach((section) => {
-    Object.keys(section.inputs).forEach((key) => {
-      inputs[key] = "";
-    });
-  });
-
-  return inputs;
-};
+import { StepDatosContactoForm } from "./form-steps/step.datosContacto";
+import {
+  StepDatosPersonalesForm,
+  StepDatosPersonalesIIForm,
+} from "./form-steps/step.datosPersonales";
+import { StepDatosUbicacionForm } from "./form-steps/step.datosUbicacion";
+import FormInputs from "./register.input";
+import RegisterSchema from "./validation.schema";
+import { StepDatosEscolaresForm } from "./form-steps/step.datosEscolares";
 
 type RegisterUserType = UserType & {
   password: string;
 };
 
-const parseValueToString = (value: unknown, isDate?: boolean) => {
-  if (typeof value === "number") {
-    return value.toString();
-  } else if (typeof value === "boolean") {
-    return value ? "si" : "no";
-  } else if (
-    typeof value === "string" &&
-    isDate &&
-    value.split("-").length === 3
-  ) {
-    //get date string in aaa/mm/dd format
-    const date = new Date(value).toISOString().split("T")[0];
-    return date;
-  } else return String(value);
+export type RegisterFormValues = {
+  apellidoMaterno: string;
+  apellidoPaterno: string;
+  celular: string;
+  curp: string;
+  dialecto: boolean;
+  direccion: string;
+  email: string;
+  escuelaProcedencia: string;
+  estadoCivil: string;
+  estadoEscuela: string;
+  estadoNacimiento: string;
+  fechaNacimiento: string;
+  municipioEscuela: string;
+  municipioNacimiento: string;
+  nombre: string;
+  promedioBachillerato: number;
+  sexo: string;
+  telefono: string;
+  tipoEscuelaProcedencia: string;
+  trabaja: boolean;
 };
 
 const RegisterForm: React.FC = () => {
@@ -71,10 +60,68 @@ const RegisterForm: React.FC = () => {
   const toast = useToast();
   const [isDisabled, setIsDisabled] = useState(false);
   const [currentPage, setCurrentPage] = useState(0);
-  const [formData, setFormData] = useState<
-    Record<string, string | boolean | number>
-  >(getInputObject());
+  const [formData, setFormData] = useState<RegisterFormValues>({
+    apellidoMaterno: "",
+    apellidoPaterno: "",
+    celular: "",
+    curp: "",
+    dialecto: false,
+    direccion: "",
+    email: "",
+    escuelaProcedencia: "",
+    estadoCivil: "",
+    estadoEscuela: "",
+    estadoNacimiento: "",
+    fechaNacimiento: "",
+    municipioEscuela: "",
+    municipioNacimiento: "",
+    nombre: "",
+    promedioBachillerato: 0,
+    sexo: "",
+    telefono: "",
+    tipoEscuelaProcedencia: "",
+    trabaja: false,
+  });
   const [errors, setErrors] = useState<Record<string, string>>({});
+
+  const FormSteps = [
+    <StepDatosPersonalesForm
+      currentData={formData}
+      setCurrentData={setFormData}
+      errors={errors}
+      setCurrentPage={setCurrentPage}
+      setErrors={setErrors}
+    />,
+    <StepDatosPersonalesIIForm
+      currentData={formData}
+      setCurrentData={setFormData}
+      errors={errors}
+      setCurrentPage={setCurrentPage}
+      setErrors={setErrors}
+    />,
+    <StepDatosContactoForm
+      currentData={formData}
+      setCurrentData={setFormData}
+      errors={errors}
+      setCurrentPage={setCurrentPage}
+      setErrors={setErrors}
+    />,
+    <StepDatosUbicacionForm
+      currentData={formData}
+      setCurrentData={setFormData}
+      errors={errors}
+      setCurrentPage={setCurrentPage}
+      setErrors={setErrors}
+    />,
+    <StepDatosEscolaresForm
+      currentData={formData}
+      setCurrentData={setFormData}
+      errors={errors}
+      setCurrentPage={setCurrentPage}
+      setErrors={setErrors}
+      handleSubmit={handleSubmit}
+    />,
+  ];
 
   const { mutate } = useMutation<RegisterUserType>(
     "register",
@@ -113,96 +160,39 @@ const RegisterForm: React.FC = () => {
     }
   );
 
-  const handleSubmit = () => {
+  function handleSubmit() {
     mutate();
-  };
+  }
 
-  const getInputHTML = (input: TInput, key: string) => {
-    if (input.type === "select") {
-      return (
-        <Select
-          bgColor={"white"}
-          value={parseValueToString(formData[key])}
-          placeholder={input.placeholder}
-          onKeyUp={(e) => {
-            if (e.key === "Enter") {
-              if (currentPage !== FormInputs.length - 1) {
-                handleOnStepChange("next");
-              }
-            }
-          }}
-          onChange={(e) =>
-            setFormData((prev) => ({
-              ...prev,
-              [key]: input.boolean ? e.target.value === "si" : e.target.value,
-            }))
-          }
-        >
-          {input.options.map((option) => (
-            <option value={option.value} key={option.value}>
-              {option.label}
-            </option>
-          ))}
-        </Select>
-      );
-    } else
-      return (
-        <Input
-          value={parseValueToString(formData[key], input.type === "date")}
-          onChange={(e) =>
-            setFormData((prev) => ({
-              ...prev,
-              [key]:
-                input.type === "number"
-                  ? Number(e.target.value)
-                  : input.type === "date"
-                  ? new Date(e.target.value).toISOString()
-                  : e.target.value,
-            }))
-          }
-          onKeyUp={(e) => {
-            if (e.key === "Enter") {
-              if (currentPage !== FormInputs.length - 1) {
-                handleOnStepChange("next");
-              }
-            }
-          }}
-          type={input.type}
-          placeholder={input.placeholder}
-          bgColor={"white"}
-          {...input.additonalProps}
-        />
-      );
-  };
+  // async function handleOnStepChange(action: "next" | "prev") {
+  //   console.log("Aqui la data viejon", formData);
+  //   setErrors({});
+  //   try {
+  //     RegisterSchema[currentPage].parse(formData);
+  //     if (action === "next" && currentPage === FormInputs.length - 1) {
+  //       handleSubmit();
+  //     } else if (action === "next" && currentPage !== FormInputs.length - 1) {
+  //       setCurrentPage((prev) => prev + 1);
+  //     } else {
+  //       setCurrentPage((prev) => prev - 1);
+  //     }
+  //   } catch (error) {
+  //     if (error instanceof ZodError) {
+  //       console.log(error);
+  //       const formErrors: Record<string, string> = {};
 
-  const handleOnStepChange = async (action: "next" | "prev") => {
-    setErrors({});
-    try {
-      RegisterSchema[currentPage].parse(formData);
-      if (action === "next" && currentPage === FormInputs.length - 1) {
-        handleSubmit();
-      } else if (action === "next" && currentPage !== FormInputs.length - 1) {
-        setCurrentPage((prev) => prev + 1);
-      } else {
-        setCurrentPage((prev) => prev - 1);
-      }
-    } catch (error) {
-      if (error instanceof ZodError) {
-        console.log(error);
-        const formErrors: Record<string, string> = {};
+  //       const flatErrors = error.flatten().fieldErrors;
+  //       Object.keys(flatErrors).forEach((errorKey) => {
+  //         const errorValue = flatErrors[errorKey];
+  //         if (Array.isArray(errorValue) && errorValue.length > 0) {
+  //           formErrors[errorKey] = errorValue[0];
+  //         }
+  //       });
 
-        const flatErrors = error.flatten().fieldErrors;
-        Object.keys(flatErrors).forEach((errorKey) => {
-          const errorValue = flatErrors[errorKey];
-          if (Array.isArray(errorValue) && errorValue.length > 0) {
-            formErrors[errorKey] = errorValue[0];
-          }
-        });
-
-        setErrors(formErrors);
-      }
-    }
-  };
+  //       setErrors(formErrors);
+  //     }
+  //   }
+  // }
   return (
     <Flex
       as={"main"}
@@ -263,61 +253,10 @@ const RegisterForm: React.FC = () => {
           align={"center"}
           w={"100%"}
           padding={"3rem"}
+          overflowY={"auto"}
         >
-          {Object.keys(FormInputs[currentPage].inputs).map((key) => {
-            return (
-              <FormControl
-                key={key}
-                isInvalid={errors && typeof errors[key] !== "undefined"}
-              >
-                <FormLabel
-                  htmlFor={key}
-                  color={"whiteAlpha.900"}
-                  fontWeight={"bold"}
-                >
-                  {FormInputs[currentPage].inputs[key].label}
-                </FormLabel>
-                <InputGroup>
-                  {getInputHTML(FormInputs[currentPage].inputs[key], key)}
-                  <InputRightAddon
-                    children={
-                      <Icon as={FormInputs[currentPage].inputs[key].icon} />
-                    }
-                  />
-                </InputGroup>
-                <FormErrorMessage color={"whiteAlpha.900"} fontWeight={"bold"}>
-                  {errors[key]}
-                </FormErrorMessage>
-              </FormControl>
-            );
-          })}
-          <ButtonGroup>
-            {currentPage !== 0 && (
-              <Button
-                mt={4}
-                alignItems={"center"}
-                color="black"
-                bgColor="white"
-                onClick={() => setCurrentPage((prev) => prev - 1)}
-              >
-                Atrás
-              </Button>
-            )}
+          {FormSteps[currentPage]}
 
-            <Button
-              mt={4}
-              alignItems={"center"}
-              color="black"
-              bgColor={currentPage < FormInputs.length - 1 ? "white" : "green"}
-              colorScheme={currentPage === FormInputs.length - 1 ? "green" : ""}
-              isDisabled={isDisabled}
-              onClick={() => handleOnStepChange("next")}
-            >
-              {currentPage === FormInputs.length - 1
-                ? "Registrarse"
-                : "Siguiente"}
-            </Button>
-          </ButtonGroup>
           <Text fontSize="1xl" color="white" as="b">
             *Podrás pasar a la siguiente página hasta completar esta sección
           </Text>

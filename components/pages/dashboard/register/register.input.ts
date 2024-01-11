@@ -186,7 +186,17 @@ const FormInputs: TFormInputsSections[] = [
     name: "Datos Escolares",
     inputs: {
       escuelaProcedencia: {
-        type: "text",
+        type: "select",
+        options: [
+          {
+            value: "cch",
+            label: "CCH",
+          },
+          {
+            value: "preparatoriaNocturna",
+            label: "Preparatoria Nocturna",
+          },
+        ],
         label: "Nombre de la escuela de procedencia",
         placeholder: "Nombre de la escuela",
         icon: BiSolidSchool,
@@ -221,6 +231,11 @@ const FormInputs: TFormInputsSections[] = [
           },
         },
       },
+    },
+  },
+  {
+    name: "Datos de la escolares II",
+    inputs: {
       tipoEscuelaProcedencia: {
         label: "Tipo escuela de procedencia",
         type: "select",

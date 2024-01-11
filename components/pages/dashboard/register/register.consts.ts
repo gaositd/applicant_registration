@@ -45,3 +45,9 @@ export enum EstadoEnum {
   yucatan = "Yucatán",
   zacatecas = "Zacatecas",
 }
+
+export const EscuelasUJEDEnum = {
+  CCH: "CCH",
+  CECyT: "CECyT",
+  CICS: "CICS",
+};
