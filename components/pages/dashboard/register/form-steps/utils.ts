@@ -7,7 +7,6 @@ export function handleOnStepChange(
   setCurrentPage: React.Dispatch<React.SetStateAction<number>>,
   setErrors: React.Dispatch<React.SetStateAction<Record<string, string>>>
 ) {
-  console.log("Aqui la data viejon", currentData);
   setErrors({});
   try {
     validationSchema.parse(currentData);
@@ -15,7 +14,6 @@ export function handleOnStepChange(
     setCurrentPage((prev) => prev + 1);
   } catch (error) {
     if (error instanceof ZodError) {
-      console.log(error);
       const formErrors: Record<string, string> = {};
 
       const flatErrors = error.flatten().fieldErrors;

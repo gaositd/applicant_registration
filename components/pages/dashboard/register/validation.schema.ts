@@ -86,11 +86,11 @@ export const DatosPersonalesIIValidationSchema = z.object({
 
 export const DatosEscuelaProcedenciaValidationSchema = z.object({
   escuelaProcedencia: z.string().min(2, {
-    message: "El nombre de la escuela debe tener al menos 2 caracteres.",
+    message: "Valor no válido.",
   }),
   promedioBachillerato: z
     .number()
-    .min(0, {
+    .min(1, {
       message: "El promedio debe ser mayor a 0.",
     })
     .max(100, {

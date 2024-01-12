@@ -1,15 +1,82 @@
-import { BiEnvelope } from "react-icons/bi";
-import { FormControlComponent } from "./FormControlComponent";
-import { Input, Select } from "@chakra-ui/react";
-import { EscuelasUJEDEnum, EstadoEnum } from "../register.consts";
-import { StepsRequiredProps } from "./step.datosPersonales";
+import { Button, ButtonGroup, Input, Select, useToast } from "@chakra-ui/react";
+import axios from "axios";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { BiEnvelope } from "react-icons/bi";
+import { useMutation } from "react-query";
+import { ZodError } from "zod";
+import { RegisterUserType } from "../RegisterForm";
+import { EscuelasUJEDEnum, EstadoEnum } from "../register.consts";
+import { DatosEscuelaProcedenciaValidationSchema } from "../validation.schema";
+import { FormControlComponent } from "./FormControlComponent";
+import { StepsRequiredProps } from "./step.datosPersonales";
+import { handleOnStepBack } from "./utils";
 
 export const StepDatosEscolaresForm: React.FC<
   StepsRequiredProps & { handleSubmit: () => void }
-> = ({ currentData, setCurrentData, errors, setCurrentPage }) => {
+> = ({ currentData, setCurrentData, errors, setCurrentPage, setErrors }) => {
   const [isExternal, setIsExternal] = useState(false);
+  const [isDisabled, setIsDisabled] = useState(false);
+  const toast = useToast();
+  const router = useRouter();
 
+  const { mutate } = useMutation<RegisterUserType>(
+    "register",
+    async () => {
+      setIsDisabled(true);
+      const { data } = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/users`,
+        currentData
+      );
+      return data;
+    },
+    {
+      onSuccess: (data) => {
+        setIsDisabled(false);
+        toast({
+          title: "Usuario registrado",
+          description: `Tu matrícula es ${data.matricula} y tu contraseña es ${data.password}`,
+          status: "success",
+          duration: 3000,
+          isClosable: true,
+        });
+        router.push("/dashboard");
+      },
+      onError: (error) => {
+        setIsDisabled(false);
+
+        if (error instanceof Error)
+          toast({
+            title: "Error al registrar",
+            description: error.message,
+            status: "error",
+            duration: 3000,
+            isClosable: true,
+          });
+      },
+    }
+  );
+
+  const handleSubmitForm = () => {
+    try {
+      DatosEscuelaProcedenciaValidationSchema.parse(currentData);
+      mutate();
+    } catch (error) {
+      if (error instanceof ZodError) {
+        const formErrors: Record<string, string> = {};
+
+        const flatErrors = error.flatten().fieldErrors;
+        Object.keys(flatErrors).forEach((errorKey) => {
+          const errorValue = flatErrors[errorKey];
+          if (Array.isArray(errorValue) && errorValue.length > 0) {
+            formErrors[errorKey] = errorValue[0];
+          }
+        });
+
+        setErrors(formErrors);
+      }
+    }
+  };
   return (
     <>
       <FormControlComponent
@@ -23,6 +90,7 @@ export const StepDatosEscolaresForm: React.FC<
         errorMessage={errors["escuelaProcedencia"]}
       >
         <Select
+          isDisabled={isDisabled}
           id="escuelaProcedencia"
           name="escuelaProcedencia"
           bgColor={"white"}
@@ -34,20 +102,24 @@ export const StepDatosEscolaresForm: React.FC<
                 ...prev,
                 [e.target.name]: "",
                 tipoEscuelaProcedencia: "",
+                estadoEscuela: "",
+                municipioEscuela: "",
               }));
               setIsExternal(true);
             } else {
               setCurrentData((prev) => ({
                 ...prev,
                 [e.target.name]: e.target.value,
-                tipoEscuelaProcedencia: "",
+                tipoEscuelaProcedencia: "publica",
+                estadoEscuela: "Durango",
+                municipioEscuela: "Durango",
               }));
               setIsExternal(false);
             }
           }}
           onKeyUp={(e) => {
             if (e.key === "Enter") {
-              onStepChange("next");
+              handleSubmitForm();
             }
           }}
         >
@@ -75,6 +147,7 @@ export const StepDatosEscolaresForm: React.FC<
             errorMessage={errors["escuelaProcedencia"]}
           >
             <Input
+              isDisabled={isDisabled}
               id="escuelaProcedencia"
               name="escuelaProcedencia"
               bgColor={"white"}
@@ -88,7 +161,7 @@ export const StepDatosEscolaresForm: React.FC<
               }}
               onKeyUp={(e) => {
                 if (e.key === "Enter") {
-                  onStepChange("next");
+                  handleSubmitForm();
                 }
               }}
             />
@@ -104,6 +177,7 @@ export const StepDatosEscolaresForm: React.FC<
             errorMessage={errors["tipoEscuelaProcedencia"]}
           >
             <Select
+              isDisabled={isDisabled}
               id="tipoEscuelaProcedencia"
               name="tipoEscuelaProcedencia"
               bgColor={"white"}
@@ -117,7 +191,7 @@ export const StepDatosEscolaresForm: React.FC<
               }}
               onKeyUp={(e) => {
                 if (e.key === "Enter") {
-                  onStepChange("next");
+                  handleSubmitForm();
                 }
               }}
             >
@@ -135,6 +209,7 @@ export const StepDatosEscolaresForm: React.FC<
             errorMessage={errors["estadoEscuela"]}
           >
             <Select
+              isDisabled={isDisabled}
               id="estadoEscuela"
               name="estadoEscuela"
               bgColor={"white"}
@@ -148,7 +223,7 @@ export const StepDatosEscolaresForm: React.FC<
               }}
               onKeyUp={(e) => {
                 if (e.key === "Enter") {
-                  onStepChange("next");
+                  handleSubmitForm();
                 }
               }}
             >
@@ -173,6 +248,7 @@ export const StepDatosEscolaresForm: React.FC<
             errorMessage={errors["municipioEscuela"]}
           >
             <Input
+              isDisabled={isDisabled}
               id="municipioEscuela"
               type="text"
               name="municipioEscuela"
@@ -187,13 +263,67 @@ export const StepDatosEscolaresForm: React.FC<
               }}
               onKeyUp={(e) => {
                 if (e.key === "Enter") {
-                  onStepChange("next");
+                  handleSubmitForm();
                 }
               }}
             />
           </FormControlComponent>
         </>
       )}
+      <FormControlComponent
+        label="Promedio Escuela de Procedencia"
+        name="promedioBachillerato"
+        icon={BiEnvelope}
+        isInvalid={
+          !!errors["promedioBachillerato"] &&
+          errors["promedioBachillerato"].length > 0
+        }
+        errorMessage={errors["promedioBachillerato"]}
+      >
+        <Input
+          isDisabled={isDisabled}
+          id="promedioBachillerato"
+          type="number"
+          name="promedioBachillerato"
+          bgColor={"white"}
+          placeholder={"Promedio Escuela de Procedencia"}
+          value={currentData.promedioBachillerato}
+          onChange={(e) => {
+            setCurrentData({
+              ...currentData,
+              [e.target.name]: parseFloat(e.target.value),
+            });
+          }}
+          onKeyUp={(e) => {
+            if (e.key === "Enter") {
+              handleSubmitForm();
+            }
+          }}
+        />
+      </FormControlComponent>
+      <ButtonGroup>
+        <Button
+          isLoading={isDisabled}
+          mt={4}
+          alignItems={"center"}
+          color="black"
+          bgColor="white"
+          onClick={() => handleOnStepBack(setCurrentPage)}
+        >
+          Atrás
+        </Button>
+
+        <Button
+          isLoading={isDisabled}
+          mt={4}
+          alignItems={"center"}
+          color="white"
+          bgColor={"green"}
+          onClick={handleSubmitForm}
+        >
+          Registrarse
+        </Button>
+      </ButtonGroup>
     </>
   );
 };

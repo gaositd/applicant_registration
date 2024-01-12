@@ -1,34 +1,18 @@
 "use client";
 
-import {
-  Box,
-  Button,
-  ButtonGroup,
-  Flex,
-  Heading,
-  Image,
-  Stack,
-  Text,
-  useToast,
-} from "@chakra-ui/react";
-import { useRouter } from "next/navigation";
+import { Box, Flex, Heading, Image, Stack, Text } from "@chakra-ui/react";
 import { useState } from "react";
 
-import axios from "axios";
-import { useMutation } from "react-query";
-import { ZodError } from "zod";
 import { UserType } from "../../../../types/userType";
 import { StepDatosContactoForm } from "./form-steps/step.datosContacto";
+import { StepDatosEscolaresForm } from "./form-steps/step.datosEscolares";
 import {
   StepDatosPersonalesForm,
   StepDatosPersonalesIIForm,
 } from "./form-steps/step.datosPersonales";
 import { StepDatosUbicacionForm } from "./form-steps/step.datosUbicacion";
-import FormInputs from "./register.input";
-import RegisterSchema from "./validation.schema";
-import { StepDatosEscolaresForm } from "./form-steps/step.datosEscolares";
 
-type RegisterUserType = UserType & {
+export type RegisterUserType = UserType & {
   password: string;
 };
 
@@ -56,9 +40,6 @@ export type RegisterFormValues = {
 };
 
 const RegisterForm: React.FC = () => {
-  const router = useRouter();
-  const toast = useToast();
-  const [isDisabled, setIsDisabled] = useState(false);
   const [currentPage, setCurrentPage] = useState(0);
   const [formData, setFormData] = useState<RegisterFormValues>({
     apellidoMaterno: "",
@@ -123,76 +104,7 @@ const RegisterForm: React.FC = () => {
     />,
   ];
 
-  const { mutate } = useMutation<RegisterUserType>(
-    "register",
-    async () => {
-      setIsDisabled(true);
-      const { data } = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/users`,
-        formData
-      );
-      return data;
-    },
-    {
-      onSuccess: (data) => {
-        setIsDisabled(false);
-        toast({
-          title: "Usuario registrado",
-          description: `Tu matrícula es ${data.matricula} y tu contraseña es ${data.password}`,
-          status: "success",
-          duration: 3000,
-          isClosable: true,
-        });
-        router.push("/dashboard");
-      },
-      onError: (error) => {
-        setIsDisabled(false);
-
-        if (error instanceof Error)
-          toast({
-            title: "Error al registrar",
-            description: error.message,
-            status: "error",
-            duration: 3000,
-            isClosable: true,
-          });
-      },
-    }
-  );
-
-  function handleSubmit() {
-    mutate();
-  }
-
-  // async function handleOnStepChange(action: "next" | "prev") {
-  //   console.log("Aqui la data viejon", formData);
-  //   setErrors({});
-  //   try {
-  //     RegisterSchema[currentPage].parse(formData);
-  //     if (action === "next" && currentPage === FormInputs.length - 1) {
-  //       handleSubmit();
-  //     } else if (action === "next" && currentPage !== FormInputs.length - 1) {
-  //       setCurrentPage((prev) => prev + 1);
-  //     } else {
-  //       setCurrentPage((prev) => prev - 1);
-  //     }
-  //   } catch (error) {
-  //     if (error instanceof ZodError) {
-  //       console.log(error);
-  //       const formErrors: Record<string, string> = {};
-
-  //       const flatErrors = error.flatten().fieldErrors;
-  //       Object.keys(flatErrors).forEach((errorKey) => {
-  //         const errorValue = flatErrors[errorKey];
-  //         if (Array.isArray(errorValue) && errorValue.length > 0) {
-  //           formErrors[errorKey] = errorValue[0];
-  //         }
-  //       });
-
-  //       setErrors(formErrors);
-  //     }
-  //   }
-  // }
+  function handleSubmit() {}
   return (
     <Flex
       as={"main"}
@@ -244,17 +156,15 @@ const RegisterForm: React.FC = () => {
         p={{ base: "2rem", md: 0 }}
         flexDir={"column"}
       >
-        <Heading color={"white"}>Registrate</Heading>
-
         <Stack
-          display="flex"
-          flexDir={"column"}
-          justify="center"
-          align={"center"}
+          as={"form"}
+          direction={"column"}
           w={"100%"}
           padding={"3rem"}
+          spacing={4}
           overflowY={"auto"}
         >
+          <Heading color={"white"}>Registrate</Heading>
           {FormSteps[currentPage]}
 
           <Text fontSize="1xl" color="white" as="b">
