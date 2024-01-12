@@ -1,13 +1,16 @@
+import { Button, ButtonGroup, Input, Textarea } from "@chakra-ui/react";
 import { BiEnvelope } from "react-icons/bi";
+import { DatosContactoValidationSchema } from "../validation.schema";
 import { FormControlComponent } from "./FormControlComponent";
 import { StepsRequiredProps } from "./step.datosPersonales";
-import { Input, Textarea } from "@chakra-ui/react";
+import { handleOnStepBack, handleOnStepChange } from "./utils";
 
 export const StepDatosContactoForm: React.FC<StepsRequiredProps> = ({
   currentData,
   setCurrentData,
   errors,
-  onStepChange,
+  setErrors,
+  setCurrentPage,
 }) => {
   return (
     <>
@@ -33,7 +36,12 @@ export const StepDatosContactoForm: React.FC<StepsRequiredProps> = ({
           }}
           onKeyUp={(e) => {
             if (e.key === "Enter") {
-              onStepChange("next");
+              handleOnStepChange(
+                DatosContactoValidationSchema,
+                currentData,
+                setCurrentPage,
+                setErrors
+              );
             }
           }}
         />
@@ -60,7 +68,12 @@ export const StepDatosContactoForm: React.FC<StepsRequiredProps> = ({
           }}
           onKeyUp={(e) => {
             if (e.key === "Enter") {
-              onStepChange("next");
+              handleOnStepChange(
+                DatosContactoValidationSchema,
+                currentData,
+                setCurrentPage,
+                setErrors
+              );
             }
           }}
         />
@@ -87,7 +100,12 @@ export const StepDatosContactoForm: React.FC<StepsRequiredProps> = ({
           }}
           onKeyUp={(e) => {
             if (e.key === "Enter") {
-              onStepChange("next");
+              handleOnStepChange(
+                DatosContactoValidationSchema,
+                currentData,
+                setCurrentPage,
+                setErrors
+              );
             }
           }}
         />
@@ -114,6 +132,34 @@ export const StepDatosContactoForm: React.FC<StepsRequiredProps> = ({
           }}
         />
       </FormControlComponent>
+      <ButtonGroup>
+        <Button
+          mt={4}
+          alignItems={"center"}
+          color="black"
+          bgColor="white"
+          onClick={() => handleOnStepBack(setCurrentPage)}
+        >
+          Atrás
+        </Button>
+
+        <Button
+          mt={4}
+          alignItems={"center"}
+          color="black"
+          bgColor={"white"}
+          onClick={() =>
+            handleOnStepChange(
+              DatosContactoValidationSchema,
+              currentData,
+              setCurrentPage,
+              setErrors
+            )
+          }
+        >
+          Siguiente
+        </Button>
+      </ButtonGroup>
     </>
   );
 };

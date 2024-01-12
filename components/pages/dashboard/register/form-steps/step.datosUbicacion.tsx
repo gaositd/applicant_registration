@@ -1,14 +1,28 @@
 import { BiEnvelope } from "react-icons/bi";
 import { FormControlComponent } from "./FormControlComponent";
 import { StepsRequiredProps } from "./step.datosPersonales";
-import { Input, Radio, RadioGroup, Select, Stack } from "@chakra-ui/react";
+import {
+  Button,
+  ButtonGroup,
+  Input,
+  Radio,
+  RadioGroup,
+  Select,
+  Stack,
+} from "@chakra-ui/react";
 import { EstadoEnum } from "../register.consts";
+import { handleOnStepBack, handleOnStepChange } from "./utils";
+import {
+  DatosPersonalesValidationSchema,
+  DatosUbicacionValidationSchema,
+} from "../validation.schema";
 
 export const StepDatosUbicacionForm: React.FC<StepsRequiredProps> = ({
   currentData,
   setCurrentData,
   errors,
-  onStepChange,
+  setCurrentPage,
+  setErrors,
 }) => {
   return (
     <>
@@ -35,7 +49,12 @@ export const StepDatosUbicacionForm: React.FC<StepsRequiredProps> = ({
           }}
           onKeyUp={(e) => {
             if (e.key === "Enter") {
-              onStepChange("next");
+              handleOnStepChange(
+                DatosUbicacionValidationSchema,
+                currentData,
+                setCurrentPage,
+                setErrors
+              );
             }
           }}
         >
@@ -73,7 +92,12 @@ export const StepDatosUbicacionForm: React.FC<StepsRequiredProps> = ({
           }}
           onKeyUp={(e) => {
             if (e.key === "Enter") {
-              onStepChange("next");
+              handleOnStepChange(
+                DatosUbicacionValidationSchema,
+                currentData,
+                setCurrentPage,
+                setErrors
+              );
             }
           }}
         />
@@ -102,6 +126,34 @@ export const StepDatosUbicacionForm: React.FC<StepsRequiredProps> = ({
           </Stack>
         </RadioGroup>
       </FormControlComponent>
+      <ButtonGroup>
+        <Button
+          mt={4}
+          alignItems={"center"}
+          color="black"
+          bgColor="white"
+          onClick={() => handleOnStepBack(setCurrentPage)}
+        >
+          Atrás
+        </Button>
+
+        <Button
+          mt={4}
+          alignItems={"center"}
+          color="black"
+          bgColor={"white"}
+          onClick={() =>
+            handleOnStepChange(
+              DatosUbicacionValidationSchema,
+              currentData,
+              setCurrentPage,
+              setErrors
+            )
+          }
+        >
+          Siguiente
+        </Button>
+      </ButtonGroup>
     </>
   );
 };

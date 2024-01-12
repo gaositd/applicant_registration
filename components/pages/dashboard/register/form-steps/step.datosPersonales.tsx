@@ -14,15 +14,14 @@ import {
   Stack,
 } from "@chakra-ui/react";
 import { BiCalendar, BiSolidUserCircle } from "react-icons/bi";
-import { FormControlComponent } from "./FormControlComponent";
 import { RegisterFormValues } from "../RegisterForm";
 import {
-  DatosPersonalesValidationSchema,
   DatosPersonalesIIValidationSchema,
+  DatosPersonalesValidationSchema,
 } from "../validation.schema";
+import { FormControlComponent } from "./FormControlComponent";
 
-import { ZodError } from "zod";
-import { set } from "lodash";
+import { handleOnStepBack, handleOnStepChange } from "./utils";
 
 export interface StepsRequiredProps {
   currentData: RegisterFormValues;
@@ -45,32 +44,6 @@ export const StepDatosPersonalesForm: React.FC<StepsRequiredProps> = ({
       [e.target.name]: e.target.value,
     });
   };
-
-  async function handleOnStepChange() {
-    console.log("Aqui la data viejon", currentData);
-    setErrors({});
-    try {
-      DatosPersonalesValidationSchema.parse(currentData);
-
-      setCurrentPage((prev) => prev + 1);
-    } catch (error) {
-      if (error instanceof ZodError) {
-        console.log(error);
-        const formErrors: Record<string, string> = {};
-
-        const flatErrors = error.flatten().fieldErrors;
-        Object.keys(flatErrors).forEach((errorKey) => {
-          const errorValue = flatErrors[errorKey];
-          if (Array.isArray(errorValue) && errorValue.length > 0) {
-            formErrors[errorKey] = errorValue[0];
-          }
-        });
-
-        setErrors(formErrors);
-      }
-    }
-  }
-
   return (
     <>
       <FormControl
@@ -177,7 +150,12 @@ export const StepDatosPersonalesForm: React.FC<StepsRequiredProps> = ({
             name="sexo"
             onKeyUp={(e) => {
               if (e.key === "Enter") {
-                handleOnStepChange();
+                handleOnStepChange(
+                  DatosPersonalesValidationSchema,
+                  currentData,
+                  setCurrentPage,
+                  setErrors
+                );
               }
             }}
             onChange={handleOnChange}
@@ -199,7 +177,14 @@ export const StepDatosPersonalesForm: React.FC<StepsRequiredProps> = ({
           alignItems={"center"}
           color="black"
           bgColor={"white"}
-          onClick={handleOnStepChange}
+          onClick={() =>
+            handleOnStepChange(
+              DatosPersonalesValidationSchema,
+              currentData,
+              setCurrentPage,
+              setErrors
+            )
+          }
         >
           Siguiente
         </Button>
@@ -221,35 +206,6 @@ export const StepDatosPersonalesIIForm: React.FC<StepsRequiredProps> = ({
       [e.target.name]: e.target.value,
     });
   };
-
-  async function handleOnStepChange() {
-    console.log("Aqui la data viejon", currentData);
-    setErrors({});
-    try {
-      DatosPersonalesIIValidationSchema.parse(currentData);
-
-      setCurrentPage((prev) => prev + 1);
-    } catch (error) {
-      if (error instanceof ZodError) {
-        console.log(error);
-        const formErrors: Record<string, string> = {};
-
-        const flatErrors = error.flatten().fieldErrors;
-        Object.keys(flatErrors).forEach((errorKey) => {
-          const errorValue = flatErrors[errorKey];
-          if (Array.isArray(errorValue) && errorValue.length > 0) {
-            formErrors[errorKey] = errorValue[0];
-          }
-        });
-
-        setErrors(formErrors);
-      }
-    }
-  }
-  async function handleOnStepBack() {
-    setCurrentPage((prev) => prev - 1);
-  }
-
   return (
     <>
       <FormControlComponent
@@ -269,7 +225,12 @@ export const StepDatosPersonalesIIForm: React.FC<StepsRequiredProps> = ({
           placeholder={"fecha de nacimiento"}
           onKeyUp={(e) => {
             if (e.key === "Enter") {
-              handleOnStepChange();
+              handleOnStepChange(
+                DatosPersonalesIIValidationSchema,
+                currentData,
+                setCurrentPage,
+                setErrors
+              );
             }
           }}
           value={
@@ -301,7 +262,12 @@ export const StepDatosPersonalesIIForm: React.FC<StepsRequiredProps> = ({
           bgColor={"white"}
           onKeyUp={(e) => {
             if (e.key === "Enter") {
-              handleOnStepChange();
+              handleOnStepChange(
+                DatosPersonalesIIValidationSchema,
+                currentData,
+                setCurrentPage,
+                setErrors
+              );
             }
           }}
           placeholder={"CURP"}
@@ -324,7 +290,12 @@ export const StepDatosPersonalesIIForm: React.FC<StepsRequiredProps> = ({
           placeholder={"Estado Civil"}
           onKeyUp={(e) => {
             if (e.key === "Enter") {
-              handleOnStepChange();
+              handleOnStepChange(
+                DatosPersonalesIIValidationSchema,
+                currentData,
+                setCurrentPage,
+                setErrors
+              );
             }
           }}
           value={currentData.estadoCivil}
@@ -368,7 +339,7 @@ export const StepDatosPersonalesIIForm: React.FC<StepsRequiredProps> = ({
           alignItems={"center"}
           color="black"
           bgColor="white"
-          onClick={handleOnStepBack}
+          onClick={() => handleOnStepBack(setCurrentPage)}
         >
           Atrás
         </Button>
@@ -378,7 +349,14 @@ export const StepDatosPersonalesIIForm: React.FC<StepsRequiredProps> = ({
           alignItems={"center"}
           color="black"
           bgColor={"white"}
-          onClick={handleOnStepChange}
+          onClick={() =>
+            handleOnStepChange(
+              DatosPersonalesIIValidationSchema,
+              currentData,
+              setCurrentPage,
+              setErrors
+            )
+          }
         >
           Siguiente
         </Button>
