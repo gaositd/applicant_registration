@@ -11,17 +11,30 @@ import {
   MenuList,
   useToast,
   Image,
+  Drawer,
+  DrawerOverlay,
+  DrawerContent,
+  DrawerCloseButton,
+  DrawerHeader,
+  DrawerBody,
+  DrawerFooter,
+  useDisclosure,
 } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { AiFillCaretDown } from "react-icons/ai";
+import AppConfigDrawer from "./navbar/AppConfigDrawer";
 
-interface props {}
+interface props {
+  isAdmin: boolean;
+}
 
-const Navbar: React.FC<props> = () => {
+const Navbar: React.FC<props> = ({ isAdmin }) => {
   const [user, setUser] = useState<{ name: string; matricula: string } | null>(
     null
   );
+
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   useEffect(() => {
     const user = localStorage.getItem("user");
@@ -41,7 +54,7 @@ const Navbar: React.FC<props> = () => {
       if (res.status === 200) {
         localStorage.removeItem("user");
 
-        router.push("/login");
+        window.location.assign("/login");
       } else
         toast({
           description: "No se puede cerrar la sesion",
@@ -86,10 +99,15 @@ const Navbar: React.FC<props> = () => {
           <MenuItem id="2" onClick={handleLogout}>
             Cerrar sesion
           </MenuItem>
+          <MenuDivider />
+          {isAdmin && (
+            <MenuItem id="3" onClick={onOpen}>
+              Ajustes
+            </MenuItem>
+          )}
         </MenuList>
       </Menu>
-      {/* <h2 className="font-bold text-white">John Doe</h2>
-      <AiFillCaretDown className="text-white" /> */}
+      {isAdmin && <AppConfigDrawer isOpen={isOpen} onClose={onClose} />}
     </Flex>
   );
 };

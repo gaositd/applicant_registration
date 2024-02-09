@@ -13,7 +13,7 @@ const page = async ({ children }: props) => {
   if (!user) return redirect("/login");
   return (
     <div className="flex flex-col h-screen w-screen">
-      <Navbar />
+      <Navbar isAdmin={user.role === "admin"} />
       <main className="p-4" style={{ width: "100%", height: "100%" }}>
         {children}
       </main>

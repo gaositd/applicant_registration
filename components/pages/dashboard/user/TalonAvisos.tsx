@@ -9,8 +9,13 @@ type TTalonAvisos = {
   addressed: boolean;
   type: "text" | "resource";
 };
+type TalonAviosProps = {
+  ableToDownloadInvoice: boolean;
+};
 
-export const TalonAvisos: React.FC = () => {
+export const TalonAvisos: React.FC<TalonAviosProps> = ({
+  ableToDownloadInvoice,
+}) => {
   const { isLoading, isError, data } = useQuery<TTalonAvisos[]>(
     "talonAvisos",
     async () => {
@@ -18,10 +23,10 @@ export const TalonAvisos: React.FC = () => {
         `${process.env.NEXT_PUBLIC_API_URL}/notifications`,
         {
           withCredentials: true,
-        }
+        },
       );
       return response.data;
-    }
+    },
   );
 
   return (
@@ -36,13 +41,16 @@ export const TalonAvisos: React.FC = () => {
     >
       <Heading fontSize="lg">Talon de avisos</Heading>
       <Stack spacing={3} mt={3} w={"full"}>
-        {isLoading ? (
-          <Text>Cargando...</Text>
-        ) : isError ? (
-          <Text>Ocurrió un error al cargar los avisos</Text>
-        ) : (
-          data?.map((aviso) => <Notificacion {...aviso} />)
-        )}
+        {ableToDownloadInvoice ? (
+          <Button colorScheme={"teal"}>Descargar ficha de pago</Button>
+        ) : null}
+        <Text>Se requiere que se vea le contenido adicional</Text>
+        <Text>
+          Revisa el siguiente{" "}
+          <Link href="http://google.com" color={"blue"}>
+            enlace
+          </Link>
+        </Text>
       </Stack>
     </Flex>
   );
