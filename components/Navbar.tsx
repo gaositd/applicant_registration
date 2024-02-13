@@ -42,8 +42,6 @@ const Navbar: React.FC<props> = ({ isAdmin }) => {
     if (user) setUser(JSON.parse(user));
   }, []);
 
-  const router = useRouter();
-
   const toast = useToast();
 
   const handleLogout = () => {
@@ -94,17 +92,30 @@ const Navbar: React.FC<props> = ({ isAdmin }) => {
         </MenuButton>
 
         <MenuList>
-          <MenuItem id="1">Perfil</MenuItem>
-          <MenuDivider />
-          <MenuItem id="2" onClick={handleLogout}>
-            Cerrar sesion
+          <MenuItem
+            id="1"
+            onClick={() =>
+              toast({
+                title: "Proximamente",
+                description:
+                  "Esta funcionalidad estara disponible en futuras versiones",
+                status: "info",
+                duration: 5000,
+                isClosable: true,
+              })
+            }
+          >
+            Perfil
           </MenuItem>
-          <MenuDivider />
           {isAdmin && (
             <MenuItem id="3" onClick={onOpen}>
               Ajustes
             </MenuItem>
           )}
+          <MenuDivider />
+          <MenuItem id="2" onClick={handleLogout}>
+            Cerrar sesion
+          </MenuItem>
         </MenuList>
       </Menu>
       {isAdmin && <AppConfigDrawer isOpen={isOpen} onClose={onClose} />}
