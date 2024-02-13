@@ -1,6 +1,6 @@
 "use client";
-import { Flex, Heading, Progress, Stack } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
+import { Stack, Flex, Heading, Progress } from "@chakra-ui/react";
 import DocumentContainer from "../../DocumentContainer";
 import { TalonAvisos } from "./user/TalonAvisos";
 
@@ -30,7 +30,7 @@ const UserFilesInformation: React.FC<props> = ({
   useEffect(() => {
     const aceptados = documentsArray.reduce(
       (acc, docuento) => (docuento.status === "approved" ? (acc += 1) : acc),
-      0
+      0,
     );
 
     setPercentage(Math.floor((aceptados * 100) / documentsArray.length));
@@ -58,7 +58,7 @@ const UserFilesInformation: React.FC<props> = ({
         h={"85%"}
         flexDir={{ base: "column", md: "row-reverse" }}
       >
-        <TalonAvisos />
+        <TalonAvisos ableToDownloadInvoice={percentage === 100} />
         {!isExpedienteBlocked ? (
           <Stack w={"75%"}>
             {documentos.map((document) => (

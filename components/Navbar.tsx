@@ -11,25 +11,36 @@ import {
   MenuList,
   useToast,
   Image,
+  Drawer,
+  DrawerOverlay,
+  DrawerContent,
+  DrawerCloseButton,
+  DrawerHeader,
+  DrawerBody,
+  DrawerFooter,
+  useDisclosure,
 } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { AiFillCaretDown } from "react-icons/ai";
+import AppConfigDrawer from "./navbar/AppConfigDrawer";
 
-interface props {}
+interface props {
+  isAdmin: boolean;
+}
 
-const Navbar: React.FC<props> = () => {
+const Navbar: React.FC<props> = ({ isAdmin }) => {
   const [user, setUser] = useState<{ name: string; matricula: string } | null>(
     null
   );
+
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   useEffect(() => {
     const user = localStorage.getItem("user");
 
     if (user) setUser(JSON.parse(user));
   }, []);
-
-  const router = useRouter();
 
   const toast = useToast();
 
@@ -41,7 +52,7 @@ const Navbar: React.FC<props> = () => {
       if (res.status === 200) {
         localStorage.removeItem("user");
 
-        router.push("/login");
+        window.location.assign("/login");
       } else
         toast({
           description: "No se puede cerrar la sesion",
@@ -81,15 +92,33 @@ const Navbar: React.FC<props> = () => {
         </MenuButton>
 
         <MenuList>
-          <MenuItem id="1">Perfil</MenuItem>
+          <MenuItem
+            id="1"
+            onClick={() =>
+              toast({
+                title: "Proximamente",
+                description:
+                  "Esta funcionalidad estara disponible en futuras versiones",
+                status: "info",
+                duration: 5000,
+                isClosable: true,
+              })
+            }
+          >
+            Perfil
+          </MenuItem>
+          {isAdmin && (
+            <MenuItem id="3" onClick={onOpen}>
+              Ajustes
+            </MenuItem>
+          )}
           <MenuDivider />
           <MenuItem id="2" onClick={handleLogout}>
             Cerrar sesion
           </MenuItem>
         </MenuList>
       </Menu>
-      {/* <h2 className="font-bold text-white">John Doe</h2>
-      <AiFillCaretDown className="text-white" /> */}
+      {isAdmin && <AppConfigDrawer isOpen={isOpen} onClose={onClose} />}
     </Flex>
   );
 };

@@ -16,3 +16,13 @@ export const USER_STATUSES = {
   pending: "Expediente incompleto",
   dueued: "Expediente vencido",
 };
+
+export const CONFIG_VALUES_DISPLAY_NAMES = {
+  "bank-name": "Nombre del banco",
+  "bank-numero-cuenta": "Numero de cuenta",
+  "bank-clabe": "Clabe interbancaria",
+  "cuota-escuela-general": "Cuota General",
+  "cuota-escuela-interna": "Cuota Preferencial",
+  "semestre-status": "Estatus del semestre",
+  "folio-consecutivo": "Folio consecutivo",
+};
