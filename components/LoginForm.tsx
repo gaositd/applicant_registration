@@ -15,12 +15,14 @@ import {
   Text,
   Box,
   useToast,
+  Link,
 } from "@chakra-ui/react";
 import { Field, Form, Formik } from "formik";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { BiSolidUserCircle } from "react-icons/bi";
 import { FaLock } from "react-icons/fa";
+import NextLink from "next/link";
 
 const LoginForm: React.FC = () => {
   const router = useRouter();
@@ -101,7 +103,7 @@ const LoginForm: React.FC = () => {
                   JSON.stringify({
                     name: data.nombre,
                     matricula: data.matricula,
-                  })
+                  }),
                 );
                 actions.setSubmitting(false);
                 setIsDisabled(true);
@@ -210,6 +212,12 @@ const LoginForm: React.FC = () => {
                 >
                   Iniciar sesión
                 </Button>
+                <Text color={"white"}>
+                  ¿Eres de nuevo ingreso?&nbsp;
+                  <Link as={NextLink} href={"/register"} fontWeight={"bold"}>
+                    Registrate aquí
+                  </Link>
+                </Text>
               </Stack>
             </Form>
           )}
