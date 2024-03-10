@@ -1,4 +1,4 @@
-"use client";
+'use client'
 import {
   Button,
   Flex,
@@ -13,12 +13,12 @@ import {
   ModalHeader,
   ModalOverlay,
   Text,
-  useDisclosure,
-} from "@chakra-ui/react";
-import React from "react";
-import { AiFillCloseCircle } from "react-icons/ai";
-import { FILETYPES, FILE_STATUSES } from "../constants";
-import Dropzone from "./Dropzone";
+  useDisclosure
+} from '@chakra-ui/react'
+import React from 'react'
+import { AiFillCloseCircle } from 'react-icons/ai'
+import { FILETYPES, FILE_STATUSES } from '../constants'
+import Dropzone from './Dropzone'
 
 interface props {
   nombredDocumento: string;
@@ -31,36 +31,36 @@ interface props {
 const DocumentContainer: React.FC<props> = ({
   nombredDocumento,
   status,
-  observaciones,
+  observaciones
 }) => {
-  const { isOpen, onClose, onOpen } = useDisclosure();
+  const { isOpen, onClose, onOpen } = useDisclosure()
 
   return (
     <Flex
-      border={"2px"}
-      borderColor={"structure.borders"}
-      borderRadius={"lg"}
+      border='2px'
+      borderColor='structure.borders'
+      borderRadius='lg'
       p={3}
-      justify={"space-between"}
-      align={"center"}
-      as={"section"}
-      flexDir={{ base: "column", md: "row" }}
-      overflowY={"auto"}
+      justify='space-between'
+      align='center'
+      as='section'
+      flexDir={{ base: 'column', md: 'row' }}
+      overflowY='auto'
     >
-      <Flex as={"article"} flexDir={"column"}>
-        <Text fontWeight={"bold"} fontSize={"2xl"}>
+      <Flex as='article' flexDir='column'>
+        <Text fontWeight='bold' fontSize='2xl'>
           {FILETYPES[nombredDocumento as keyof typeof FILETYPES]}
         </Text>
         <Text>
-          Status:{" "}
-          <Text as={"em"} fontWeight={"semibold"}>
+          Status:{' '}
+          <Text as='em' fontWeight='semibold'>
             {FILE_STATUSES[status as keyof typeof FILE_STATUSES]}
           </Text>
         </Text>
-        {status === "rejected" && observaciones.length > 0 && (
-          <Flex flexDir={"column"} mt={3} gap={2}>
-            <Text color={"red"}> Tienes observaciones pendientes</Text>
-            <Button onClick={onOpen} colorScheme="teal">
+        {status === 'rejected' && observaciones.length > 0 && (
+          <Flex flexDir='column' mt={3} gap={2}>
+            <Text color='red'> Tienes observaciones pendientes</Text>
+            <Button onClick={onOpen} colorScheme='teal'>
               Ver
             </Button>
           </Flex>
@@ -79,7 +79,7 @@ const DocumentContainer: React.FC<props> = ({
             <List spacing={3}>
               {observaciones?.map((obs, index) => (
                 <ListItem key={index}>
-                  <ListIcon as={AiFillCloseCircle} color="red.500" />
+                  <ListIcon as={AiFillCloseCircle} color='red.500' />
                   {obs.observacion}
                 </ListItem>
               ))}
@@ -87,14 +87,14 @@ const DocumentContainer: React.FC<props> = ({
           </ModalBody>
 
           <ModalFooter>
-            <Button colorScheme="red" mr={3} onClick={onClose}>
+            <Button colorScheme='red' mr={3} onClick={onClose}>
               Close
             </Button>
           </ModalFooter>
         </ModalContent>
       </Modal>
     </Flex>
-  );
-};
+  )
+}
 
-export default DocumentContainer;
+export default DocumentContainer

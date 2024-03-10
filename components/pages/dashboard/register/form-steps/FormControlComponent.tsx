@@ -4,9 +4,9 @@ import {
   InputGroup,
   InputRightAddon,
   Icon,
-  FormErrorMessage,
-} from "@chakra-ui/react";
-import { IconType } from "react-icons";
+  FormErrorMessage
+} from '@chakra-ui/react'
+import { IconType } from 'react-icons'
 
 type FormControlComponentProps = {
   children?: React.ReactNode;
@@ -25,20 +25,20 @@ export const FormControlComponent: React.FC<FormControlComponentProps> = ({
   name,
   icon,
   errorMessage,
-  rightAddon = true,
+  rightAddon = true
 }) => {
   return (
     <FormControl isInvalid={isInvalid}>
-      <FormLabel htmlFor={name} color={"whiteAlpha.900"} fontWeight={"bold"}>
+      <FormLabel htmlFor={name} color='whiteAlpha.900' fontWeight='bold'>
         {label}
       </FormLabel>
       <InputGroup>
         {children}
         {rightAddon && <InputRightAddon children={<Icon as={icon} />} />}
       </InputGroup>
-      <FormErrorMessage color={"whiteAlpha.900"} fontWeight={"bold"}>
+      <FormErrorMessage color='whiteAlpha.900' fontWeight='bold'>
         {errorMessage}
       </FormErrorMessage>
     </FormControl>
-  );
-};
+  )
+}

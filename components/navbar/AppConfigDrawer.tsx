@@ -30,7 +30,7 @@ type ConfigValues = {
 };
 const AppConfigDrawer: React.FC<AppConfigDrawerProps> = ({
   onClose,
-  isOpen,
+  isOpen
 }) => {
   const [configValues, setConfigValues] = useState<Record<string, string>>();
 
@@ -40,17 +40,17 @@ const AppConfigDrawer: React.FC<AppConfigDrawerProps> = ({
     data: initialData,
     isLoading,
     isError,
-    refetch,
+    refetch
   } = useQuery<ConfigValues[]>(
-    "configValues",
+    'configValues',
     async () => {
       const { data } = await axios.get(
         `${process.env.NEXT_PUBLIC_API_URL}/settings`,
         {
-          withCredentials: true,
+          withCredentials: true
         }
-      );
-      return data;
+      )
+      return data
     },
     {
       onSuccess(data) {
@@ -63,7 +63,7 @@ const AppConfigDrawer: React.FC<AppConfigDrawerProps> = ({
         setConfigValues(configObject);
       },
     }
-  );
+  )
 
   const updateSetting = async (urlString: string) => {
     const { data } = await axios.put(
@@ -138,7 +138,7 @@ const AppConfigDrawer: React.FC<AppConfigDrawerProps> = ({
   useEffect(() => {
     setConfigValues({});
     if (isOpen) {
-      refetch();
+      refetch()
     }
   }, [isOpen]);
 
@@ -155,7 +155,7 @@ const AppConfigDrawer: React.FC<AppConfigDrawerProps> = ({
 
   return (
     <>
-      <Drawer isOpen={isOpen} placement="right" onClose={onClose}>
+      <Drawer isOpen={isOpen} placement='right' onClose={onClose}>
         <DrawerOverlay />
         <DrawerContent>
           <DrawerCloseButton />
@@ -211,7 +211,7 @@ const AppConfigDrawer: React.FC<AppConfigDrawerProps> = ({
           </DrawerBody>
 
           <DrawerFooter>
-            <Button mr={3} onClick={onClose} colorScheme="red">
+            <Button mr={3} onClick={onClose} colorScheme='red'>
               Cancelar
             </Button>
             <Button
@@ -225,7 +225,7 @@ const AppConfigDrawer: React.FC<AppConfigDrawerProps> = ({
         </DrawerContent>
       </Drawer>
     </>
-  );
-};
+  )
+}
 
-export default AppConfigDrawer;
+export default AppConfigDrawer

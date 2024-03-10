@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react'
 
 interface props {
   children: React.ReactNode;
@@ -12,7 +12,7 @@ const Row: React.FC<props> = ({ children, className }) => {
     >
       {children}
     </div>
-  );
-};
+  )
+}
 
-export default Row;
+export default Row
