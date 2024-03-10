@@ -1,7 +1,8 @@
-import { Flex, Heading, Link, Stack, Text } from "@chakra-ui/react";
+import { Flex, Heading, Link, Stack, Text, Button } from "@chakra-ui/react";
 import axios from "axios";
 import { useQuery } from "react-query";
 import { ExternalLinkIcon } from "@chakra-ui/icons";
+import { Loading } from "../../../../components/loadingComponent";
 
 type TTalonAvisos = {
   data: string;
@@ -40,18 +41,16 @@ export const TalonAvisos: React.FC<TalonAviosProps> = ({
       align={"center"}
     >
       <Heading fontSize="lg">Talon de avisos</Heading>
-      <Stack spacing={3} mt={3} w={"full"}>
-        {ableToDownloadInvoice ? (
-          <Button colorScheme={"teal"}>Descargar ficha de pago</Button>
-        ) : null}
-        <Text>Se requiere que se vea le contenido adicional</Text>
-        <Text>
-          Revisa el siguiente{" "}
-          <Link href="http://google.com" color={"blue"}>
-            enlace
-          </Link>
-        </Text>
-      </Stack>
+      {ableToDownloadInvoice ? <Button> Decargar ficha de pago</Button> : null}
+      {isLoading ? (
+        <Loading />
+      ) : isError ? (
+        <Text>Hubo un error al cargar los avisos</Text>
+      ) : (
+        <Stack spacing={3} mt={3} w={"full"}>
+          {data?.map((aviso, index) => <Notificacion key={index} {...aviso} />)}
+        </Stack>
+      )}
     </Flex>
   );
 };

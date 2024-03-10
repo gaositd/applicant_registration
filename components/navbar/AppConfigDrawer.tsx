@@ -16,7 +16,7 @@ import {
 } from "@chakra-ui/react";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useMutation, useQuery } from "react-query";
+import { useQuery } from "react-query";
 
 type AppConfigDrawerProps = {
   isOpen: boolean;
