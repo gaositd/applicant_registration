@@ -1,17 +1,17 @@
-import { headers } from "next/headers";
-import React from "react";
+import { headers } from 'next/headers'
+import React from 'react'
 import UserFilesInformation, {
-  UsersDocumentType,
-} from "./UserFilesInformation";
-import axios from "axios";
+  UsersDocumentType
+} from './UserFilesInformation'
+import axios from 'axios'
 
-async function fetchUserDocuments(): Promise<{
+async function fetchUserDocuments (): Promise<{
   documentos: UsersDocumentType[];
   expedienteBlocked: boolean;
 }> {
-  const nextHeaders = headers();
+  const nextHeaders = headers()
 
-  const Cookie = nextHeaders.get("Cookie") ?? "";
+  const Cookie = nextHeaders.get('Cookie') ?? ''
 
   try {
     const { data } = await axios.get<{
@@ -21,32 +21,32 @@ async function fetchUserDocuments(): Promise<{
       withCredentials: true,
       headers: {
         Cookie,
-        "Content-Type": "application/json",
-      },
-    });
+        'Content-Type': 'application/json'
+      }
+    })
 
     return {
       documentos: data.documentos,
-      expedienteBlocked: data.isExpedienteBlocked,
-    };
+      expedienteBlocked: data.isExpedienteBlocked
+    }
   } catch (error) {
-    console.log(error);
+    console.log(error)
     return {
       documentos: [],
-      expedienteBlocked: false,
-    };
+      expedienteBlocked: false
+    }
   }
 }
 
 const UserPage = async () => {
-  const userDocuments = await fetchUserDocuments();
+  const userDocuments = await fetchUserDocuments()
 
   return (
     <UserFilesInformation
       documentsArray={userDocuments.documentos}
       isExpedienteBlocked={userDocuments.expedienteBlocked}
     />
-  );
-};
+  )
+}
 
-export default UserPage;
+export default UserPage

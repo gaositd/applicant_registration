@@ -7,7 +7,7 @@ interface props {
   children: React.ReactNode;
 }
 
-const page = async ({ children }: props) => {
+const Page = async ({ children }: props) => {
   const user = await useSession();
 
   if (!user) return redirect("/login");
@@ -21,4 +21,4 @@ const page = async ({ children }: props) => {
   );
 };
 
-export default page;
+export default Page;

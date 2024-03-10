@@ -1,13 +1,13 @@
-import { redirect } from "next/navigation";
-import { useSession } from "../../hooks/useSession";
-import RegisterForm from "../../components/pages/dashboard/register/RegisterForm";
+import { redirect } from 'next/navigation'
+import { useSession } from '../../hooks/useSession'
+import RegisterForm from '../../components/pages/dashboard/register/RegisterForm'
 
-async function page() {
-  const user = await useSession();
+async function page () {
+  const user = await useSession()
 
-  if (user) redirect("/dashboard");
+  if (user) redirect('/dashboard')
 
-  return <RegisterForm />;
+  return <RegisterForm />
 }
 
-export default page;
+export default page

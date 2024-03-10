@@ -13,13 +13,13 @@ import {
   Divider,
   Heading,
   Text,
-  Stack,
-} from "@chakra-ui/react";
-import axios from "axios";
-import { useEffect, useState } from "react";
-import { useQuery } from "react-query";
-import _ from "lodash";
-import { CONFIG_VALUES_DISPLAY_NAMES } from "../../constants";
+  Stack
+} from '@chakra-ui/react'
+import axios from 'axios'
+import { useEffect, useState } from 'react'
+import { useQuery } from 'react-query'
+import _ from 'lodash'
+import { CONFIG_VALUES_DISPLAY_NAMES } from '../../constants'
 
 type AppConfigDrawerProps = {
   isOpen: boolean;
@@ -50,55 +50,55 @@ type ConfigValues = {
 };
 const AppConfigDrawer: React.FC<AppConfigDrawerProps> = ({
   onClose,
-  isOpen,
+  isOpen
 }) => {
-  const [configValues, setConfigValues] = useState<Array<ConfigValues>>([]);
+  const [configValues, setConfigValues] = useState<Array<ConfigValues>>([])
 
-  const [isDataChanged, setIsDataChanged] = useState(false);
+  const [isDataChanged, setIsDataChanged] = useState(false)
 
   const {
     data: initialData,
     isLoading,
     isError,
-    refetch,
+    refetch
   } = useQuery<ConfigValues[]>(
-    "configValues",
+    'configValues',
     async () => {
       const { data } = await axios.get(
         `${process.env.NEXT_PUBLIC_API_URL}/settings`,
         {
-          withCredentials: true,
+          withCredentials: true
         }
-      );
-      return data;
+      )
+      return data
     },
     {
-      onSuccess(data) {
+      onSuccess (data) {
         setConfigValues(
-          data.filter((config) => config.name !== "semestre-status")
-        );
-      },
+          data.filter((config) => config.name !== 'semestre-status')
+        )
+      }
     }
-  );
+  )
 
   const verifyDataChanges = (
     initialData: ConfigValues[],
     configValues: ConfigValues[]
   ) => {
-    return !_.isEqual(_.xorWith(initialData, configValues, _.isEqual), []);
-  };
+    return !_.isEqual(_.xorWith(initialData, configValues, _.isEqual), [])
+  }
   useEffect(() => {
     if (isOpen) {
-      refetch();
+      refetch()
     }
-  }, [isOpen]);
+  }, [isOpen])
   const handleInputchange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.value);
-  };
+    console.log(e.target.value)
+  }
 
   return (
     <>
-      <Drawer isOpen={isOpen} placement="right" onClose={onClose}>
+      <Drawer isOpen={isOpen} placement='right' onClose={onClose}>
         <DrawerOverlay />
         <DrawerContent>
           <DrawerCloseButton />
@@ -119,33 +119,33 @@ const AppConfigDrawer: React.FC<AppConfigDrawerProps> = ({
                       }
                     </FormLabel>
                     <Input
-                      type="text"
+                      type='text'
                       value={config.value}
                       onChange={handleInputchange}
                     />
                   </FormControl>
                 ))}
                 <Divider
-                  orientation="horizontal"
-                  borderColor="gray.300"
+                  orientation='horizontal'
+                  borderColor='gray.300'
                   my={6}
-                  w="100%"
+                  w='100%'
                 />
-                <Heading size="md" mb={4}>
+                <Heading size='md' mb={4}>
                   Configuración del semestre
                 </Heading>
                 <FormControl>
-                  <Stack direction="row" spacing={4}>
+                  <Stack direction='row' spacing={4}>
                     <FormLabel>Status del semestre</FormLabel>
                     <Text>
                       {
                         initialData.filter(
-                          (data) => data.name === "semestre-status"
+                          (data) => data.name === 'semestre-status'
                         )[0].value
                       }
                     </Text>
                   </Stack>
-                  <Button colorScheme="blue" size="sm">
+                  <Button colorScheme='blue' size='sm'>
                     Cambiar status
                   </Button>
                 </FormControl>
@@ -154,17 +154,17 @@ const AppConfigDrawer: React.FC<AppConfigDrawerProps> = ({
           </DrawerBody>
 
           <DrawerFooter>
-            <Button mr={3} onClick={onClose} colorScheme="red">
+            <Button mr={3} onClick={onClose} colorScheme='red'>
               Cancelar
             </Button>
-            <Button colorScheme="green" isDisabled={isDataChanged}>
+            <Button colorScheme='green' isDisabled={isDataChanged}>
               Guardar cambios
             </Button>
           </DrawerFooter>
         </DrawerContent>
       </Drawer>
     </>
-  );
-};
+  )
+}
 
-export default AppConfigDrawer;
+export default AppConfigDrawer

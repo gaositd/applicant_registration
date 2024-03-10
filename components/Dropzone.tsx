@@ -1,185 +1,192 @@
-"use client";
+'use client'
 
-import { Flex, IconButton, Image, Text, useToast } from "@chakra-ui/react";
-import { useCallback, useState } from "react";
-import { FileRejection, useDropzone } from "react-dropzone";
-import { BsCheck2, BsTrash } from "react-icons/bs";
-import { Loading } from "./loadingComponent";
+import { Flex, IconButton, Image, Text, useToast } from '@chakra-ui/react'
+import { useCallback, useState } from 'react'
+import { FileRejection, useDropzone } from 'react-dropzone'
+import { BsCheck2, BsTrash } from 'react-icons/bs'
+import { Loading } from './loadingComponent'
 interface props {
   status: string;
   tipoDocumento: string;
 }
 
 const Dropzone: React.FC<props> = ({ status, tipoDocumento }) => {
-  const [file, setFile] = useState<File>();
-  const [isUploading, setUploading] = useState<boolean>(false);
-  const toast = useToast();
-  const [isUploadSuccesful, setIsUploadSuccesful] = useState<boolean>(false);
+  const [file, setFile] = useState<File>()
+  const [isUploading, setUploading] = useState<boolean>(false)
+  const toast = useToast()
+  const [isUploadSuccesful, setIsUploadSuccesful] = useState<boolean>(false)
 
   const onDropAccepted = useCallback((acceptedFile: File[]) => {
-    setFile(acceptedFile[0]);
-  }, []);
+    setFile(acceptedFile[0])
+  }, [])
 
   const uploadFile = () => {
     if (isUploading) {
       toast({
-        title: "Aviso",
-        description: "Solo se puede subir una imagen a la vez...",
-        status: "warning",
-      });
-      return;
+        title: 'Aviso',
+        description: 'Solo se puede subir una imagen a la vez...',
+        status: 'warning'
+      })
+      return
     }
 
-    setUploading(true);
-    const formData = new FormData();
-    //@ts-ignore
-    formData.append("documento", file);
+    setUploading(true)
+    const formData = new FormData()
+    // @ts-ignore
+    formData.append('documento', file)
 
     fetch(
       `${process.env.NEXT_PUBLIC_API_URL}/docs/upload?fileType=${tipoDocumento}`,
       {
-        method: "POST",
+        method: 'POST',
         body: formData,
-        credentials: "include",
+        credentials: 'include'
       }
     )
       .then((resp) => {
-        if (resp.status === 201) return resp.json();
-        else throw new Error("Error al subir el archivo");
+        if (resp.status === 201) return resp.json()
+        else throw new Error('Error al subir el archivo')
       })
       .then((data) => {
-        setUploading(false);
+        setUploading(false)
         toast({
-          title: "Archivo subido",
+          title: 'Archivo subido',
           description: data.message,
-          status: "success",
-        });
+          status: 'success'
+        })
 
-        //reload page
-        setIsUploadSuccesful(true);
+        // reload page
+        setIsUploadSuccesful(true)
         setTimeout(() => {
-          window.location.reload();
-        }, 1000);
+          window.location.reload()
+        }, 1000)
       })
       .catch((err) => {
-        setUploading(false);
+        setUploading(false)
         toast({
-          title: "Error al subir el archivo",
+          title: 'Error al subir el archivo',
           description: err.message,
-          status: "error",
-        });
-      });
-  };
+          status: 'error'
+        })
+      })
+  }
 
   const requiredFileUploadStatus = (localStatus: string) =>
-    localStatus === "open-to-upload" || localStatus === "rejected";
+    localStatus === 'open-to-upload' || localStatus === 'rejected'
 
   const onDropRejected = (fileRejected: FileRejection[]) => {
     toast({
-      title: "Error",
+      title: 'Error',
       description: `El archivo que se intenta subir no tiene la extensión soportada: (${fileRejected[0].file.type})`,
-      status: "error",
-    });
-  };
+      status: 'error'
+    })
+  }
 
   const deleteFile = () => {
-    setFile(undefined);
-  };
+    setFile(undefined)
+  }
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDropAccepted,
     maxFiles: 1,
     accept: {
-      "image/*": [".jpeg", ".jpg", ".png"],
-      "application/pdf": [],
+      'image/*': ['.jpeg', '.jpg', '.png'],
+      'application/pdf': []
     },
-    onDropRejected,
-  });
+    onDropRejected
+  })
 
-  if (file)
+  if (file) {
     return (
       <Flex
-        w={{ base: "full", md: "30%" }}
-        justify={"center"}
+        w={{ base: 'full', md: '30%' }}
+        justify='center'
         mt={{ base: 4, md: 0 }}
       >
-        <Flex flexDir={"column"}>
+        <Flex flexDir='column'>
           {isUploading ? (
             <Loading />
-          ) : file.type.includes("pdf") ? (
+          ) : file.type.includes('pdf') ? (
             <Image
-              src="/pdf.png"
-              alt="file-pdf"
-              w={"80%"}
-              h={"80%"}
-              objectFit={"contain"}
+              src='/pdf.png'
+              alt='file-pdf'
+              w='80%'
+              h='80%'
+              objectFit='contain'
             />
           ) : (
-            // <img src="/pdf.png" className="w-full h-[80%] object-fill"></img>
+          // <img src="/pdf.png" className="w-full h-[80%] object-fill"></img>
             <img
-              src="/picture.png"
-              className="w-full h-[80%] object-fill"
-            ></img>
+              src='/picture.png'
+              className='w-full h-[80%] object-fill'
+            />
           )}
           <Text>{file.name}</Text>
         </Flex>
         <Flex
           // className="flex flex-col h-full  gap-5 z-10"
-          flexDir={"column"}
-          justify={"space-evenly"}
-          align={"center"}
+          flexDir='column'
+          justify='space-evenly'
+          align='center'
           px={3}
         >
           <IconButton
-            aria-label="upload-file"
-            type="button"
-            colorScheme="green"
+            aria-label='upload-file'
+            type='button'
+            colorScheme='green'
             onClick={uploadFile}
             disabled={isUploading}
             isLoading={isUploading}
-            fontSize={"3xl"}
-            size={"sm"}
+            fontSize='3xl'
+            size='sm'
             icon={<BsCheck2 />}
-          ></IconButton>
+          />
           <IconButton
-            aria-label="delete-file"
-            type="button"
-            colorScheme="red"
+            aria-label='delete-file'
+            type='button'
+            colorScheme='red'
             onClick={deleteFile}
             disabled={isUploading}
             isLoading={isUploading}
-            fontSize={"xl"}
-            size={"sm"}
+            fontSize='xl'
+            size='sm'
             icon={<BsTrash />}
-          ></IconButton>
+          />
         </Flex>
       </Flex>
-    );
+    )
+  }
 
-  if (isUploadSuccesful) return <></>;
+  if (isUploadSuccesful) return <></>
 
-  return requiredFileUploadStatus(status) ? (
-    <Flex
-      {...getRootProps()}
-      border={isDragActive ? "2px solid #3182ce" : "2px dashed #e2e8f0"}
-      justify={"center"}
-      align={"center"}
-      cursor={"pointer"}
-      w={{ base: "full", md: "50%" }}
-      h={"32"}
-      rounded={"md"}
-      p={3}
-      gap={2}
-    >
-      <img src="/upload.svg" alt="upload image" className="h-8 mr-2"></img>
-      <input {...getInputProps()} className="border" />
-      {isDragActive ? (
-        <p>Suelta tu archivo aqui</p>
-      ) : !file ? (
-        <p>Arrastra tu archivo aqui o da click para seleccionar</p>
-      ) : null}
-    </Flex>
-  ) : null;
-};
+  return requiredFileUploadStatus(status)
+    ? (
+      <Flex
+        {...getRootProps()}
+        border={isDragActive ? '2px solid #3182ce' : '2px dashed #e2e8f0'}
+        justify='center'
+        align='center'
+        cursor='pointer'
+        w={{ base: 'full', md: '50%' }}
+        h='32'
+        rounded='md'
+        p={3}
+        gap={2}
+      >
+        <img src='/upload.svg' alt='upload image' className='h-8 mr-2' />
+        <input {...getInputProps()} className='border' />
+        {isDragActive
+          ? (
+            <p>Suelta tu archivo aqui</p>
+            )
+          : !file
+              ? (
+                <p>Arrastra tu archivo aqui o da click para seleccionar</p>
+                )
+              : null}
+      </Flex>
+      )
+    : null
+}
 
-export default Dropzone;
+export default Dropzone
