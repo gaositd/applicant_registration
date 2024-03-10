@@ -1,48 +1,28 @@
 import {
-  Drawer,
-  DrawerOverlay,
-  DrawerContent,
-  DrawerCloseButton,
-  DrawerHeader,
-  DrawerBody,
-  DrawerFooter,
   Button,
+  Drawer,
+  DrawerBody,
+  DrawerCloseButton,
+  DrawerContent,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerOverlay,
   FormControl,
   FormLabel,
   Input,
-  Divider,
-  Heading,
+  Stack,
   Text,
-  Stack
-} from '@chakra-ui/react'
-import axios from 'axios'
-import { useEffect, useState } from 'react'
-import { useQuery } from 'react-query'
-import _ from 'lodash'
-import { CONFIG_VALUES_DISPLAY_NAMES } from '../../constants'
+  useToast,
+} from "@chakra-ui/react";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { useMutation, useQuery } from "react-query";
 
 type AppConfigDrawerProps = {
   isOpen: boolean;
   onClose: () => void;
 };
-// {
-//   consecutivoFollio: 'folio-consecutivo',
-//   cuentabancaria: 'bank-numero-cuenta',
-//   clabe: 'bank-clabe',
-//   nombreBanco: 'bank-name',
-//   cuotaPreferencial: 'cuota-escuela-interna',
-//   cuotaGeneral: 'cuota-escuela-general',
-//   semestreStatus: 'semestre-status',
-// }
 
-// {
-//   "id": 11,
-//   "createdAt": "2023-12-15T01:40:55.000Z",
-//   "updatedAt": "2023-12-15T01:41:47.000Z",
-//   "configType": "app_config",
-//   "name": "cuota-escuela-general",
-//   "value": "1224.50"
-// },
 type ConfigValues = {
   id: number;
   name: string;
@@ -52,10 +32,10 @@ const AppConfigDrawer: React.FC<AppConfigDrawerProps> = ({
   onClose,
   isOpen
 }) => {
-  const [configValues, setConfigValues] = useState<Array<ConfigValues>>([])
+  const [configValues, setConfigValues] = useState<Record<string, string>>();
 
-  const [isDataChanged, setIsDataChanged] = useState(false)
-
+  const [dataChanges, setDataChanges] = useState<Array<any>>([]);
+  const toast = useToast();
   const {
     data: initialData,
     isLoading,
@@ -73,28 +53,105 @@ const AppConfigDrawer: React.FC<AppConfigDrawerProps> = ({
       return data
     },
     {
-      onSuccess (data) {
-        setConfigValues(
-          data.filter((config) => config.name !== 'semestre-status')
-        )
-      }
+      onSuccess(data) {
+        const configObject: Record<string, string> = {};
+        data
+          .filter((config) => config.name !== "semestre-status")
+          .forEach((config) => {
+            configObject[config.name] = config.value;
+          });
+        setConfigValues(configObject);
+      },
     }
   )
 
-  const verifyDataChanges = (
+  const updateSetting = async (urlString: string) => {
+    const { data } = await axios.put(
+      `${process.env.NEXT_PUBLIC_API_URL}/settings/${urlString}`,
+      {},
+      {
+        withCredentials: true,
+      }
+    );
+    return data;
+  };
+
+  const parseDataChanges = (
     initialData: ConfigValues[],
-    configValues: ConfigValues[]
-  ) => {
-    return !_.isEqual(_.xorWith(initialData, configValues, _.isEqual), [])
-  }
+    configValues: Record<string, string>
+  ): Array<string> => {
+    const ignoredKeys = ["semestre-status", "folio-consecutivo"];
+    return initialData.reduce((acc, config) => {
+      if (ignoredKeys.includes(config.name)) {
+        return acc;
+      } else if (configValues[config.name] !== config.value) {
+        acc.push(config.name);
+      }
+      return acc;
+    }, [] as Array<string>);
+  };
+
+  const handlSaveChanges = async () => {
+    if (dataChanges.length <= 0) return;
+
+    if (!configValues) return;
+    const responses = await Promise.all(
+      dataChanges.map(async (change) => {
+        const url = `${change}?value=${configValues[change]}`;
+        return updateSetting(url);
+      })
+    );
+
+    setDataChanges([]);
+    console.log(responses);
+    if (responses.every((response) => response)) {
+      toast({
+        title: "Cambios guardados",
+        description: "Los cambios se han guardado correctamente",
+        status: "success",
+        duration: 5000,
+        isClosable: true,
+        onCloseComplete: () => {
+          onClose();
+        },
+      });
+      refetch();
+    } else if (responses.some((response) => typeof response === "undefined")) {
+      toast({
+        title: "Error al guardar cambios",
+        description:
+          "Algunos cambios no se pudieron guardar, revisa la información e intenta de nuevo.",
+        status: "warning",
+        duration: 5000,
+        isClosable: true,
+      });
+    } else {
+      toast({
+        title: "Error al guardar cambios",
+        description: "Algo salio mal, intenta de nuevo.",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+      });
+    }
+  };
   useEffect(() => {
+    setConfigValues({});
     if (isOpen) {
       refetch()
     }
-  }, [isOpen])
+  }, [isOpen]);
+
+  useEffect(() => {
+    if (initialData && configValues) {
+      setDataChanges(parseDataChanges(initialData, configValues));
+    }
+  }, [configValues]);
+
   const handleInputchange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.value)
-  }
+    const { name, value } = e.target;
+    setConfigValues((prev) => ({ ...prev, [name]: value }));
+  };
 
   return (
     <>
@@ -107,47 +164,47 @@ const AppConfigDrawer: React.FC<AppConfigDrawerProps> = ({
           <DrawerBody>
             {isLoading && <Text>Cargando...</Text>}
             {isError && <Text>Error al cargar los datos</Text>}
-            {initialData && (
-              <Stack gap={4}>
-                {configValues.map((config) => (
-                  <FormControl key={config.id}>
-                    <FormLabel>
-                      {
-                        CONFIG_VALUES_DISPLAY_NAMES[
-                          config.name as keyof typeof CONFIG_VALUES_DISPLAY_NAMES
-                        ]
-                      }
-                    </FormLabel>
-                    <Input
-                      type='text'
-                      value={config.value}
-                      onChange={handleInputchange}
-                    />
-                  </FormControl>
-                ))}
-                <Divider
-                  orientation='horizontal'
-                  borderColor='gray.300'
-                  my={6}
-                  w='100%'
-                />
-                <Heading size='md' mb={4}>
-                  Configuración del semestre
-                </Heading>
+            {configValues && (
+              <Stack spacing={4} p={4}>
                 <FormControl>
-                  <Stack direction='row' spacing={4}>
-                    <FormLabel>Status del semestre</FormLabel>
-                    <Text>
-                      {
-                        initialData.filter(
-                          (data) => data.name === 'semestre-status'
-                        )[0].value
-                      }
-                    </Text>
-                  </Stack>
-                  <Button colorScheme='blue' size='sm'>
-                    Cambiar status
-                  </Button>
+                  <FormLabel>Nombre del banco</FormLabel>
+                  <Input
+                    name={"bank-name"}
+                    value={configValues["bank-name"]}
+                    onChange={handleInputchange}
+                  />
+                </FormControl>
+                <FormControl>
+                  <FormLabel>Numero de cuenta</FormLabel>
+                  <Input
+                    name={"bank-numero-cuenta"}
+                    value={configValues["bank-numero-cuenta"]}
+                    onChange={handleInputchange}
+                  />
+                </FormControl>
+                <FormControl>
+                  <FormLabel>Clabe Interbancaria</FormLabel>
+                  <Input
+                    name={"bank-clabe"}
+                    value={configValues["bank-clabe"]}
+                    onChange={handleInputchange}
+                  />
+                </FormControl>
+                <FormControl>
+                  <FormLabel>Cuota Escuela Interna</FormLabel>
+                  <Input
+                    name={"cuota-escuela-interna"}
+                    value={configValues["cuota-escuela-interna"]}
+                    onChange={handleInputchange}
+                  />
+                </FormControl>
+                <FormControl>
+                  <FormLabel>Cuota Escuela General</FormLabel>
+                  <Input
+                    name={"cuota-escuela-general"}
+                    value={configValues["cuota-escuela-general"]}
+                    onChange={handleInputchange}
+                  />
                 </FormControl>
               </Stack>
             )}
@@ -157,7 +214,11 @@ const AppConfigDrawer: React.FC<AppConfigDrawerProps> = ({
             <Button mr={3} onClick={onClose} colorScheme='red'>
               Cancelar
             </Button>
-            <Button colorScheme='green' isDisabled={isDataChanged}>
+            <Button
+              colorScheme="green"
+              isDisabled={dataChanges.length <= 0}
+              onClick={handlSaveChanges}
+            >
               Guardar cambios
             </Button>
           </DrawerFooter>
