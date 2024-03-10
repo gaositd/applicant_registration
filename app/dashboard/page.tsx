@@ -4,7 +4,7 @@ import { AdminPage } from "../../components/pages/dashboard/secretaria/AdminPage
 import UserPage from "../../components/pages/dashboard/UserPage";
 import { useSession } from "../../hooks/useSession";
 
-async function Page() {
+async function page() {
   const user = await useSession();
 
   console.log(user && "User authenticated: ", {
@@ -26,4 +26,4 @@ async function Page() {
   );
 }
 
-export default Page;
+export default page;
