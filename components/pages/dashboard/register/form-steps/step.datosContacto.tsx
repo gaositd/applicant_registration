@@ -1,3 +1,4 @@
+import React from 'react'
 import { Button, ButtonGroup, Input, Textarea } from '@chakra-ui/react'
 import { BiEnvelope } from 'react-icons/bi'
 import { DatosContactoValidationSchema } from '../validation.schema'

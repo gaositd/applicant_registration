@@ -1,3 +1,4 @@
+import React from 'react'
 import {
   Button,
   ButtonGroup,
@@ -20,7 +21,6 @@ import {
   DatosPersonalesValidationSchema
 } from '../validation.schema'
 import { FormControlComponent } from './FormControlComponent'
-
 import { handleOnStepBack, handleOnStepChange } from './utils'
 
 export interface StepsRequiredProps {

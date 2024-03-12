@@ -1,7 +1,7 @@
 'use client'
 
 import { Flex, IconButton, Image, Text, useToast } from '@chakra-ui/react'
-import { useCallback, useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { FileRejection, useDropzone } from 'react-dropzone'
 import { BsCheck2, BsTrash } from 'react-icons/bs'
 import { Loading } from './loadingComponent'
@@ -116,7 +116,7 @@ const Dropzone: React.FC<props> = ({ status, tipoDocumento }) => {
             />
           ) : (
           // <img src="/pdf.png" className="w-full h-[80%] object-fill"></img>
-            <img
+            <Image
               src='/picture.png'
               className='w-full h-[80%] object-fill'
             />

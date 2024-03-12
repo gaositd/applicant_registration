@@ -19,7 +19,7 @@ import {
 } from '@chakra-ui/react'
 import { Field, Form, Formik } from 'formik'
 import { useRouter } from 'next/navigation'
-import { useState } from 'react'
+import React, { useState } from 'react'
 import { BiSolidUserCircle } from 'react-icons/bi'
 import { FaLock } from 'react-icons/fa'
 import NextLink from 'next/link'
@@ -50,6 +50,7 @@ const LoginForm: React.FC = () => {
           boxSize={{ base: '70%', md: '45%' }}
           maxW='100%'
           minHeight='max-content'
+          alt='  '
         />
         <Box
           as='footer'

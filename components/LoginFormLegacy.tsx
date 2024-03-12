@@ -6,6 +6,7 @@ import React, { useContext, useState } from 'react'
 import { SessionContext } from '../hooks/SessionContext'
 import CustomButton from './CustomButton'
 import CustomInput from './CustomInput'
+import Image from 'next/image'
 
 interface props {}
 
@@ -79,7 +80,7 @@ const LoginForm: React.FC<props> = () => {
       <div className='bg-pallete-primary h-full w-1/2 fixed z-0 -translate-x-1/2' />
       <div className='h-3/4 w-3/4  shadow-2xl z-10 flex '>
         <div className='flex items-center justify-center w-1/2'>
-          <img src='/logo.png' alt='logo' />
+          <Image src='/logo.png' alt='logo' />
         </div>
         <div className='flex w-1/2 justify-center items-center flex-col'>
           <div className='mb-6'>

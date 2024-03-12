@@ -1,4 +1,4 @@
-"use client";
+'use client'
 
 import {
   Button,
@@ -11,102 +11,102 @@ import {
   MenuItem,
   MenuList,
   useDisclosure,
-  useToast,
-} from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
-import { AiFillCaretDown } from "react-icons/ai";
-import AppConfigDrawer from "./navbar/AppConfigDrawer";
+  useToast
+} from '@chakra-ui/react'
+import React, { useEffect, useState } from 'react'
+import { AiFillCaretDown } from 'react-icons/ai'
+import AppConfigDrawer from './navbar/AppConfigDrawer'
 
 interface props {
-  isAdmin: boolean;
+  isAdmin: boolean
 }
 
 const Navbar: React.FC<props> = ({ isAdmin }) => {
   const [user, setUser] = useState<{ name: string; matricula: string } | null>(
     null
-  );
+  )
 
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const { isOpen, onOpen, onClose } = useDisclosure()
 
   useEffect(() => {
-    const user = localStorage.getItem("user");
+    const user = localStorage.getItem('user')
 
-    if (user) setUser(JSON.parse(user));
-  }, []);
+    if (user) setUser(JSON.parse(user))
+  }, [])
 
-  const toast = useToast();
+  const toast = useToast()
 
   const handleLogout = () => {
     fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/logout`, {
-      method: "DELETE",
-      credentials: "include",
+      method: 'DELETE',
+      credentials: 'include'
     }).then((res) => {
       if (res.status === 200) {
-        localStorage.removeItem("user");
+        localStorage.removeItem('user')
 
-        window.location.assign("/login");
+        window.location.assign('/login')
       } else {
         toast({
-          description: "No se puede cerrar la sesion",
-          status: "error",
-          title: "Ha sucedido un error al cerrar la sesion",
-        });
+          description: 'No se puede cerrar la sesion',
+          status: 'error',
+          title: 'Ha sucedido un error al cerrar la sesion'
+        })
       }
-    });
-  };
+    })
+  }
 
   return (
-    <Flex bgColor="primary.base" w="100%" h="10%" p={6} align="center">
+    <Flex bgColor='primary.base' w='100%' h='10%' p={6} align='center'>
       <Flex>
-        <Image src="/logo.png" alt="logo" />
+        <Image src='/logo.png' alt='logo' />
       </Flex>
 
       <div>
-        <Heading color="white" size="md">
+        <Heading color='white' size='md'>
           Sistema de preinscripciones
         </Heading>
       </div>
       <Menu>
         <MenuButton
-          id="3"
+          id='3'
           as={Button}
           rightIcon={<AiFillCaretDown />}
           borderRadius={10}
-          colorScheme="white"
+          colorScheme='white'
         >
           {user?.name}
         </MenuButton>
 
         <MenuList>
           <MenuItem
-            id="1"
+            id='1'
             onClick={() =>
               toast({
-                title: "Proximamente",
+                title: 'Proximamente',
                 description:
-                  "Esta funcionalidad estara disponible en futuras versiones",
-                status: "info",
+                  'Esta funcionalidad estara disponible en futuras versiones',
+                status: 'info',
                 duration: 5000,
-                isClosable: true,
+                isClosable: true
               })
             }
           >
             Perfil
           </MenuItem>
           {isAdmin && (
-            <MenuItem id="3" onClick={onOpen}>
+            <MenuItem id='3' onClick={onOpen}>
               Ajustes
             </MenuItem>
           )}
           <MenuDivider />
-          <MenuItem id="2" onClick={handleLogout}>
+          <MenuItem id='2' onClick={handleLogout}>
             Cerrar sesion
           </MenuItem>
         </MenuList>
       </Menu>
       {isAdmin && <AppConfigDrawer isOpen={isOpen} onClose={onClose} />}
     </Flex>
-  );
-};
+  )
+}
 
-export default Navbar;
+export default Navbar

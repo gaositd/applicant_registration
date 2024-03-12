@@ -12,30 +12,30 @@ import {
   Input,
   Stack,
   Text,
-  useToast,
-} from "@chakra-ui/react";
-import axios from "axios";
-import { useEffect, useState } from "react";
-import { useQuery } from "react-query";
+  useToast
+} from '@chakra-ui/react'
+import axios from 'axios'
+import React, { useEffect, useState } from 'react'
+import { useQuery } from 'react-query'
 
 type AppConfigDrawerProps = {
-  isOpen: boolean;
-  onClose: () => void;
-};
+  isOpen: boolean
+  onClose: () => void
+}
 
 type ConfigValues = {
-  id: number;
-  name: string;
-  value: string;
-};
+  id: number
+  name: string
+  value: string
+}
 const AppConfigDrawer: React.FC<AppConfigDrawerProps> = ({
   onClose,
   isOpen
 }) => {
-  const [configValues, setConfigValues] = useState<Record<string, string>>();
+  const [configValues, setConfigValues] = useState<Record<string, string>>()
 
-  const [dataChanges, setDataChanges] = useState<Array<any>>([]);
-  const toast = useToast();
+  const [dataChanges, setDataChanges] = useState<Array<any>>([])
+  const toast = useToast()
   const {
     data: initialData,
     isLoading,
@@ -53,15 +53,15 @@ const AppConfigDrawer: React.FC<AppConfigDrawerProps> = ({
       return data
     },
     {
-      onSuccess(data) {
-        const configObject: Record<string, string> = {};
+      onSuccess (data) {
+        const configObject: Record<string, string> = {}
         data
-          .filter((config) => config.name !== "semestre-status")
+          .filter((config) => config.name !== 'semestre-status')
           .forEach((config) => {
-            configObject[config.name] = config.value;
-          });
-        setConfigValues(configObject);
-      },
+            configObject[config.name] = config.value
+          })
+        setConfigValues(configObject)
+      }
     }
   )
 
@@ -70,88 +70,88 @@ const AppConfigDrawer: React.FC<AppConfigDrawerProps> = ({
       `${process.env.NEXT_PUBLIC_API_URL}/settings/${urlString}`,
       {},
       {
-        withCredentials: true,
+        withCredentials: true
       }
-    );
-    return data;
-  };
+    )
+    return data
+  }
 
   const parseDataChanges = (
     initialData: ConfigValues[],
     configValues: Record<string, string>
   ): Array<string> => {
-    const ignoredKeys = ["semestre-status", "folio-consecutivo"];
+    const ignoredKeys = ['semestre-status', 'folio-consecutivo']
     return initialData.reduce((acc, config) => {
       if (ignoredKeys.includes(config.name)) {
-        return acc;
+        return acc
       } else if (configValues[config.name] !== config.value) {
-        acc.push(config.name);
+        acc.push(config.name)
       }
-      return acc;
-    }, [] as Array<string>);
-  };
+      return acc
+    }, [] as Array<string>)
+  }
 
   const handlSaveChanges = async () => {
-    if (dataChanges.length <= 0) return;
+    if (dataChanges.length <= 0) return
 
-    if (!configValues) return;
+    if (!configValues) return
     const responses = await Promise.all(
       dataChanges.map(async (change) => {
-        const url = `${change}?value=${configValues[change]}`;
-        return updateSetting(url);
+        const url = `${change}?value=${configValues[change]}`
+        return updateSetting(url)
       })
-    );
+    )
 
-    setDataChanges([]);
-    console.log(responses);
+    setDataChanges([])
+    console.log(responses)
     if (responses.every((response) => response)) {
       toast({
-        title: "Cambios guardados",
-        description: "Los cambios se han guardado correctamente",
-        status: "success",
+        title: 'Cambios guardados',
+        description: 'Los cambios se han guardado correctamente',
+        status: 'success',
         duration: 5000,
         isClosable: true,
         onCloseComplete: () => {
-          onClose();
-        },
-      });
-      refetch();
-    } else if (responses.some((response) => typeof response === "undefined")) {
+          onClose()
+        }
+      })
+      refetch()
+    } else if (responses.some((response) => typeof response === 'undefined')) {
       toast({
-        title: "Error al guardar cambios",
+        title: 'Error al guardar cambios',
         description:
-          "Algunos cambios no se pudieron guardar, revisa la información e intenta de nuevo.",
-        status: "warning",
+          'Algunos cambios no se pudieron guardar, revisa la información e intenta de nuevo.',
+        status: 'warning',
         duration: 5000,
-        isClosable: true,
-      });
+        isClosable: true
+      })
     } else {
       toast({
-        title: "Error al guardar cambios",
-        description: "Algo salio mal, intenta de nuevo.",
-        status: "error",
+        title: 'Error al guardar cambios',
+        description: 'Algo salio mal, intenta de nuevo.',
+        status: 'error',
         duration: 5000,
-        isClosable: true,
-      });
+        isClosable: true
+      })
     }
-  };
+  }
   useEffect(() => {
-    setConfigValues({});
+    setConfigValues({})
     if (isOpen) {
       refetch()
     }
-  }, [isOpen]);
+  }, [isOpen])
 
   useEffect(() => {
     if (initialData && configValues) {
-      setDataChanges(parseDataChanges(initialData, configValues));
+      setDataChanges(parseDataChanges(initialData, configValues))
     }
-  }, [configValues]);
+  }, [configValues])
 
   const handleInputchange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setConfigValues((prev) => ({ ...prev, [name]: value }));
-  };
+    const { name, value } = e.target
+    setConfigValues((prev) => ({ ...prev, [name]: value }))
+  }
 
   return (
     <>
@@ -169,40 +169,40 @@ const AppConfigDrawer: React.FC<AppConfigDrawerProps> = ({
                 <FormControl>
                   <FormLabel>Nombre del banco</FormLabel>
                   <Input
-                    name={"bank-name"}
-                    value={configValues["bank-name"]}
+                    name='bank-name'
+                    value={configValues['bank-name']}
                     onChange={handleInputchange}
                   />
                 </FormControl>
                 <FormControl>
                   <FormLabel>Numero de cuenta</FormLabel>
                   <Input
-                    name={"bank-numero-cuenta"}
-                    value={configValues["bank-numero-cuenta"]}
+                    name='bank-numero-cuenta'
+                    value={configValues['bank-numero-cuenta']}
                     onChange={handleInputchange}
                   />
                 </FormControl>
                 <FormControl>
                   <FormLabel>Clabe Interbancaria</FormLabel>
                   <Input
-                    name={"bank-clabe"}
-                    value={configValues["bank-clabe"]}
+                    name='bank-clabe'
+                    value={configValues['bank-clabe']}
                     onChange={handleInputchange}
                   />
                 </FormControl>
                 <FormControl>
                   <FormLabel>Cuota Escuela Interna</FormLabel>
                   <Input
-                    name={"cuota-escuela-interna"}
-                    value={configValues["cuota-escuela-interna"]}
+                    name='cuota-escuela-interna'
+                    value={configValues['cuota-escuela-interna']}
                     onChange={handleInputchange}
                   />
                 </FormControl>
                 <FormControl>
                   <FormLabel>Cuota Escuela General</FormLabel>
                   <Input
-                    name={"cuota-escuela-general"}
-                    value={configValues["cuota-escuela-general"]}
+                    name='cuota-escuela-general'
+                    value={configValues['cuota-escuela-general']}
                     onChange={handleInputchange}
                   />
                 </FormControl>
@@ -215,7 +215,7 @@ const AppConfigDrawer: React.FC<AppConfigDrawerProps> = ({
               Cancelar
             </Button>
             <Button
-              colorScheme="green"
+              colorScheme='green'
               isDisabled={dataChanges.length <= 0}
               onClick={handlSaveChanges}
             >

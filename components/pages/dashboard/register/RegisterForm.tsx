@@ -1,7 +1,7 @@
 'use client'
 
 import { Box, Flex, Heading, Image, Stack, Text } from '@chakra-ui/react'
-import { useState } from 'react'
+import React, { useState } from 'react'
 
 import { UserType } from '../../../../types/userType'
 import { StepDatosContactoForm } from './form-steps/step.datosContacto'
@@ -67,6 +67,7 @@ const RegisterForm: React.FC = () => {
 
   const FormSteps = [
     <StepDatosPersonalesForm
+      key={`${formData.curp}_Personales`}
       currentData={formData}
       setCurrentData={setFormData}
       errors={errors}
@@ -74,6 +75,7 @@ const RegisterForm: React.FC = () => {
       setErrors={setErrors}
     />,
     <StepDatosPersonalesIIForm
+      key={`${formData.curp}_IIForm`}
       currentData={formData}
       setCurrentData={setFormData}
       errors={errors}
@@ -81,6 +83,7 @@ const RegisterForm: React.FC = () => {
       setErrors={setErrors}
     />,
     <StepDatosContactoForm
+      key={`${formData.curp}_Contacto`}
       currentData={formData}
       setCurrentData={setFormData}
       errors={errors}
@@ -88,6 +91,7 @@ const RegisterForm: React.FC = () => {
       setErrors={setErrors}
     />,
     <StepDatosUbicacionForm
+      key={`${formData.curp}_Ubicacion`}
       currentData={formData}
       setCurrentData={setFormData}
       errors={errors}
@@ -95,6 +99,7 @@ const RegisterForm: React.FC = () => {
       setErrors={setErrors}
     />,
     <StepDatosEscolaresForm
+      key={`${formData.curp}_Escolares`}
       currentData={formData}
       setCurrentData={setFormData}
       errors={errors}

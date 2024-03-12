@@ -10,18 +10,18 @@ import {
   ModalOverlay,
   Text,
   Textarea,
-  useToast,
-} from "@chakra-ui/react";
-import axios from "axios";
-import { useState } from "react";
-import { useMutation, useQueryClient } from "react-query";
+  useToast
+} from '@chakra-ui/react'
+import axios from 'axios'
+import React, { useState } from 'react'
+import { useMutation, useQueryClient } from 'react-query'
 
 interface ModalDocumentActionsProps {
-  isOpen: boolean;
-  onClose: () => void;
-  documentId: string;
-  documentName: string;
-  action: "approve" | "reject";
+  isOpen: boolean
+  onClose: () => void
+  documentId: string
+  documentName: string
+  action: 'approve' | 'reject'
 }
 
 export const ModalDocumentActions: React.FC<ModalDocumentActionsProps> = ({
@@ -29,90 +29,90 @@ export const ModalDocumentActions: React.FC<ModalDocumentActionsProps> = ({
   documentName,
   isOpen,
   onClose,
-  action,
+  action
 }) => {
-  const queryClient = useQueryClient();
-  const [observaciones, setObservaciones] = useState<string>("");
-  const toast = useToast();
+  const queryClient = useQueryClient()
+  const [observaciones, setObservaciones] = useState<string>('')
+  const toast = useToast()
   const { mutate } = useMutation(
-    "updateDocumentStatus",
+    'updateDocumentStatus',
     async (data: { observaciones?: Array<string> }) => {
       const response = await axios.put(
         `${process.env.NEXT_PUBLIC_API_URL}/docs/${documentId}?operation=${action}`,
         data,
         { withCredentials: true }
-      );
+      )
 
-      return response.data;
+      return response.data
     },
     {
       onSuccess: () => {
-        onClose();
+        onClose()
         toast({
-          title: "Documento actualizado",
+          title: 'Documento actualizado',
           description: `El documento ${documentName.toUpperCase()} ha sido actualizado`,
-          status: "success",
+          status: 'success',
           duration: 3000,
           isClosable: true,
           onCloseComplete: () => {
-            queryClient.invalidateQueries("userDocuments");
-          },
-        });
+            queryClient.invalidateQueries('userDocuments')
+          }
+        })
       },
       onError: (error) => {
-        console.log(error);
-        onClose();
+        console.log(error)
+        onClose()
         toast({
-          title: "Error al actualizar el documento",
+          title: 'Error al actualizar el documento',
           description:
-            "Ha habido un error al actualizar el documento, intenta de nuevo más tarde",
-          status: "error",
+            'Ha habido un error al actualizar el documento, intenta de nuevo más tarde',
+          status: 'error',
           duration: 4000,
           onCloseComplete: () => {
-            onClose();
-            queryClient.invalidateQueries("userDocuments");
+            onClose()
+            queryClient.invalidateQueries('userDocuments')
           },
-          isClosable: true,
-        });
-      },
+          isClosable: true
+        })
+      }
     }
-  );
+  )
 
   const handleDocumentAction = () => {
-    if (action === "approve") {
-      mutate({});
+    if (action === 'approve') {
+      mutate({})
     } else {
-      const observacionesArray = observaciones.split("\n");
-      mutate({ observaciones: observacionesArray });
+      const observacionesArray = observaciones.split('\n')
+      mutate({ observaciones: observacionesArray })
     }
-  };
+  }
 
   return (
     <Modal
       onClose={onClose}
       isOpen={isOpen}
       isCentered
-      orientation="vertical"
-      size={action === "reject" ? "4xl" : "md"}
+      orientation='vertical'
+      size={action === 'reject' ? '4xl' : 'md'}
     >
       <ModalOverlay />
-      <ModalContent h={action === "reject" ? "40%" : ""}>
+      <ModalContent h={action === 'reject' ? '40%' : ''}>
         <ModalHeader>Acción requerida</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
-          {(action === "approve" && (
+          {(action === 'approve' && (
             <Text>
-              ¿Estás seguro que deseas aceptar el documento:{" "}
+              ¿Estás seguro que deseas aceptar el documento:{' '}
               <strong>{documentName.toUpperCase()}</strong>?
             </Text>
           )) ||
-            (action === "reject" && (
+            (action === 'reject' && (
               <>
                 <Textarea
                   value={observaciones}
                   onChange={(e) => setObservaciones(e.target.value)}
-                  placeholder="Razones de por que se niega el archivo. Cada linea se tomara como comentario separado"
-                  h={"100%"}
+                  placeholder='Razones de por que se niega el archivo. Cada linea se tomara como comentario separado'
+                  h='100%'
                 />
               </>
             ))}
@@ -120,17 +120,17 @@ export const ModalDocumentActions: React.FC<ModalDocumentActionsProps> = ({
         <ModalFooter>
           <ButtonGroup>
             <Button
-              colorScheme={action === "approve" ? "green" : "red"}
+              colorScheme={action === 'approve' ? 'green' : 'red'}
               onClick={handleDocumentAction}
             >
-              {action === "approve" ? "Aceptar" : "Denegar"}
+              {action === 'approve' ? 'Aceptar' : 'Denegar'}
             </Button>
-            <Button colorScheme="blue" mr={3} onClick={onClose}>
+            <Button colorScheme='blue' mr={3} onClick={onClose}>
               Close
             </Button>
           </ButtonGroup>
         </ModalFooter>
       </ModalContent>
     </Modal>
-  );
-};
+  )
+}

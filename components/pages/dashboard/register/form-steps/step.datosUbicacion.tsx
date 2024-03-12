@@ -1,3 +1,4 @@
+import React from 'react'
 import { BiEnvelope } from 'react-icons/bi'
 import { FormControlComponent } from './FormControlComponent'
 import { StepsRequiredProps } from './step.datosPersonales'
@@ -12,10 +13,7 @@ import {
 } from '@chakra-ui/react'
 import { EstadoEnum } from '../register.consts'
 import { handleOnStepBack, handleOnStepChange } from './utils'
-import {
-  DatosPersonalesValidationSchema,
-  DatosUbicacionValidationSchema
-} from '../validation.schema'
+import { DatosUbicacionValidationSchema } from '../validation.schema'
 
 export const StepDatosUbicacionForm: React.FC<StepsRequiredProps> = ({
   currentData,
