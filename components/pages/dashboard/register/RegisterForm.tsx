@@ -131,6 +131,7 @@ const RegisterForm: React.FC = () => {
           boxSize={{ base: '70%', md: '45%' }}
           maxW='100%'
           minHeight='max-content'
+          alt='Logo'
         />
         <Box
           as='footer'

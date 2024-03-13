@@ -88,8 +88,7 @@ const Navbar: React.FC<props> = ({ isAdmin }) => {
                 status: 'info',
                 duration: 5000,
                 isClosable: true
-              })
-            }
+              })}
           >
             Perfil
           </MenuItem>

@@ -155,23 +155,27 @@ export const AdminPage: React.FC<IAdminPageProps> = ({ isAdmin }) => {
               </Tr>
             </Thead>
             <Tbody>
-              {isLoading ? (
-                <Tr>
-                  <Td colSpan={3}>Cargando...</Td>
-                </Tr>
-              ) : error ? (
-                <Tr>
-                  <Td colSpan={3}>{showErrorMessage(error)}</Td>
-                </Tr>
-              ) : (
-                data?.map((prospecto) => (
-                  <TableItem
-                    key={prospecto.matricula}
-                    Usuario={prospecto}
-                    modalEvent={handleModal}
-                  />
-                ))
-              )}
+              {isLoading
+                ? (
+                  <Tr>
+                    <Td colSpan={3}>Cargando...</Td>
+                  </Tr>
+                  )
+                : error
+                  ? (
+                    <Tr>
+                      <Td colSpan={3}>{showErrorMessage(error)}</Td>
+                    </Tr>
+                    )
+                  : (
+                      data?.map((prospecto) => (
+                        <TableItem
+                          key={prospecto.matricula}
+                          Usuario={prospecto}
+                          modalEvent={handleModal}
+                        />
+                      ))
+                    )}
             </Tbody>
           </Table>
         </TableContainer>
@@ -183,8 +187,7 @@ export const AdminPage: React.FC<IAdminPageProps> = ({ isAdmin }) => {
               handleModal({
                 action: 'add',
                 matricula: ''
-              })
-            }
+              })}
           >
             Agregar aspirante
           </Button>
@@ -235,9 +238,8 @@ const TableItem = ({ Usuario, modalEvent }: ITableItems) => {
               onClick={() =>
                 modalEvent({
                   action: 'remove',
-                  matricula: matricula
-                })
-              }
+                  matricula
+                })}
             />
           </Tooltip>
           <Tooltip label='Editar la informacion'>
@@ -249,9 +251,8 @@ const TableItem = ({ Usuario, modalEvent }: ITableItems) => {
               onClick={() =>
                 modalEvent({
                   action: 'edit',
-                  matricula: matricula
-                })
-              }
+                  matricula
+                })}
 
             />
           </Tooltip>

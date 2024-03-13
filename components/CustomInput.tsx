@@ -1,12 +1,11 @@
 import React from 'react'
 
+type sizeType = 'md' | 'lg' | 'xl' | 'full'
 interface props extends React.HTMLProps<HTMLInputElement> {
   inputSize?: sizeType;
   label?: string;
   extraClass?: string;
 }
-
-type sizeType = 'md' | 'lg' | 'xl' | 'full';
 
 const sizeValues = {
   md: 'w-64',

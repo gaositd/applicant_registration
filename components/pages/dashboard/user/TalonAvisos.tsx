@@ -43,15 +43,19 @@ export const TalonAvisos: React.FC<TalonAviosProps> = ({
     >
       <Heading fontSize='lg'>Talon de avisos</Heading>
       {ableToDownloadInvoice ? <Button> Decargar ficha de pago</Button> : null}
-      {isLoading ? (
-        <Loading />
-      ) : isError ? (
-        <Text>Hubo un error al cargar los avisos</Text>
-      ) : (
-        <Stack spacing={3} mt={3} w='full'>
-          {data?.map((aviso, index) => <Notificacion key={index} {...aviso} />)}
-        </Stack>
-      )}
+      {isLoading
+        ? (
+          <Loading />
+          )
+        : isError
+          ? (
+            <Text>Hubo un error al cargar los avisos</Text>
+            )
+          : (
+            <Stack spacing={3} mt={3} w='full'>
+              {data?.map((aviso, index) => <Notificacion key={index} {...aviso} />)}
+            </Stack>
+            )}
     </Flex>
   )
 }
@@ -63,36 +67,42 @@ const Notificacion: React.FC<TTalonAvisos> = ({
   type
 }) => {
   console.log(data, type)
-  return type === 'text' ? (
-    <Text as={required && addressed ? 's' : undefined}>
-      {data}
-      {required ? (
-        <>
+  return type === 'text'
+    ? (
+      <Text as={required && addressed ? 's' : undefined}>
+        {data}
+        {required
+          ? (
+            <>
+              {' '}
+              -{' '}
+              <Text as='span' color='red'>
+                Requerido
+              </Text>{' '}
+            </>
+            )
+          : null}
+      </Text>
+      )
+    : (
+      <Text as={required && addressed ? 's' : undefined}>
+        Recuerda revisar el siguente recurso:
+        <Link href={data} color='blue'>
           {' '}
-          -{' '}
-          <Text as='span' color='red'>
-            Requerido
-          </Text>{' '}
-        </>
-      ) : null}
-    </Text>
-  ) : (
-    <Text as={required && addressed ? 's' : undefined}>
-      Recuerda revisar el siguente recurso:
-      <Link href={data} color='blue'>
-        {' '}
-        Haz click aqui
-        <ExternalLinkIcon mx='2px' />
-      </Link>
-      {required ? (
-        <>
-          {' '}
-          -{' '}
-          <Text as='span' color='red'>
-            Requerido
-          </Text>{' '}
-        </>
-      ) : null}
-    </Text>
-  )
+          Haz click aqui
+          <ExternalLinkIcon mx='2px' />
+        </Link>
+        {required
+          ? (
+            <>
+              {' '}
+              -{' '}
+              <Text as='span' color='red'>
+                Requerido
+              </Text>{' '}
+            </>
+            )
+          : null}
+      </Text>
+      )
 }

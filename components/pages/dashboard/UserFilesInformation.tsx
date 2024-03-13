@@ -64,29 +64,33 @@ const UserFilesInformation: React.FC<props> = ({
         flexDir={{ base: 'column', md: 'row-reverse' }}
       >
         <TalonAvisos ableToDownloadInvoice={percentage === 100} />
-        {!isExpedienteBlocked ? (
-          !!error ? (
-            <Flex w='75%'>
-              <Heading fontSize='xl'>{error}</Heading>
-            </Flex>
-          ) : (
-            <Stack w='75%'>
-              {documentos.map((document) => (
-                <DocumentContainer
-                  key={document.id}
-                  nombredDocumento={document.fileType}
-                  status={document.status}
-                  observaciones={document.observaciones}
-                />
-              ))}
-            </Stack>
-          )
-        ) : (
-          <Heading fontSize='xl'>
-            No puedes subir documentos hasta que completes los requerimientos en
-            el talon de avisos, revisalos o ponte en contacto con tu asesor
-          </Heading>
-        )}
+        {!isExpedienteBlocked
+          ? (
+              error
+                ? (
+                  <Flex w='75%'>
+                    <Heading fontSize='xl'>{error}</Heading>
+                  </Flex>
+                  )
+                : (
+                  <Stack w='75%'>
+                    {documentos.map((document) => (
+                      <DocumentContainer
+                        key={document.id}
+                        nombredDocumento={document.fileType}
+                        status={document.status}
+                        observaciones={document.observaciones}
+                      />
+                    ))}
+                  </Stack>
+                  )
+            )
+          : (
+            <Heading fontSize='xl'>
+              No puedes subir documentos hasta que completes los requerimientos en
+              el talon de avisos, revisalos o ponte en contacto con tu asesor
+            </Heading>
+            )}
       </Flex>
     </Flex>
   )

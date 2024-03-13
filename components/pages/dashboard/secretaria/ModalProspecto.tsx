@@ -35,6 +35,12 @@ interface IModalProspectoProps {
   action: 'remove' | 'edit' | 'add';
 }
 
+type User = {
+  nombre: string;
+  mail: string;
+  password: string;
+  matricula: string;
+}
 const ModalProspecto: React.FC<IModalProspectoProps> = ({
   isOpen,
   onClose,
@@ -42,7 +48,7 @@ const ModalProspecto: React.FC<IModalProspectoProps> = ({
   matricula
 }) => {
   return (
-    <Modal blockScrollOnMount={true} isOpen={isOpen} onClose={onClose}>
+    <Modal blockScrollOnMount isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>
@@ -52,13 +58,17 @@ const ModalProspecto: React.FC<IModalProspectoProps> = ({
               ? 'Editar'
               : 'Agregar'}
         </ModalHeader>
-        {action === 'remove' ? (
-          <ModalProspectoRemove matricula={matricula} onClose={onClose} />
-        ) : action === 'edit' ? (
-          <ModalProspectoEdit matricula={matricula} onClose={onClose} />
-        ) : (
-          <ModalProspectoAdd onClose={onClose} />
-        )}
+        {action === 'remove'
+          ? (
+            <ModalProspectoRemove matricula={matricula} onClose={onClose} />
+            )
+          : action === 'edit'
+            ? (
+              <ModalProspectoEdit matricula={matricula} onClose={onClose} />
+              )
+            : (
+              <ModalProspectoAdd onClose={onClose} />
+              )}
         <ModalCloseButton />
       </ModalContent>
     </Modal>
@@ -153,67 +163,71 @@ const ModalProspectoEdit: React.FC<IModalProspectoEditProps> = ({
   return (
     <>
       <ModalBody>
-        {isLoading ? (
-          <Text>Cargando...</Text>
-        ) : isError ? (
-          <Text>Hubo un error al cargar la información</Text>
-        ) : (
-          <Formik
-            initialValues={data}
-            onSubmit={(values: User) => {
-              mutate(values)
-            }}
-          >
-            {() => (
-              <Form>
-                <FormObserver
-                  initialData={data}
-                  setIsContentChanged={setIsContentChanged}
-                  isContentChanged={iscontentChanged}
-                />
-                <Field name='matricula'>
-                  {({ field, form }: any) => (
-                    <FormControl
-                      isInvalid={
+        {isLoading
+          ? (
+            <Text>Cargando...</Text>
+            )
+          : isError
+            ? (
+              <Text>Hubo un error al cargar la información</Text>
+              )
+            : (
+              <Formik
+                initialValues={data}
+                onSubmit={(values: User) => {
+                  mutate(values)
+                }}
+              >
+                {() => (
+                  <Form>
+                    <FormObserver
+                      initialData={data}
+                      setIsContentChanged={setIsContentChanged}
+                      isContentChanged={iscontentChanged}
+                    />
+                    <Field name='matricula'>
+                      {({ field, form }: any) => (
+                        <FormControl
+                          isInvalid={
                         form.errors.matricula && form.touched.matricula
                       }
-                    >
-                      <FormLabel>Matricula</FormLabel>
-                      <Input
-                        {...field}
-                        placeholder='matricula'
-                        isDisabled={true}
-                      />
-                      <FormErrorMessage>{form.errors.nombre}</FormErrorMessage>
-                    </FormControl>
-                  )}
-                </Field>
-                <Field name='nombre'>
-                  {({ field, form }: any) => (
-                    <FormControl
-                      isInvalid={form.errors.name && form.touched.name}
-                    >
-                      <FormLabel>Nombre</FormLabel>
-                      <Input {...field} placeholder='Nombre' />
-                      <FormErrorMessage>{form.errors.nombre}</FormErrorMessage>
-                    </FormControl>
-                  )}
-                </Field>
-                <Field name='mail'>
-                  {({ field, form }: any) => (
-                    <FormControl
-                      isInvalid={form.errors.mail && form.touched.mail}
-                    >
-                      <FormLabel>Correo electronico</FormLabel>
-                      <Input {...field} placeholder='Correo electronico' />
-                      <FormErrorMessage>{form.errors.mail}</FormErrorMessage>
-                    </FormControl>
-                  )}
-                </Field>
-              </Form>
-            )}
-          </Formik>
-        )}
+                        >
+                          <FormLabel>Matricula</FormLabel>
+                          <Input
+                            {...field}
+                            placeholder='matricula'
+                            isDisabled
+                          />
+                          <FormErrorMessage>{form.errors.nombre}</FormErrorMessage>
+                        </FormControl>
+                      )}
+                    </Field>
+                    <Field name='nombre'>
+                      {({ field, form }: any) => (
+                        <FormControl
+                          isInvalid={form.errors.name && form.touched.name}
+                        >
+                          <FormLabel>Nombre</FormLabel>
+                          <Input {...field} placeholder='Nombre' />
+                          <FormErrorMessage>{form.errors.nombre}</FormErrorMessage>
+                        </FormControl>
+                      )}
+                    </Field>
+                    <Field name='mail'>
+                      {({ field, form }: any) => (
+                        <FormControl
+                          isInvalid={form.errors.mail && form.touched.mail}
+                        >
+                          <FormLabel>Correo electronico</FormLabel>
+                          <Input {...field} placeholder='Correo electronico' />
+                          <FormErrorMessage>{form.errors.mail}</FormErrorMessage>
+                        </FormControl>
+                      )}
+                    </Field>
+                  </Form>
+                )}
+              </Formik>
+              )}
       </ModalBody>
 
       <ModalFooter>
@@ -347,12 +361,12 @@ const ModalProspectoRemove: React.FC<IModalProspectoRemoveProps> = ({
 interface IModalProspectoAddProps {
   onClose: () => void;
 }
-type User = {
-  nombre: string;
-  mail: string;
-  password: string;
-  matricula: string;
-}
+// type User = {
+//   nombre: string;
+//   mail: string;
+//   password: string;
+//   matricula: string;
+// }
 
 const ModalProspectoAdd: React.FC<IModalProspectoAddProps> = ({ onClose }) => {
   const formRef = useRef<FormikProps<FormikValues>>(null)

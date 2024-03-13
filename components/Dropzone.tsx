@@ -119,6 +119,7 @@ const Dropzone: React.FC<props> = ({ status, tipoDocumento }) => {
             <Image
               src='/picture.png'
               className='w-full h-[80%] object-fill'
+              alt='Picture'
             />
           )}
           <Text>{file.name}</Text>
@@ -173,7 +174,7 @@ const Dropzone: React.FC<props> = ({ status, tipoDocumento }) => {
         p={3}
         gap={2}
       >
-        <img src='/upload.svg' alt='upload image' className='h-8 mr-2' />
+        <Image src='/upload.svg' alt='upload image' className='h-8 mr-2' />
         <input {...getInputProps()} className='border' />
         {isDragActive
           ? (

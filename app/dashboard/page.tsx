@@ -15,15 +15,13 @@ async function page () {
     redirect('/login')
   }
 
-  return user.role === 'prospecto' ? (
-    <>
+  return user.role === 'prospecto'
+    ? (
       <UserPage />
-    </>
-  ) : (
-    <>
+      )
+    : (
       <AdminPage isAdmin={user.role === 'admin'} />
-    </>
-  )
+      )
 }
 
 export default page
