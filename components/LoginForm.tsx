@@ -181,10 +181,11 @@ const LoginForm: React.FC = () => {
                           bgColor='white'
                           isDisabled={isDisabled}
                         />
-                        <InputRightAddon
+                        {/* <InputRightAddon
                           w={{ base: '2rem', md: '4.5rem' }}
                           display='flex'
                           justifyContent='center'
+                          bg='#E7E7E7'
                           children={
                             <Icon
                               as={FaLock}
@@ -192,8 +193,19 @@ const LoginForm: React.FC = () => {
                               fontSize={{ base: '1rem', md: '1.5rem' }}
                             />
                           }
+                        /> */}
+                        <InputRightAddon
+                          w={{ base: '2rem', md: '4.5rem' }}
+                          display='flex'
+                          justifyContent='center'
                           bg='#E7E7E7'
-                        />
+                        >
+                          <Icon
+                            as={FaLock}
+                            color='#6A6A6A'
+                            fontSize={{ base: '1rem', md: '1.5rem' }}
+                          />
+                        </InputRightAddon>
                       </InputGroup>
                       <FormErrorMessage>{form.errors.name}</FormErrorMessage>
                     </FormControl>

@@ -68,7 +68,10 @@ export const StepDatosPersonalesForm: React.FC<StepsRequiredProps> = ({
             pattern='[A-Za-z]+'
           />
 
-          <InputRightAddon children={<Icon as={BiSolidUserCircle} />} />
+          {/* <InputRightAddon children={<Icon as={BiSolidUserCircle} />} /> */}
+          <InputRightAddon>
+            <Icon as={BiSolidUserCircle} />
+          </InputRightAddon>
         </InputGroup>
         <FormErrorMessage color='whiteAlpha.900' fontWeight='bold'>
           {errors.nombre}
@@ -98,7 +101,10 @@ export const StepDatosPersonalesForm: React.FC<StepsRequiredProps> = ({
             pattern='[A-Za-z]+'
           />
 
-          <InputRightAddon children={<Icon as={BiSolidUserCircle} />} />
+          {/* <InputRightAddon children={<Icon as={BiSolidUserCircle} />} /> */}
+          <InputRightAddon>
+            <Icon as={BiSolidUserCircle} />
+          </InputRightAddon>
         </InputGroup>
         <FormErrorMessage color='whiteAlpha.900' fontWeight='bold'>
           {errors.apellidoPaterno}
@@ -128,7 +134,10 @@ export const StepDatosPersonalesForm: React.FC<StepsRequiredProps> = ({
             pattern='[A-Za-z]+'
           />
 
-          <InputRightAddon children={<Icon as={BiSolidUserCircle} />} />
+          {/* <InputRightAddon children={<Icon as={BiSolidUserCircle} />} /> */}
+          <InputRightAddon>
+            <Icon as={BiSolidUserCircle} />
+          </InputRightAddon>
         </InputGroup>
         <FormErrorMessage color='whiteAlpha.900' fontWeight='bold'>
           {errors.apellidoMaterno}
@@ -165,7 +174,10 @@ export const StepDatosPersonalesForm: React.FC<StepsRequiredProps> = ({
             <option value='otro'>Prefiero no responder</option>
           </Select>
 
-          <InputRightAddon children={<Icon as={BiSolidUserCircle} />} />
+          {/* <InputRightAddon children={<Icon as={BiSolidUserCircle} />} /> */}
+          <InputRightAddon>
+            <Icon as={BiSolidUserCircle} />
+          </InputRightAddon>
         </InputGroup>
         <FormErrorMessage color='whiteAlpha.900' fontWeight='bold'>
           {errors.sexo}

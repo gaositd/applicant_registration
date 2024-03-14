@@ -127,7 +127,10 @@ export const AdminPage: React.FC<IAdminPageProps> = ({ isAdmin }) => {
               borderRadius='2xl'
               onChange={handleOnChangeSearchDebounce}
             />
-            <InputRightElement children={<Icon as={BiSearch} />} />
+            {/* <InputRightElement children={<Icon as={BiSearch} />} /> */}
+            <InputRightElement>
+              <Icon as={BiSearch} />
+            </InputRightElement>
           </InputGroup>
         </HStack>
       </GridItem>
