@@ -5,20 +5,20 @@ import DocumentContainer from '../../DocumentContainer'
 import { TalonAvisos } from './user/TalonAvisos'
 
 export type UsersDocumentType = {
-  status: string
-  id: string
-  fileType: string
+  status: string;
+  id: string;
+  fileType: string;
   observaciones: {
-    observacion: string
-  }[]
-  updatedAt: string
-  createdAt: string
-}
+    observacion: string;
+  }[];
+  updatedAt: string;
+  createdAt: string;
+};
 
 interface props {
-  documentsArray: UsersDocumentType[]
-  isExpedienteBlocked: boolean
-  error?: string
+  documentsArray: UsersDocumentType[];
+  isExpedienteBlocked: boolean;
+  error?: string;
 }
 
 const UserFilesInformation: React.FC<props> = ({
@@ -39,7 +39,7 @@ const UserFilesInformation: React.FC<props> = ({
 
       setPercentage(Math.floor((aceptados * 100) / documentsArray.length))
     }
-  }, [documentsArray])
+  }, [documentsArray, error])
 
   return (
     <Flex height='100%' w='100%' id='GridContainer' flexDir='column'>

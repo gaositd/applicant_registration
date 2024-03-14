@@ -4,13 +4,9 @@ import { AdminPage } from '../../components/pages/dashboard/secretaria/AdminPage
 import UserPage from '../../components/pages/dashboard/UserPage'
 import { useSession } from '../../hooks/useSession'
 
-async function page () {
+async function Page () {
   const user = await useSession()
 
-  console.log(user && 'User authenticated: ', {
-    user: user?.nombre,
-    role: user?.role
-  })
   if (!user) {
     redirect('/login')
   }
@@ -24,4 +20,4 @@ async function page () {
       )
 }
 
-export default page
+export default Page

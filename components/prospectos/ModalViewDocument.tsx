@@ -10,10 +10,10 @@ import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 
 interface IModalViewDocumentProps {
-  isOpen: boolean
-  onClose: () => void
-  documentId: string
-  documentName: string
+  isOpen: boolean;
+  onClose: () => void;
+  documentId: string;
+  documentName: string;
 }
 
 export const ModalViewDocument: React.FC<IModalViewDocumentProps> = ({
@@ -36,7 +36,7 @@ export const ModalViewDocument: React.FC<IModalViewDocumentProps> = ({
 
       fetchDocument()
     }
-  }, [documentId])
+  }, [documentId, isOpen])
 
   return (
     <Modal onClose={onClose} isOpen={isOpen} size='6xl'>

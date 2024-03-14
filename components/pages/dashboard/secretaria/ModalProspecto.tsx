@@ -40,7 +40,7 @@ type User = {
   mail: string;
   password: string;
   matricula: string;
-}
+};
 const ModalProspecto: React.FC<IModalProspectoProps> = ({
   isOpen,
   onClose,
@@ -86,8 +86,8 @@ const ModalProspectoEdit: React.FC<IModalProspectoEditProps> = ({
 }) => {
   const [iscontentChanged, setIsContentChanged] = useState(false)
   const [formState, setFormState] = useState<{
-    isLoading: boolean
-    isDone: boolean
+    isLoading: boolean;
+    isDone: boolean;
   }>({
     isLoading: false,
     isDone: false
@@ -193,11 +193,7 @@ const ModalProspectoEdit: React.FC<IModalProspectoEditProps> = ({
                       }
                         >
                           <FormLabel>Matricula</FormLabel>
-                          <Input
-                            {...field}
-                            placeholder='matricula'
-                            isDisabled
-                          />
+                          <Input {...field} placeholder='matricula' isDisabled />
                           <FormErrorMessage>{form.errors.nombre}</FormErrorMessage>
                         </FormControl>
                       )}
@@ -255,12 +251,12 @@ const ModalProspectoEdit: React.FC<IModalProspectoEditProps> = ({
 
 interface IFormObserver {
   setIsContentChanged: (value: boolean) => void;
-  isContentChanged?: boolean
+  isContentChanged?: boolean;
   initialData: {
     matricula: string;
     nombre: string;
     mail: string;
-  }
+  };
 }
 
 const FormObserver: React.FC<IFormObserver> = ({
@@ -275,7 +271,7 @@ const FormObserver: React.FC<IFormObserver> = ({
     } else if (isContentChanged === true && isEqual(values, initialData)) {
       setIsContentChanged(false)
     }
-  }, [values])
+  }, [values, isContentChanged, initialData, setIsContentChanged])
   return null
 }
 
@@ -454,7 +450,7 @@ const ModalProspectoAdd: React.FC<IModalProspectoAddProps> = ({ onClose }) => {
           {() => (
             <Form>
               <Field name='nombre'>
-                {({ field, form }:any) => (
+                {({ field, form }: any) => (
                   <FormControl
                     isInvalid={form.errors.name && form.touched.name}
                   >

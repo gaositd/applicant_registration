@@ -19,15 +19,15 @@ import React, { useEffect, useState } from 'react'
 import { useQuery } from 'react-query'
 
 type AppConfigDrawerProps = {
-  isOpen: boolean
-  onClose: () => void
-}
+  isOpen: boolean;
+  onClose: () => void;
+};
 
 type ConfigValues = {
-  id: number
-  name: string
-  value: string
-}
+  id: number;
+  name: string;
+  value: string;
+};
 const AppConfigDrawer: React.FC<AppConfigDrawerProps> = ({
   onClose,
   isOpen
@@ -140,13 +140,13 @@ const AppConfigDrawer: React.FC<AppConfigDrawerProps> = ({
     if (isOpen) {
       refetch()
     }
-  }, [isOpen])
+  }, [isOpen, refetch])
 
   useEffect(() => {
     if (initialData && configValues) {
       setDataChanges(parseDataChanges(initialData, configValues))
     }
-  }, [configValues])
+  }, [configValues, initialData])
 
   const handleInputchange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
