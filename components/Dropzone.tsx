@@ -104,24 +104,25 @@ const Dropzone: React.FC<props> = ({ status, tipoDocumento }) => {
         mt={{ base: 4, md: 0 }}
       >
         <Flex flexDir='column'>
-          {isUploading ? (
-            <Loading />
-          ) : file.type.includes('pdf') ? (
-            <Image
-              src='/pdf.png'
-              alt='file-pdf'
-              w='80%'
-              h='80%'
-              objectFit='contain'
-            />
-          ) : (
-          // <img src="/pdf.png" className="w-full h-[80%] object-fill"></img>
-            <Image
-              src='/picture.png'
-              className='w-full h-[80%] object-fill'
-              alt='Picture'
-            />
-          )}
+          {isUploading
+            ? (<Loading />)
+            : file.type.includes('pdf')
+              ? (<Image
+                  src='/pdf.png'
+                  alt='file-pdf'
+                  w='80%'
+                  h='80%'
+                  objectFit='contain'
+                 />
+                )
+              : (
+            // <img src="/pdf.png" className="w-full h-[80%] object-fill"></img>
+                <Image
+                  src='/picture.png'
+                  className='w-full h-[80%] object-fill'
+                  alt='Picture'
+                />
+                )}
           <Text>{file.name}</Text>
         </Flex>
         <Flex
