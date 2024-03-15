@@ -1,14 +1,5 @@
 import React from 'react'
 
-interface props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  text: string;
-  size?: sizeType;
-  colorType?: buttontype;
-  isLoading?: boolean;
-}
-
-type sizeType = keyof typeof buttonSizes;
-
 const buttonSizes = {
   sm: 'w-12',
   md: 'w-24',
@@ -17,7 +8,15 @@ const buttonSizes = {
   wrap: ''
 }
 
-type buttontype = 'primary' | 'success' | 'warning' | 'danger';
+type sizeType = keyof typeof buttonSizes
+type buttontype = 'primary' | 'success' | 'warning' | 'danger'
+
+interface props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  text: string;
+  size?: sizeType;
+  colorType?: buttontype;
+  isLoading?: boolean;
+}
 
 const buttonType = {
   primary: 'bg-buttons-primary',

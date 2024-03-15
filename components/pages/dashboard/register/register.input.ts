@@ -215,10 +215,7 @@ const FormInputs: TFormInputsSections[] = [
               (e.keyCode >= 97 && e.keyCode <= 122)
             ) {
               e.preventDefault()
-            }
-
-            // avoid typing special characters except dot
-            else if (
+            } else if (// avoid typing special characters except dot
               (e.keyCode >= 33 && e.keyCode <= 47) ||
               (e.keyCode >= 58 && e.keyCode <= 64) ||
               (e.keyCode >= 91 && e.keyCode <= 96) ||

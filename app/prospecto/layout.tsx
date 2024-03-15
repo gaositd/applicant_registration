@@ -1,3 +1,4 @@
+import React from 'react'
 import { redirect } from 'next/navigation'
 import Navbar from '../../components/Navbar'
 import { useSession } from '../../hooks/useSession'

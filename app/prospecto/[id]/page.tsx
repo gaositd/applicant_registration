@@ -23,27 +23,27 @@ import { GrView } from 'react-icons/gr'
 import { ModalViewDocument } from '../../../components/prospectos/ModalViewDocument'
 import axios from 'axios'
 import { useQuery } from 'react-query'
-import { useState } from 'react'
+import React, { useState } from 'react'
 import { FileNames, STATUSMAP } from '../../../types/types'
 import { ModalDocumentActions } from '../../../components/pages/dashboard/secretaria/ModalDocumentActions'
 
 export interface DocumentSelector {
-  documentId: string;
-  documentName: string;
-  action?: 'approve' | 'reject';
+  documentId: string
+  documentName: string
+  action?: 'approve' | 'reject'
 }
 
 interface ApiDocuments {
-  id: string;
-  fileType: string;
-  ruta: string;
-  status: string;
-  observaciones: string[];
+  id: string
+  fileType: string
+  ruta: string
+  status: string
+  observaciones: string[]
 }
 
 interface ApiUsersDocumentsResponse {
-  name: string;
-  documentos: ApiDocuments[];
+  name: string
+  documentos: ApiDocuments[]
 }
 
 export default function ProspectoPage ({ params }: { params: { id: string } }) {
@@ -153,11 +153,11 @@ export default function ProspectoPage ({ params }: { params: { id: string } }) {
 }
 
 interface TableItemProps {
-  documentName: string;
-  documentId: string;
-  documentUrl?: string;
-  handleClick: (arg0: DocumentSelector) => void;
-  status: string;
+  documentName: string
+  documentId: string
+  documentUrl?: string
+  handleClick: (arg0: DocumentSelector) => void
+  status: string
 }
 
 const TableItem: React.FC<TableItemProps> = ({

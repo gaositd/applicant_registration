@@ -1,3 +1,4 @@
+import React from 'react'
 import {
   FormControl,
   FormLabel,
@@ -34,7 +35,8 @@ export const FormControlComponent: React.FC<FormControlComponentProps> = ({
       </FormLabel>
       <InputGroup>
         {children}
-        {rightAddon && <InputRightAddon children={<Icon as={icon} />} />}
+        {/* {rightAddon && <InputRightAddon children={<Icon as={icon} />} />} */}
+        {rightAddon && <InputRightAddon><Icon as={icon} /></InputRightAddon>}
       </InputGroup>
       <FormErrorMessage color='whiteAlpha.900' fontWeight='bold'>
         {errorMessage}

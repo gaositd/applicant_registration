@@ -1,7 +1,7 @@
 'use client'
 
 import { Flex, IconButton, Image, Text, useToast } from '@chakra-ui/react'
-import { useCallback, useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { FileRejection, useDropzone } from 'react-dropzone'
 import { BsCheck2, BsTrash } from 'react-icons/bs'
 import { Loading } from './loadingComponent'
@@ -104,23 +104,25 @@ const Dropzone: React.FC<props> = ({ status, tipoDocumento }) => {
         mt={{ base: 4, md: 0 }}
       >
         <Flex flexDir='column'>
-          {isUploading ? (
-            <Loading />
-          ) : file.type.includes('pdf') ? (
-            <Image
-              src='/pdf.png'
-              alt='file-pdf'
-              w='80%'
-              h='80%'
-              objectFit='contain'
-            />
-          ) : (
-          // <img src="/pdf.png" className="w-full h-[80%] object-fill"></img>
-            <img
-              src='/picture.png'
-              className='w-full h-[80%] object-fill'
-            />
-          )}
+          {isUploading
+            ? (<Loading />)
+            : file.type.includes('pdf')
+              ? (<Image
+                  src='/pdf.png'
+                  alt='file-pdf'
+                  w='80%'
+                  h='80%'
+                  objectFit='contain'
+                 />
+                )
+              : (
+            // <img src="/pdf.png" className="w-full h-[80%] object-fill"></img>
+                <Image
+                  src='/picture.png'
+                  className='w-full h-[80%] object-fill'
+                  alt='Picture'
+                />
+                )}
           <Text>{file.name}</Text>
         </Flex>
         <Flex
@@ -173,7 +175,7 @@ const Dropzone: React.FC<props> = ({ status, tipoDocumento }) => {
         p={3}
         gap={2}
       >
-        <img src='/upload.svg' alt='upload image' className='h-8 mr-2' />
+        <Image src='/upload.svg' alt='upload image' className='h-8 mr-2' />
         <input {...getInputProps()} className='border' />
         {isDragActive
           ? (
