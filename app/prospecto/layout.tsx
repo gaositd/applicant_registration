@@ -12,10 +12,12 @@ export default async function LayoutProspecto ({
 
   if (!user) return redirect('/login')
 
-  if (user.role === 'prospecto') { throw new Error('No tienes permisos para ver esta página') }
+  if (user.role === 'prospecto') {
+    throw new Error('No tienes permisos para ver esta página')
+  }
   return (
     <div className='flex flex-col h-screen w-screen'>
-      <Navbar />
+      <Navbar isAdmin={user.role === 'admin'} />
       <main className='p-4' style={{ width: '100%', height: '100%' }}>
         {children}
       </main>
