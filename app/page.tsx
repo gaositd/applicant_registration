@@ -13,24 +13,39 @@ import {
   GridItem,
   Image,
   Box,
-  Fade,
   Flex,
   Center
 } from '@chakra-ui/react'
+import './page.css'
+import {
+  SwitchTransition,
+  CSSTransition
+} from 'react-transition-group'
+import { redirect } from 'next/navigation'
+
+const arrImages = ['./logoFace.png', './logo.svg', './logo_veza.svg']
 
 const Home = () => {
-  const [isAnimating, setIsAnimating] = useState(true)
-  const nodeRef = useRef(null)
+  const [counter, setCounter] = useState(0)
+  const [imageCounter, setImageCounter] = useState(0)
+  const [isAnimating, setIsAnimating] = useState('')// paragraph
 
   useEffect(() => {
     const intervalId = setInterval(() => {
-      setIsAnimating(!isAnimating)
+      setImageCounter((currentValue) => {
+        if (currentValue + 1 === arrImages.length) {
+          return 0
+        }
+
+        return currentValue + 1
+      })
     }, 3000)
     return () => clearInterval(intervalId)
   }, [isAnimating])
 
   return (
     <div className='p-6'>
+      {redirect('/register')}
       <Container maxW='100%'>
         <Grid
           templateAreas={`"main"
@@ -40,23 +55,28 @@ const Home = () => {
           fontWeight='bold'
         >
           <GridItem>
-            <Fade in={isAnimating}>
-              <GridItem
-                p='40px'
-                color='white'
-                mt='4'
-              >
-                <Center>
-                  <Image
-                    src={isAnimating ? './logoFace.png' : './logo.svg'}
-                    alt=''
-                    ref={nodeRef}
-                    w='40%'
-                    h='40%'
-                  />
-                </Center>
-              </GridItem>
-            </Fade>
+            <GridItem
+              p='40px'
+              color='white'
+              mt='4'
+            >
+              <Center>
+                <SwitchTransition>
+                  <CSSTransition
+                    key={arrImages[imageCounter]}
+                    addEndListener = {(node:any, done:any) => node.addEventListener("trasitionend", done, false)}
+                    classNames='fade'
+                  >
+                    <Image
+                      src={arrImages[imageCounter]}
+                      alt=''
+                      w='40%'
+                      h='40%'
+                    />
+                  </CSSTransition>
+                </SwitchTransition>
+              </Center>
+            </GridItem>
           </GridItem>
           <GridItem
             area='footer'
