@@ -17,10 +17,10 @@ import {
   Center
 } from '@chakra-ui/react'
 import './page.css'
-import {
-  SwitchTransition,
-  CSSTransition
-} from 'react-transition-group'
+// import {
+//   SwitchTransition,
+//   CSSTransition
+// } from 'react-transition-group'
 import { redirect } from 'next/navigation'
 
 const arrImages = ['./logoFace.png', './logo.svg', './logo_veza.svg']
@@ -45,8 +45,8 @@ const Home = () => {
 
   return (
     <div className='p-6'>
-      {redirect('/register')}
-      <Container maxW='100%'>
+      {redirect('/login')}
+      {/*<Container maxW='100%'>
         <Grid
           templateAreas={`"main"
                         "footer"`}
@@ -112,7 +112,7 @@ const Home = () => {
             </Grid>
           </GridItem>
         </Grid>
-      </Container>
+      </Container>*/}
     </div>
   )
 }
