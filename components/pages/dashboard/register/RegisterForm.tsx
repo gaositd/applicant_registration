@@ -37,6 +37,7 @@ export type RegisterFormValues = {
   telefono: string;
   tipoEscuelaProcedencia: string;
   trabaja: boolean;
+  carrera: string;
 };
 
 const RegisterForm: React.FC = () => {
@@ -62,6 +63,7 @@ const RegisterForm: React.FC = () => {
     telefono: "",
     tipoEscuelaProcedencia: "",
     trabaja: false,
+    carrera: "",
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
 
