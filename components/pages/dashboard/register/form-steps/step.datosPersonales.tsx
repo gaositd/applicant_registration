@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 import {
   Button,
   ButtonGroup,
@@ -12,16 +12,16 @@ import {
   Radio,
   RadioGroup,
   Select,
-  Stack
-} from '@chakra-ui/react'
-import { BiCalendar, BiSolidUserCircle } from 'react-icons/bi'
-import { RegisterFormValues } from '../RegisterForm'
+  Stack,
+} from "@chakra-ui/react";
+import { BiCalendar, BiSolidUserCircle } from "react-icons/bi";
+import { RegisterFormValues } from "../RegisterForm";
 import {
   DatosPersonalesIIValidationSchema,
-  DatosPersonalesValidationSchema
-} from '../validation.schema'
-import { FormControlComponent } from './FormControlComponent'
-import { handleOnStepBack, handleOnStepChange } from './utils'
+  DatosPersonalesValidationSchema,
+} from "../validation.schema";
+import { FormControlComponent } from "./FormControlComponent";
+import { handleOnStepBack, handleOnStepChange } from "./utils";
 
 export interface StepsRequiredProps {
   currentData: RegisterFormValues;
@@ -36,36 +36,30 @@ export const StepDatosPersonalesForm: React.FC<StepsRequiredProps> = ({
   setCurrentData,
   errors,
   setCurrentPage,
-  setErrors
+  setErrors,
 }) => {
   const handleOnChange = (e: any) => {
     setCurrentData({
       ...currentData,
-      [e.target.name]: e.target.value
-    })
-  }
+      [e.target.name]: e.target.value,
+    });
+  };
   return (
     <>
-      <FormControl
-        isInvalid={!!errors.nombre && errors.nombre.length > 0}
-      >
-        <FormLabel
-          htmlFor='nombre'
-          color='whiteAlpha.900'
-          fontWeight='bold'
-        >
+      <FormControl isInvalid={!!errors.nombre && errors.nombre.length > 0}>
+        <FormLabel htmlFor="nombre" color="whiteAlpha.900" fontWeight="bold">
           Nombre
         </FormLabel>
         <InputGroup>
           <Input
-            type='text'
-            id='nombre'
-            name='nombre'
-            bgColor='white'
-            placeholder='Nombre'
+            type="text"
+            id="nombre"
+            name="nombre"
+            bgColor="white"
+            placeholder="Nombre"
             value={currentData.nombre}
             onChange={handleOnChange}
-            pattern='[A-Za-z]+'
+            pattern="[A-Za-z]+"
           />
 
           {/* <InputRightAddon children={<Icon as={BiSolidUserCircle} />} /> */}
@@ -73,7 +67,7 @@ export const StepDatosPersonalesForm: React.FC<StepsRequiredProps> = ({
             <Icon as={BiSolidUserCircle} />
           </InputRightAddon>
         </InputGroup>
-        <FormErrorMessage color='whiteAlpha.900' fontWeight='bold'>
+        <FormErrorMessage color="whiteAlpha.900" fontWeight="bold">
           {errors.nombre}
         </FormErrorMessage>
       </FormControl>
@@ -83,22 +77,22 @@ export const StepDatosPersonalesForm: React.FC<StepsRequiredProps> = ({
         }
       >
         <FormLabel
-          htmlFor='apellidoPaterno'
-          color='whiteAlpha.900'
-          fontWeight='bold'
+          htmlFor="apellidoPaterno"
+          color="whiteAlpha.900"
+          fontWeight="bold"
         >
           Apellido Paterno
         </FormLabel>
         <InputGroup>
           <Input
-            type='text'
-            id='apellidoPaterno'
-            name='apellidoPaterno'
-            bgColor='white'
-            placeholder='Apellido Paterno'
+            type="text"
+            id="apellidoPaterno"
+            name="apellidoPaterno"
+            bgColor="white"
+            placeholder="Apellido Paterno"
             value={currentData.apellidoPaterno}
             onChange={handleOnChange}
-            pattern='[A-Za-z]+'
+            pattern="[A-Za-z]+"
           />
 
           {/* <InputRightAddon children={<Icon as={BiSolidUserCircle} />} /> */}
@@ -106,7 +100,7 @@ export const StepDatosPersonalesForm: React.FC<StepsRequiredProps> = ({
             <Icon as={BiSolidUserCircle} />
           </InputRightAddon>
         </InputGroup>
-        <FormErrorMessage color='whiteAlpha.900' fontWeight='bold'>
+        <FormErrorMessage color="whiteAlpha.900" fontWeight="bold">
           {errors.apellidoPaterno}
         </FormErrorMessage>
       </FormControl>
@@ -116,22 +110,22 @@ export const StepDatosPersonalesForm: React.FC<StepsRequiredProps> = ({
         }
       >
         <FormLabel
-          htmlFor='apellidoMaterno'
-          color='whiteAlpha.900'
-          fontWeight='bold'
+          htmlFor="apellidoMaterno"
+          color="whiteAlpha.900"
+          fontWeight="bold"
         >
           Apellido Materno
         </FormLabel>
         <InputGroup>
           <Input
-            type='text'
-            id='apellidoMaterno'
-            name='apellidoMaterno'
-            bgColor='white'
-            placeholder='Apellido Materno'
+            type="text"
+            id="apellidoMaterno"
+            name="apellidoMaterno"
+            bgColor="white"
+            placeholder="Apellido Materno"
             value={currentData.apellidoMaterno}
             onChange={handleOnChange}
-            pattern='[A-Za-z]+'
+            pattern="[A-Za-z]+"
           />
 
           {/* <InputRightAddon children={<Icon as={BiSolidUserCircle} />} /> */}
@@ -139,39 +133,35 @@ export const StepDatosPersonalesForm: React.FC<StepsRequiredProps> = ({
             <Icon as={BiSolidUserCircle} />
           </InputRightAddon>
         </InputGroup>
-        <FormErrorMessage color='whiteAlpha.900' fontWeight='bold'>
+        <FormErrorMessage color="whiteAlpha.900" fontWeight="bold">
           {errors.apellidoMaterno}
         </FormErrorMessage>
       </FormControl>
       <FormControl isInvalid={!!errors.sexo && errors.sexo.length > 0}>
-        <FormLabel
-          htmlFor='sexo'
-          color='whiteAlpha.900'
-          fontWeight='bold'
-        >
+        <FormLabel htmlFor="sexo" color="whiteAlpha.900" fontWeight="bold">
           Sexo
         </FormLabel>
         <InputGroup>
           <Select
-            bgColor='white'
+            bgColor="white"
             value={currentData.sexo}
-            placeholder='Sexo'
-            name='sexo'
+            placeholder="Sexo"
+            name="sexo"
             onKeyUp={(e) => {
-              if (e.key === 'Enter') {
+              if (e.key === "Enter") {
                 handleOnStepChange(
                   DatosPersonalesValidationSchema,
                   currentData,
                   setCurrentPage,
-                  setErrors
-                )
+                  setErrors,
+                );
               }
             }}
             onChange={handleOnChange}
           >
-            <option value='femenino'>Mujer</option>
-            <option value='masculino'>Hombre</option>
-            <option value='otro'>Prefiero no responder</option>
+            <option value="femenino">Mujer</option>
+            <option value="masculino">Hombre</option>
+            <option value="otro">Prefiero no responder</option>
           </Select>
 
           {/* <InputRightAddon children={<Icon as={BiSolidUserCircle} />} /> */}
@@ -179,49 +169,50 @@ export const StepDatosPersonalesForm: React.FC<StepsRequiredProps> = ({
             <Icon as={BiSolidUserCircle} />
           </InputRightAddon>
         </InputGroup>
-        <FormErrorMessage color='whiteAlpha.900' fontWeight='bold'>
+        <FormErrorMessage color="whiteAlpha.900" fontWeight="bold">
           {errors.sexo}
         </FormErrorMessage>
       </FormControl>
       <ButtonGroup>
         <Button
           mt={4}
-          alignItems='center'
-          color='black'
-          bgColor='white'
+          alignItems="center"
+          color="black"
+          bgColor="white"
           onClick={() =>
             handleOnStepChange(
               DatosPersonalesValidationSchema,
               currentData,
               setCurrentPage,
-              setErrors
-            )}
+              setErrors,
+            )
+          }
         >
           Siguiente
         </Button>
       </ButtonGroup>
     </>
-  )
-}
+  );
+};
 
 export const StepDatosPersonalesIIForm: React.FC<StepsRequiredProps> = ({
   currentData,
   setCurrentData,
   errors,
   setErrors,
-  setCurrentPage
+  setCurrentPage,
 }) => {
   const handleOnChange = (e: any) => {
     setCurrentData({
       ...currentData,
-      [e.target.name]: e.target.value
-    })
-  }
+      [e.target.name]: e.target.value,
+    });
+  };
   return (
     <>
       <FormControlComponent
-        label='Fecha de Nacimiento'
-        name='fechaNacimiento'
+        label="Fecha de Nacimiento"
+        name="fechaNacimiento"
         icon={BiCalendar}
         isInvalid={
           !!errors.fechaNacimiento && errors.fechaNacimiento.length > 0
@@ -229,127 +220,133 @@ export const StepDatosPersonalesIIForm: React.FC<StepsRequiredProps> = ({
         errorMessage={errors.fechaNacimiento}
       >
         <Input
-          type='date'
-          id='fechaNacimiento'
-          name='fechaNacimiento'
-          bgColor='white'
-          placeholder='fecha de nacimiento'
+          type="date"
+          id="fechaNacimiento"
+          name="fechaNacimiento"
+          bgColor="white"
+          placeholder="fecha de nacimiento"
           onKeyUp={(e) => {
-            if (e.key === 'Enter') {
+            if (e.key === "Enter") {
               handleOnStepChange(
                 DatosPersonalesIIValidationSchema,
                 currentData,
                 setCurrentPage,
-                setErrors
-              )
+                setErrors,
+              );
             }
           }}
           value={
             currentData.fechaNacimiento
-              ? currentData.fechaNacimiento.split('T')[0]
-              : ''
+              ? currentData.fechaNacimiento.split("T")[0]
+              : ""
           }
           onChange={(e) => {
             // set the data as iso string
             setCurrentData({
               ...currentData,
-              [e.target.name]: new Date(e.target.value).toISOString()
-            })
+              [e.target.name]: new Date(e.target.value).toISOString(),
+            });
           }}
-          pattern='[A-Za-z]+'
+          pattern="[A-Za-z]+"
         />
       </FormControlComponent>
       <FormControlComponent
-        label='CURP'
-        name='curp'
+        label="CURP"
+        name="curp"
         icon={BiSolidUserCircle}
         isInvalid={!!errors.curp && errors.curp.length > 0}
         errorMessage={errors.curp}
       >
         <Input
-          type='text'
-          id='curp'
-          name='curp'
-          bgColor='white'
+          type="text"
+          id="curp"
+          name="curp"
+          bgColor="white"
+          autoFocus
           onKeyUp={(e) => {
-            if (e.key === 'Enter') {
+            if (e.key === "Enter") {
               handleOnStepChange(
                 DatosPersonalesIIValidationSchema,
                 currentData,
                 setCurrentPage,
-                setErrors
-              )
+                setErrors,
+              );
             }
           }}
-          placeholder='CURP'
+          placeholder="CURP"
           value={currentData.curp}
-          onChange={handleOnChange}
-          pattern='[A-Za-z]+'
+          onChange={(e: any) => {
+            setCurrentData((prev) => ({
+              ...prev,
+              curp: e.target.value.toUpperCase(),
+            }));
+          }}
+          pattern="[A-Za-z]+"
         />
       </FormControlComponent>
       <FormControlComponent
-        label='Estado Civil'
-        name='estadoCivil'
+        label="Estado Civil"
+        name="estadoCivil"
         icon={BiCalendar}
         isInvalid={!!errors.estadoCivil && errors.estadoCivil.length > 0}
         errorMessage={errors.estadoCivil}
       >
         <Select
-          id='estadoCivil'
-          name='estadoCivil'
-          bgColor='white'
-          placeholder='Estado Civil'
+          id="estadoCivil"
+          name="estadoCivil"
+          bgColor="white"
+          placeholder="Estado Civil"
           onKeyUp={(e) => {
-            if (e.key === 'Enter') {
+            if (e.key === "Enter") {
               handleOnStepChange(
                 DatosPersonalesIIValidationSchema,
                 currentData,
                 setCurrentPage,
-                setErrors
-              )
+                setErrors,
+              );
             }
           }}
           value={currentData.estadoCivil}
           onChange={handleOnChange}
         >
-          <option value='soltero'>Soltero</option>
-          <option value='casado'>Casado</option>
-          <option value='divorciado'>Divorciado</option>
-          <option value='viudo'>Viudo</option>
+          <option value="soltero">Soltero</option>
+          <option value="casado">Casado</option>
+          <option value="divorciado">Divorciado</option>
+          <option value="viudo">Viudo</option>
         </Select>
       </FormControlComponent>
       <FormControlComponent
-        label='¿Hablas algún dialecto?'
-        name='dialecto'
+        label="¿Hablas algún dialecto?"
+        name="dialecto"
         icon={BiSolidUserCircle}
         isInvalid={!!errors.dialecto && errors.dialecto.length > 0}
         errorMessage={errors.dialecto}
         rightAddon={false}
       >
         <RadioGroup
-          name='dialecto'
-          color='whiteAlpha.900'
-          defaultValue='false'
-          value={currentData.dialecto ? 'true' : 'false'}
+          name="dialecto"
+          color="whiteAlpha.900"
+          defaultValue="false"
+          value={currentData.dialecto ? "true" : "false"}
           onChange={(e: any) => {
             setCurrentData({
               ...currentData,
-              dialecto: e === 'true'
-            })
+              dialecto: e === "true",
+            });
           }}
         >
-          <Stack spacing={5} direction='row'>
-            <Radio value='true'>Si</Radio>
-            <Radio value='false'>No</Radio>
+          <Stack spacing={5} direction="row">
+            <Radio value="true">Si</Radio>
+            <Radio value="false">No</Radio>
           </Stack>
         </RadioGroup>
       </FormControlComponent>
       <ButtonGroup>
         <Button
           mt={4}
-          alignItems='center'
-          color='black'
-          bgColor='white'
+          alignItems="center"
+          color="black"
+          bgColor="white"
           onClick={() => handleOnStepBack(setCurrentPage)}
         >
           Atrás
@@ -357,20 +354,21 @@ export const StepDatosPersonalesIIForm: React.FC<StepsRequiredProps> = ({
 
         <Button
           mt={4}
-          alignItems='center'
-          color='black'
-          bgColor='white'
+          alignItems="center"
+          color="black"
+          bgColor="white"
           onClick={() =>
             handleOnStepChange(
               DatosPersonalesIIValidationSchema,
               currentData,
               setCurrentPage,
-              setErrors
-            )}
+              setErrors,
+            )
+          }
         >
           Siguiente
         </Button>
       </ButtonGroup>
     </>
-  )
-}
+  );
+};

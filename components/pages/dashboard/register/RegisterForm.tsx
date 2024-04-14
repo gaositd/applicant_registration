@@ -1,16 +1,16 @@
-'use client'
+"use client";
 
-import { Box, Flex, Heading, Image, Stack, Text } from '@chakra-ui/react'
-import React, { useState } from 'react'
-
-import { UserType } from '../../../../types/userType'
-import { StepDatosContactoForm } from './form-steps/step.datosContacto'
-import { StepDatosEscolaresForm } from './form-steps/step.datosEscolares'
+import { Box, Flex, Heading, Image, Stack, Text, Link } from "@chakra-ui/react";
+import React, { useState } from "react";
+import { UserType } from "../../../../types/userType";
+import { StepDatosContactoForm } from "./form-steps/step.datosContacto";
+import { StepDatosEscolaresForm } from "./form-steps/step.datosEscolares";
 import {
   StepDatosPersonalesForm,
-  StepDatosPersonalesIIForm
-} from './form-steps/step.datosPersonales'
-import { StepDatosUbicacionForm } from './form-steps/step.datosUbicacion'
+  StepDatosPersonalesIIForm,
+} from "./form-steps/step.datosPersonales";
+import { StepDatosUbicacionForm } from "./form-steps/step.datosUbicacion";
+import NextLink from "next/link";
 
 export type RegisterUserType = UserType & {
   password: string;
@@ -37,33 +37,35 @@ export type RegisterFormValues = {
   telefono: string;
   tipoEscuelaProcedencia: string;
   trabaja: boolean;
+  carrera: string;
 };
 
 const RegisterForm: React.FC = () => {
-  const [currentPage, setCurrentPage] = useState(0)
+  const [currentPage, setCurrentPage] = useState(0);
   const [formData, setFormData] = useState<RegisterFormValues>({
-    apellidoMaterno: '',
-    apellidoPaterno: '',
-    celular: '',
-    curp: '',
+    apellidoMaterno: "",
+    apellidoPaterno: "",
+    celular: "",
+    curp: "",
     dialecto: false,
-    direccion: '',
-    email: '',
-    escuelaProcedencia: '',
-    estadoCivil: '',
-    estadoEscuela: '',
-    estadoNacimiento: '',
-    fechaNacimiento: '',
-    municipioEscuela: '',
-    municipioNacimiento: '',
-    nombre: '',
+    direccion: "",
+    email: "",
+    escuelaProcedencia: "",
+    estadoCivil: "",
+    estadoEscuela: "",
+    estadoNacimiento: "",
+    fechaNacimiento: "",
+    municipioEscuela: "",
+    municipioNacimiento: "",
+    nombre: "",
     promedioBachillerato: 0,
-    sexo: '',
-    telefono: '',
-    tipoEscuelaProcedencia: '',
-    trabaja: false
-  })
-  const [errors, setErrors] = useState<Record<string, string>>({})
+    sexo: "",
+    telefono: "",
+    tipoEscuelaProcedencia: "",
+    trabaja: false,
+    carrera: "",
+  });
+  const [errors, setErrors] = useState<Record<string, string>>({});
 
   const FormSteps = [
     <StepDatosPersonalesForm
@@ -75,7 +77,7 @@ const RegisterForm: React.FC = () => {
       setErrors={setErrors}
     />,
     <StepDatosPersonalesIIForm
-      key={`${formData.curp}_IIForm`}
+      key={`${formData.curp}_PersonalesIIForm`}
       currentData={formData}
       setCurrentData={setFormData}
       errors={errors}
@@ -106,80 +108,84 @@ const RegisterForm: React.FC = () => {
       setCurrentPage={setCurrentPage}
       setErrors={setErrors}
       handleSubmit={handleSubmit}
-    />
-  ]
+    />,
+  ];
 
-  function handleSubmit () {}
+  function handleSubmit() {}
   return (
     <Flex
-      as='main'
-      color='#6C6C6C'
-      h='100vh'
-      flexDir={{ base: 'column', md: 'row' }}
+      as="main"
+      color="#6C6C6C"
+      h="100vh"
+      flexDir={{ base: "column", md: "row" }}
     >
       <Flex
-        as='article'
-        w={{ base: '100%', md: '60%' }}
-        h={{ base: '30%', md: '100%', sm: '20%' }}
-        bg='white'
-        flexDir='column'
-        alignItems='center'
-        justifyContent='center'
+        as="article"
+        w={{ base: "100%", md: "60%" }}
+        h={{ base: "30%", md: "100%", sm: "20%" }}
+        bg="white"
+        flexDir="column"
+        alignItems="center"
+        justifyContent="center"
       >
         <Image
-          src='/logo.svg'
-          boxSize={{ base: '70%', md: '45%' }}
-          maxW='100%'
-          minHeight='max-content'
-          alt='Logo'
+          src="/logo.svg"
+          boxSize={{ base: "70%", md: "45%" }}
+          maxW="100%"
+          minHeight="max-content"
+          alt="Logo"
         />
         <Box
-          as='footer'
-          alignItems='flex-end'
-          marginTop='auto'
-          position='absolute'
-          bottom='0'
-          display={{ base: 'none', md: 'block' }}
-          textAlign={{ base: 'center', md: 'center' }}
+          as="footer"
+          alignItems="flex-end"
+          marginTop="auto"
+          position="absolute"
+          bottom="0"
+          display={{ base: "none", md: "block" }}
+          textAlign={{ base: "center", md: "center" }}
         >
-          <Text fontWeight='bold'>
+          <Text fontWeight="bold">
             Universidad Juárez del Estado de Durango
           </Text>
-          <Text fontSize='md'>
+          <Text fontSize="md">
             Constitución 404 Sur. Zona Centro. C.P. 34000. Durango, Dgo. México.
             <br />
             Tel: 618 827 1200.
           </Text>
+          <Text>
+            Consulta nuestro{" "}
+            <Link as={NextLink} href={"/aviso_privacidad"} color={"blue"}>
+              aviso de privacidad
+            </Link>
+          </Text>
         </Box>
       </Flex>
       <Flex
-        as='aside'
-        bg='primary.base'
-        w={{ base: '100%', md: '40%' }}
-        h={{ base: '70%', md: '100%', sm: '80%' }}
-        alignItems={{ base: 'flex-start', md: 'center' }}
-        justifyContent='center'
-        p={{ base: '2rem', md: 0 }}
-        flexDir='column'
+        as="aside"
+        bg="primary.base"
+        w={{ base: "100%", md: "40%" }}
+        h={{ base: "70%", md: "100%", sm: "80%" }}
+        alignItems={{ base: "flex-start", md: "center" }}
+        justifyContent="center"
+        p={{ base: "2rem", md: 0 }}
+        flexDir="column"
       >
         <Stack
-          as='form'
-          direction='column'
-          w='100%'
-          padding='3rem'
+          direction="column"
+          w="100%"
+          padding="3rem"
           spacing={4}
-          overflowY='auto'
+          overflowY="auto"
         >
-          <Heading color='white'>Registrate</Heading>
-          {FormSteps[currentPage]}
-
-          <Text fontSize='1xl' color='white' as='b'>
+          <Heading color="white">Registrate</Heading>
+          <>{FormSteps[currentPage]}</>
+          <Text fontSize="1xl" color="white" as="b">
             *Podrás pasar a la siguiente página hasta completar esta sección
           </Text>
         </Stack>
       </Flex>
     </Flex>
-  )
-}
+  );
+};
 
-export default RegisterForm
+export default RegisterForm;

@@ -2,6 +2,8 @@ export const FILETYPES = {
   curp: "CURP",
   acta_nacimiento: "Acta de Nacimiento",
   comprobante_domicilio: "Comprobante de Domicilio",
+  certificado_secundaria: "Certificado de Secundaria",
+  certificado_preparatoria: "Certificado de Preparatoria",
 };
 
 export const FILE_STATUSES = {
