@@ -3,7 +3,7 @@ export const FILETYPES = {
   acta_nacimiento: "Acta de Nacimiento",
   comprobante_domicilio: "Comprobante de Domicilio",
   certificado_secundaria: "Certificado de Secundaria",
-  certificado_preparatoria: "Certificado de Preparatoria",
+  certificado_bachillerato: "Certificado de Preparatoria",
 };
 
 export const FILE_STATUSES = {
