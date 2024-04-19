@@ -9,6 +9,10 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { useState } from "react";
+import AuthLayout from "../pages/rgister/AuthLayout";
+import { Loading } from "../loadingComponent";
+import axios from "axios";
+import { useQuery } from "react-query";
 
 type PasswordResetFormProps = {
   token: string | null;
@@ -18,21 +22,23 @@ export const PasswordResetForm: React.FC<PasswordResetFormProps> = ({
   token,
 }) => {
   return (
-    <Flex width="100dvw" height="100dvh" justify={"center"} align={"center"}>
-      <Flex
-        width="70%"
-        h="50%"
-        p={4}
-        borderRadius={8}
-        border="1px solid"
-        flexDir={"column"}
-        gap={8}
-      >
-        <Heading size={"md"}>Recupera tu contrasena</Heading>
-
-        {token ? <FormWithToken /> : <FormWithouToken />}
+    <AuthLayout>
+      <Flex width="100dvw" height="100dvh" justify={"center"} align={"center"}>
+        <Flex
+          width="100%"
+          h="30%"
+          p={4}
+          flexDir={"column"}
+          gap={8}
+          alignItems={"center"}
+        >
+          <Heading size={"md"} color={"white"}>
+            Recupera tu contraseña
+          </Heading>
+          {token ? <FormWithToken token={token} /> : <FormWithouToken />}
+        </Flex>
       </Flex>
-    </Flex>
+    </AuthLayout>
   );
 };
 
@@ -83,42 +89,67 @@ const FormWithouToken = () => {
     }
   };
   return (
-    <Flex
-      flexDir={"column"}
-      width="100%"
-      justifyContent={"space-evenly"}
-      alignItems={"center"}
-      h="100%"
-    >
+    <Flex flexDir={"column"} width="100%" alignItems={"center"} h="100%">
       <FormControl>
-        <FormLabel htmlFor="email">Email</FormLabel>
+        <FormLabel htmlFor="email" color={"white"}>
+          Email
+        </FormLabel>
         <Input
           type="email"
           id="email"
           placeholder="Correo electronico"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
+          bgColor="white"
         />
       </FormControl>
-      <Button type="submit" colorScheme="teal" onClick={handelSubmit}>
-        Solcitar cambio
+      <Button type="submit" mt={4} colorScheme="teal" onClick={handelSubmit}>
+        Solicitar cambio
       </Button>
     </Flex>
   );
 };
 
-const FormWithToken = () => {
+type FormWithTokenProps = {
+  token: string;
+};
+const FormWithToken: React.FC<FormWithTokenProps> = ({ token }) => {
+  const { isLoading } = useQuery("verify-password-reset-token", async () =>
+    axios.get(
+      `${process.env.NEXT_PUBLIC_API_URL}/auth/verify-password-reset-token?token=${token}`,
+    ),
+  );
+
+  if (isLoading) {
+    return <Loading />;
+  }
+
   return (
-    <form>
+    <Flex flexDir={"column"} width="100%" alignItems="center" gap={4}>
       <FormControl>
-        <FormLabel htmlFor="password">Nueva Clave</FormLabel>
-        <Input type="password" id="password" placeholder="********" />
+        <FormLabel htmlFor="password" color="white">
+          Nueva Clave
+        </FormLabel>
+        <Input
+          type="password"
+          id="password"
+          placeholder="********"
+          bgColor="white"
+        />
       </FormControl>
       <FormControl>
-        <FormLabel htmlFor="password">Confirmar Clave</FormLabel>
-        <Input type="password" id="password" placeholder="********" />
+        <FormLabel htmlFor="password" color="white">
+          Confirmar Clave
+        </FormLabel>
+        <Input
+          type="password"
+          id="password"
+          placeholder="********"
+          color="white"
+          bgColor="white"
+        />
       </FormControl>
-      <Button type="submit">Cambiar Clave</Button>
-    </form>
+      <Button colorScheme="teal">Cambiar Clave</Button>
+    </Flex>
   );
 };
